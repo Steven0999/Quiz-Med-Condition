@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAP Neuro Conditions Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>AAP Neuro Conditions Quiz</h1>
+        <div id="quiz">
+            <h2 id="question-text">Question will appear here</h2>
+            <div id="options-container" class="options-container">
+                <button class="option-btn" data-option="A">A. Option A</button>
+                <button class="option-btn" data-option="B">B. Option B</button>
+                <button class="option-btn" data-option="C">C. Option C</button>
+                <button class="option-btn" data-option="D">D. Option D</button>
+            </div>
+            <div id="feedback" class="feedback"></div>
+            <div id="rationale" class="rationale"></div>
+            <div class="navigation-controls">
+                <button id="prev-btn" class="nav-btn">Previous</button>
+                <button id="next-btn" class="nav-btn">Next</button>
+            </div>
+        </div>
+        <div id="score-container" class="score-container">
+            Score: <span id="current-score">0</span> / <span id="total-questions">0</span>
+        </div>
+        <button id="restart-btn" class="restart-btn">Restart Quiz</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
