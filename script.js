@@ -1080,293 +1080,712 @@ const quizQuestions = [
     "rationale": "D R A B C D E includes Breathing adequate? Assess: rate, depth, adequacy, work of breathing, chest expansion, compliance, accessory muscle use, saturation."
   },
   {
-    "question": "In the Primary Survey, what does 'C' refer to?",
+    "question": "What should be checked when assessing circulation in an unconscious patient?",
     "options": {
-      "A": "Consciousness",
-      "B": "Circulation/haemorrhage",
-      "C": "Cough",
-      "D": "Cap refill"
+      "A": "Only heart rate.",
+      "B": "Assess for haemorrhage. Assess skin colour, temperature. Palpate radial. Check cap refill. Consider hypovolaemic shock.",
+      "C": "Blood type.",
+      "D": "Blood glucose only."
     },
     "answer": "B",
     "rationale": "Asses for haemorrhage. Assess skin colour, temperature. Palpate radial. Check cap refill. Consider hypovolaemic shock."
   },
   {
-    "question": "In the Primary Survey, what does 'D' refer to?",
+    "question": "What assessment tool is mentioned for checking neurological status in an unconscious patient as part of the 'D' for Disability?",
     "options": {
-      "A": "Dehydration",
-      "B": "Disability/neurological assessment",
-      "C": "Diet",
-      "D": "Diagnosis"
+      "A": "Glasgow Coma Scale (GCS)",
+      "B": "AVPU assessment",
+      "C": "National Institutes of Health Stroke Scale (NIHSS)",
+      "D": "Mini-Mental State Examination (MMSE)"
     },
     "answer": "B",
-    "rationale": "AVPU assessment. Pupil response. Check for purposeful movement & sensory function. BM."
+    "rationale": "AVPU assessment is mentioned."
   },
   {
-    "question": "In the SAMPLE history taking mnemonic, what does 'A' refer to?",
+    "question": "What is one of the key symptoms of Cauda Equina Syndrome related to pain in the lower back?",
     "options": {
-      "A": "Associated symptoms",
-      "B": "Allergies",
-      "C": "Appetite",
-      "D": "Activity"
+      "A": "Mild muscle soreness",
+      "B": "Severe low back pain",
+      "C": "Intermittent backache",
+      "D": "Pain only when moving"
     },
     "answer": "B",
-    "rationale": "In the SAMPLE mnemonic, A – Allergies."
+    "rationale": "Red Flags for CES include Severe low back pain."
   },
   {
-    "question": "In the SAMPLE history taking mnemonic, what does 'P' refer to?",
+    "question": "What is the management recommendation for Cauda Equina Syndrome given its nature?",
     "options": {
-      "A": "Pain score",
-      "B": "Past medical history",
-      "C": "Pupil response",
-      "D": "Physical exam"
+      "A": "Rest and pain relievers.",
+      "B": "Usually a surgical emergency.",
+      "C": "Physical therapy only.",
+      "D": "Observation for several days."
     },
     "answer": "B",
-    "rationale": "In the SAMPLE mnemonic, P – past medical history."
+    "rationale": "CES is Usually a surgical emergency."
   },
   {
-    "question": "In the SAMPLE history taking mnemonic, what does 'L' refer to?",
+    "question": "What is the AVPU assessment used for in a neurological assessment?",
     "options": {
-      "A": "Location of pain",
-      "B": "Last meal",
-      "C": "Level of consciousness",
-      "D": "Loss of function"
+      "A": "Assessing blood pressure.",
+      "B": "Assessing level of consciousness.",
+      "C": "Assessing pain.",
+      "D": "Assessing temperature."
     },
     "answer": "B",
-    "rationale": "In the SAMPLE mnemonic, L – last meal."
+    "rationale": "AVPU assessment is used to determine the patient's level of consciousness (Alert, Voice, Pain, Unresponsive)."
   },
   {
-    "question": "In the SAMPLE history taking mnemonic, what does 'E' refer to?",
+    "question": "What is one of the key things to consider after performing a FAST test for stroke, even if negative?",
     "options": {
-      "A": "Exacerbating factors",
-      "B": "Events leading up to this",
-      "C": "Eye examination",
-      "D": "Emotional state"
+      "A": "Rule out stroke completely.",
+      "B": "Consider stroke even if the patient is FAST negative.",
+      "C": "Refer to physical therapy.",
+      "D": "Discharge the patient."
     },
     "answer": "B",
-    "rationale": "In the SAMPLE mnemonic, E – events leading up to this."
+    "rationale": "Consider stroke even if the patient is FAST negative."
   },
   {
-    "question": "In the SAMPLE history taking mnemonic, what does 'R' refer to?",
+    "question": "What is one of the objectives related to altered levels of consciousness?",
     "options": {
-      "A": "Respiratory rate",
-      "B": "Risk factors",
-      "C": "Rash",
-      "D": "Reactivity"
+      "A": "To outline long-term management strategies.",
+      "B": "To outline the causes of altered levels of consciousness.",
+      "C": "To differentiate between sleep and altered consciousness.",
+      "D": "To classify all levels of consciousness."
     },
     "answer": "B",
-    "rationale": "In the SAMPLE mnemonic, R – risk factors."
+    "rationale": "Objectives include outlining the causes of altered levels of consciousness."
   },
   {
-    "question": "In the SOCRATES mnemonic, what does 'O' stand for?",
+    "question": "Which of the following is an associated feature of Migraine, but not typically of Tension-type headache?",
     "options": {
-      "A": "Observations",
-      "B": "Onset",
-      "C": "Origin",
-      "D": "Overall condition"
+      "A": "No nausea/vomiting",
+      "B": "Photophobia or phonophobia (more than one)",
+      "C": "No aggravation by physical activity",
+      "D": "Not disabling"
     },
     "answer": "B",
-    "rationale": "O – Onset is part of the SOCRATES mnemonic."
+    "rationale": "Migraine can have one or more of: nausea, vomiting, photophobia, or phonophobia, whereas Tension-type has no more than one of photophobia or phonophobia."
   },
   {
-    "question": "In the SOCRATES mnemonic, what does 'C' stand for?",
+    "question": "Which of the following describes the severity of a Cluster headache?",
     "options": {
-      "A": "Cause",
-      "B": "Character",
-      "C": "Consciousness",
-      "D": "Capillary refill"
+      "A": "Mild or moderate",
+      "B": "Not disabling",
+      "C": "Moderate or severe",
+      "D": "Very severe"
+    },
+    "answer": "D",
+    "rationale": "The severity of a Cluster headache is Very severe."
+  },
+  {
+    "question": "What is a general principle for managing a patient with ABCD compromise in the context of neurological emergencies?",
+    "options": {
+      "A": "Wait for specialist intervention.",
+      "B": "Manage systematically.",
+      "C": "Only manage specific symptoms.",
+      "D": "Delay treatment."
     },
     "answer": "B",
-    "rationale": "C – Character is part of the SOCRATES mnemonic."
+    "rationale": "If ABCD COMPROMISE, MANAGE SYSTEMATICALLY."
   },
   {
-    "question": "In the SOCRATES mnemonic, what does 'A' stand for?",
+    "question": "The links to 'k,s,b' in the presentation refer to which areas of competence for an AAP?",
     "options": {
-      "A": "Age",
-      "B": "Associated symptoms",
-      "C": "Aggravating factors",
-      "D": "Alertness"
+      "A": "Kindness, Safety, Boundaries",
+      "B": "Knowledge, Skills, Behaviours",
+      "C": "Key Symptoms, Body Systems, Biometrics",
+      "D": "Kinetics, Sensation, Balance"
     },
     "answer": "B",
-    "rationale": "A – Associated symptoms is part of the SOCRATES mnemonic."
+    "rationale": "Links to k,s,b refer to Knowledge, Skills, Behaviours."
   },
   {
-    "question": "In the SOCRATES mnemonic, what does 'T' stand for?",
+    "question": "According to the 'Knowledge' section, what do AAPs know how to use to support their role?",
     "options": {
-      "A": "Temperature",
-      "B": "Timing",
-      "C": "Treatment",
-      "D": "Trauma"
+      "A": "Advanced surgical instruments.",
+      "B": "UK Ambulance Service Clinical Practice Guidelines and other documents.",
+      "C": "Experimental medications.",
+      "D": "International medical journals only."
     },
     "answer": "B",
-    "rationale": "T – Timing is part of the SOCRATES mnemonic."
+    "rationale": "The AAP’s scope of practice. They will know how to prepare medications and undertake the relevant safety checks prior to administration. The will know and understand how to use UK Ambulance Service Clinical Practice Guidelines and other documents to support the AAP role."
   },
   {
-    "question": "In the SOCRATES mnemonic, what does 'E' stand for?",
+    "question": "The 'Skills' of an AAP include managing service users across which age ranges?",
     "options": {
-      "A": "Examination",
-      "B": "Exacerbating or relieving factors",
-      "C": "Ethnicity",
-      "D": "Edema"
+      "A": "Adults only.",
+      "B": "Babies & children to care for the elderly.",
+      "C": "Teenagers and young adults.",
+      "D": "Middle-aged adults."
     },
     "answer": "B",
-    "rationale": "E – Exacerbating or relieving factors is part of the SOCRATES mnemonic."
+    "rationale": "Skills: Manage service users and others across the age ranges - from babies & children to care for the elderly."
   },
   {
-    "question": "In the SOCRATES mnemonic, what does 'S' (second S) stand for?",
+    "question": "What is listed under 'Skills' for an AAP regarding circulatory management?",
     "options": {
-      "A": "Site",
-      "B": "Signs",
-      "C": "Severity",
-      "D": "Speech"
+      "A": "Only basic first aid.",
+      "B": "Detailed cardiothoracic surgery.",
+      "C": "Circulatory management within the emergency & urgent care setting.",
+      "D": "Long-term cardiac rehabilitation."
     },
     "answer": "C",
-    "rationale": "S – Severity is part of the SOCRATES mnemonic."
-  },
-  {
-    "question": "What is one of the key objectives related to headaches in the Nervous Conditions module?",
-    "options": {
-      "A": "To treat all types of headaches with the same medication.",
-      "B": "To outline the pathophysiology and types of headaches, as well as common causes and red flag signs and symptoms.",
-      "C": "To ignore headaches unless they are severe.",
-      "D": "To classify headaches based on patient's age."
-    },
-    "answer": "B",
-    "rationale": "Objectives include outlining the pathophysiology and types of headaches, as well as common causes and red flag signs and symptoms."
-  },
-  {
-    "question": "The term 'Epilepsy' is to be defined according to the module objectives. What is one of the key components of its definition?",
-    "options": {
-      "A": "A muscular disorder.",
-      "B": "A cardiovascular condition.",
-      "C": "A neurological disorder that causes seizures.",
-      "D": "A respiratory illness."
-    },
-    "answer": "C",
-    "rationale": "Objectives include defining the term: Epilepsy."
-  },
-  {
-    "question": "What is mentioned as part of the objective for convulsions?",
-    "options": {
-      "A": "Outline dietary restrictions.",
-      "B": "Outline the pathophysiology, associated medication and the signs and symptoms of convulsions.",
-      "C": "Focus only on pediatric convulsions.",
-      "D": "Discuss the history of convulsive disorders."
-    },
-    "answer": "B",
-    "rationale": "Objectives include outlining the pathophysiology, associated medication and the signs and symptoms of convulsions."
-  },
-  {
-    "question": "What is an objective related to meningococcal disease?",
-    "options": {
-      "A": "To discuss prevention strategies only.",
-      "B": "To outline the pathophysiology and the signs and symptoms of meningococcal disease.",
-      "C": "To identify all types of bacteria causing meningitis.",
-      "D": "To explain the global impact of the disease."
-    },
-    "answer": "B",
-    "rationale": "Objectives include outlining the pathophysiology and the signs and symptoms of meningococcal disease."
-  },
-  {
-    "question": "What is an objective related to Cauda Equina Syndrome (CES)?",
-    "options": {
-      "A": "To explain surgical procedures for CES.",
-      "B": "To outline the pathophysiology and the signs and symptoms of cauda equina syndrome (CES).",
-      "C": "To assess the long-term rehabilitation for CES.",
-      "D": "To identify specific causes of CES from a list."
-    },
-    "answer": "B",
-    "rationale": "Objectives include outlining the pathophysiology and the signs and symptoms of cauda equina syndrome (CES)."
-  },
-  {
-    "question": "One objective of the module is to explain one's own role in the assessment and management of neurological disorders, including:",
-    "options": {
-      "A": "Surgical interventions.",
-      "B": "Advanced diagnostic procedures.",
-      "C": "Headaches, Convulsions, Stroke, Meningococcal disease, Cauda equina syndrome (CES), Altered levels of consciousness.",
-      "D": "Prescribing advanced medications."
-    },
-    "answer": "C",
-    "rationale": "Objectives include explaining own role in the assessment and management of neurological disorders, including: Headaches, Convulsions, Stroke, Meningococcal disease, Cauda equina syndrome (CES), Altered levels of consciousness."
-  },
-  {
-    "question": "The 'Nervous conditions' presentation links to which component of the diploma?",
-    "options": {
-      "A": "Component 15: Patient Assessment Examination and Physiological Measurements",
-      "B": "Component 19: Management of Medical and Surgical Conditions and Emergencies",
-      "C": "Component 22: Trauma Management",
-      "D": "Component 10: Pharmacology"
-    },
-    "answer": "B",
-    "rationale": "The presentation Links to diploma: Component 19: Management of Medical and Surgical Conditions and Emergencies."
-  },
-  {
-    "question": "According to the Knowledge section, what should an AAP understand regarding medication administration?",
-    "options": {
-      "A": "How to create new medications.",
-      "B": "Their own restrictions of the administration of medications in accordance with the AAP’s scope of practice.",
-      "C": "Advanced pharmaceutical research.",
-      "D": "Global drug supply chains."
-    },
-    "answer": "B",
-    "rationale": "Knowledge: How to operate under given exemptions, clinical guidelines and will understand their own restrictions of the administration of medications in accordance with the AAP’s scope of practice."
-  },
-  {
-    "question": "What do the 'Skills' for an AAP include regarding managing service users?",
-    "options": {
-      "A": "Only caring for elderly patients.",
-      "B": "Only managing patients with minor injuries.",
-      "C": "Manage service users and others across the age ranges - from babies & children to care for the elderly - within the emergency & urgent care setting.",
-      "D": "Managing patients in a clinical setting only."
-    },
-    "answer": "C",
-    "rationale": "Skills: Manage service users and others across the age ranges - from babies & children to care for the elderly - within the emergency & urgent care setting."
-  },
-  {
-    "question": "Which of the following is part of the 'Skills' an AAP should possess, specifically concerning medical conditions?",
-    "options": {
-      "A": "Performing complex surgeries.",
-      "B": "Diagnosing rare medical conditions.",
-      "C": "Managing medical conditions.",
-      "D": "Developing new medical treatments."
-    },
-    "answer": "C",
-    "rationale": "Skills include managing medical conditions."
+    "rationale": "Skills include: airway, respiratory & circulatory management within the emergency & urgent care setting."
   },
   {
     "question": "What is a key 'Behaviour' expected of an AAP?",
     "options": {
-      "A": "To be professional and passionate about the emergency and urgent care services.",
-      "B": "To avoid learning from mistakes.",
-      "C": "To disregard patient experience.",
-      "D": "To prioritize personal gain over patient care."
-    },
-    "answer": "A",
-    "rationale": "Behaviours: Be professional and passionate about the emergency and urgent care services."
-  },
-  {
-    "question": "The 'Nervous conditions' presentation links to which care standard?",
-    "options": {
-      "A": "Professional boundaries.",
-      "B": "Understand your role.",
-      "C": "Financial management.",
-      "D": "Marketing and promotion."
+      "A": "A neutral attitude.",
+      "B": "A positive attitude in helping to improve patient care/experience.",
+      "C": "A focus on efficiency over quality.",
+      "D": "A detached approach to patient interaction."
     },
     "answer": "B",
-    "rationale": "Links to care standard: Understand your role."
+    "rationale": "Behaviours: have a commitment to quality and care for service users and their relatives, a positive attitude in helping to improve patient care/experience."
   },
   {
-    "question": "Which of these is a care standard linked in the presentation?",
+    "question": "Which care standard emphasizes 'Your personal development' for an AAP?",
     "options": {
-      "A": "Advanced life support.",
-      "B": "Clinical research.",
-      "C": "Privacy and dignity.",
-      "D": "Team leadership."
+      "A": "Communication",
+      "B": "Duty of care",
+      "C": "Your personal development",
+      "D": "Health and safety"
     },
     "answer": "C",
-    "rationale": "Links to care standard: Privacy and dignity."
+    "rationale": "Links to care standard: Your personal development."
   },
   {
-    "question": "What is the pass mark for the Exam (C19 – Management of Medical and Surgical Conditions and Emergencies)?",
+    "question": "Which care standard relates to 'Work in a person centred way'?",
     "options": {
-      "A": "60%",
-      "B": "70%",
+      "A": "Basic life support",
+      "B": "Equality and diversity",
+      "C": "Work in a person centred way",
+      "D": "Safeguarding children"
+    },
+    "answer": "C",
+    "rationale": "Links to care standard: Work in a person centred way."
+  },
+  {
+    "question": "What is one of the components of neurological disorders that an AAP explains their role in assessing and managing?",
+    "options": {
+      "A": "Brain surgery",
+      "B": "Advanced neuroimaging interpretation",
+      "C": "Altered levels of consciousness",
+      "D": "Neurodevelopmental disorders"
+    },
+    "answer": "C",
+    "rationale": "Explain own role in the assessment and management of neurological disorders, including: Altered levels of consciousness."
+  },
+  {
+    "question": "The term 'POUND' is a mnemonic for which type of headache?",
+    "options": {
+      "A": "Tension-type headache",
+      "B": "Migraine",
+      "C": "Cluster headache",
+      "D": "Secondary headache"
+    },
+    "answer": "B",
+    "rationale": "Migraine (POUND)."
+  },
+  {
+    "question": "What does the 'P' in POUND (for Migraine) often refer to regarding its character?",
+    "options": {
+      "A": "Pressing",
+      "B": "Pulsating",
+      "C": "Pins and needles",
+      "D": "Pressure"
+    },
+    "answer": "B",
+    "rationale": "The character of a Migraine is Pulsating/throbbing, aligning with the 'P' in POUND."
+  },
+  {
+    "question": "What is a physical examination feature that is a red flag in the SNOOP mnemonic for secondary headache, particularly for 'Neurologic' symptoms?",
+    "options": {
+      "A": "Normal reflexes",
+      "B": "Abnormal neurologic examination",
+      "C": "Clear speech",
+      "D": "Normal gait"
+    },
+    "answer": "B",
+    "rationale": "For 'Neurologic' in SNOOP, a physical examination feature is Abnormal neurologic examination."
+  },
+  {
+    "question": "Which of the following is a 'Toxins' related cause of secondary headache?",
+    "options": {
+      "A": "Lead poisoning",
+      "B": "Carbon monoxide poisoning",
+      "C": "Food allergies",
+      "D": "Medication side effect"
+    },
+    "answer": "B",
+    "rationale": "Toxins such as Carbon monoxide poisoning can cause secondary headache."
+  },
+  {
+    "question": "What is one of the 'Metabolic' causes of secondary headache listed?",
+    "options": {
+      "A": "Hyperglycemia",
+      "B": "Hypoglycaemia",
+      "C": "Hypothyroidism",
+      "D": "Hyperthyroidism"
+    },
+    "answer": "B",
+    "rationale": "Metabolic causes include Hypoxia, Hypercapnoea, Hypoglycaemia, and Preeclampsia."
+  },
+  {
+    "question": "Which of the following is considered an 'Other' cause of secondary headache?",
+    "options": {
+      "A": "Stroke",
+      "B": "Tumour",
+      "C": "Sinusitis",
+      "D": "Meningitis"
+    },
+    "answer": "C",
+    "rationale": "Other causes include Sinusitis, Dental, TMJ dysfunction, Trigeminal neuralgia, and Post LP headache."
+  },
+  {
+    "question": "What is a red flag for headaches related to 'Pregnancy' in the SNOOP mnemonic?",
+    "options": {
+      "A": "Normal pregnancy headache.",
+      "B": "New-onset headache during pregnancy.",
+      "C": "Headache relieved by rest.",
+      "D": "Headache occurring only in the first trimester."
+    },
+    "answer": "B",
+    "rationale": "New-onset headache during pregnancy is a red flag in SNOOP."
+  },
+  {
+    "question": "What is the term for a sudden severe headache with no known cause, which is a common symptom of stroke?",
+    "options": {
+      "A": "Migraine",
+      "B": "Tension headache",
+      "C": "Thunderclap headache",
+      "D": "Cluster headache"
+    },
+    "answer": "C",
+    "rationale": "Sudden severe headache with no known cause can also be known as a Thunderclap headache, a red flag for secondary headaches including stroke."
+  },
+  {
+    "question": "Which of the following is a red flag for stroke regarding symptom resolution?",
+    "options": {
+      "A": "Resolving symptoms",
+      "B": "Un-resolving symptoms",
+      "C": "Symptoms improving with rest",
+      "D": "Symptoms lasting less than an hour"
+    },
+    "answer": "B",
+    "rationale": "Red Flags for stroke include Un-resolving symptoms."
+  },
+  {
+    "question": "What is one of the observations to be taken as part of a full set of observations for TIA management?",
+    "options": {
+      "A": "Blood type",
+      "B": "GCS",
+      "C": "Weight",
+      "D": "Height"
+    },
+    "answer": "B",
+    "rationale": "Full set of observations for TIA includes GCS."
+  },
+  {
+    "question": "What does the 'F' in FAST or BEFAST assessment stand for in relation to speech?",
+    "options": {
+      "A": "Fluid speech",
+      "B": "Fast speaking",
+      "C": "Trouble speaking slurred speech, confused",
+      "D": "Fluent speech"
+    },
+    "answer": "C",
+    "rationale": "S – Speech (trouble speaking slurred speech, confused)."
+  },
+  {
+    "question": "What is a management step for stroke if ABCD (Airway, Breathing, Circulation, Disability) is compromised?",
+    "options": {
+      "A": "Delay intervention.",
+      "B": "Manage systematically.",
+      "C": "Only address the most obvious compromise.",
+      "D": "Wait for symptoms to improve."
+    },
+    "answer": "B",
+    "rationale": "If ABCD COMPROMISE, MANAGE SYSTEMATICALLY."
+  },
+  {
+    "question": "What is the area between the arachnoid membrane and the pia mater surrounding the brain called, where subarachnoid haemorrhage occurs?",
+    "options": {
+      "A": "Epidural space",
+      "B": "Subdural space",
+      "C": "Subarachnoid space",
+      "D": "Ventricular space"
+    },
+    "answer": "C",
+    "rationale": "Subarachnoid haemorrhage (SAH) is bleeding into the subarachnoid space—the area between the arachnoid membrane and the pia mater surrounding the brain."
+  },
+  {
+    "question": "What can be a cause of acute hydrocephalus following a subarachnoid haemorrhage?",
+    "options": {
+      "A": "Increased CSF absorption",
+      "B": "ICH (intracranial haemorrhage) causing brain tissue destruction",
+      "C": "Decreased CSF production",
+      "D": "Normal CSF flow"
+    },
+    "answer": "B",
+    "rationale": "ICH (intracranial haemorrhage) causing brain tissue destruction & hydrocephalus."
+  },
+  {
+    "question": "What is one of the physiological changes contributing to Acute global ischaemia in SAH?",
+    "options": {
+      "A": "Increased CPP",
+      "B": "↓ coronary blood flow due to ↑ ICP",
+      "C": "Increased cerebral blood flow",
+      "D": "Decreased intracranial pressure"
+    },
+    "answer": "B",
+    "rationale": "Acute global ischaemia Causes ↓ CBF secondary to ↑ ICP."
+  },
+  {
+    "question": "Which of these is a systemic complication of SAH, affecting electrolyte balance?",
+    "options": {
+      "A": "Hypernatremia",
+      "B": "Hyponatreamia (low blood sodium)",
+      "C": "Hyperkalemia",
+      "D": "Hypocalcemia"
+    },
+    "answer": "B",
+    "rationale": "Other Systemic complications include Hyponatreamia (low blood sodium)."
+  },
+  {
+    "question": "What is a red flag for seizures regarding recent medication changes?",
+    "options": {
+      "A": "No medication changes",
+      "B": "Recent medication changes",
+      "C": "Long-term stable medication",
+      "D": "Adherence to medication"
+    },
+    "answer": "B",
+    "rationale": "Red Flags for seizures include Recent medication changes."
+  },
+  {
+    "question": "What is a red flag for seizures regarding recreational drug use?",
+    "options": {
+      "A": "No recreational drug use",
+      "B": "Recreational drug use",
+      "C": "Past recreational drug use but none recently",
+      "D": "Cannabis use only"
+    },
+    "answer": "B",
+    "rationale": "Red Flags for seizures include Recreational drug use."
+  },
+  {
+    "question": "What is the common age group that AAP skills cover in emergency & urgent care setting?",
+    "options": {
+      "A": "Adults only",
+      "B": "Elderly only",
+      "C": "Babies & children to care for the elderly",
+      "D": "Teenagers only"
+    },
+    "answer": "C",
+    "rationale": "Manage service users and others across the age ranges - from babies & children to care for the elderly - within the emergency & urgent care setting."
+  },
+  {
+    "question": "What type of injuries are covered under the 'Skills' of an AAP?",
+    "options": {
+      "A": "Only minor cuts",
+      "B": "Bones-joints-ligaments-tendons injuries",
+      "C": "Complex internal organ damage",
+      "D": "Spinal cord transections"
+    },
+    "answer": "B",
+    "rationale": "Skills include: bones-joints-ligaments-tendons injuries."
+  },
+  {
+    "question": "What does the 'Behaviours' section emphasize regarding learning?",
+    "options": {
+      "A": "Learning only from mistakes.",
+      "B": "Learning from successes and mistakes.",
+      "C": "Avoiding learning to maintain consistency.",
+      "D": "Only learning from formal courses."
+    },
+    "answer": "B",
+    "rationale": "Behaviours: learning from successes and mistakes in line with the NHS Constitution."
+  },
+  {
+    "question": "Which care standard is related to 'Health and safety'?",
+    "options": {
+      "A": "Communication",
+      "B": "Health and safety",
+      "C": "Fluids and nutrition",
+      "D": "Safeguarding adults"
+    },
+    "answer": "B",
+    "rationale": "Links to care standard: Health and safety."
+  },
+  {
+    "question": "Which care standard relates to 'Infection prevention and control'?",
+    "options": {
+      "A": "Duty of care",
+      "B": "Infection prevention and control",
+      "C": "Basic life support",
+      "D": "Handling information"
+    },
+    "answer": "B",
+    "rationale": "Links to care standard: Infection prevention and control."
+  },
+  {
+    "question": "What is the overall term for a sudden, uncontrolled electrical disturbance in the brain, causing a change in behaviour, movement, feelings, and consciousness?",
+    "options": {
+      "A": "Convulsion",
+      "B": "Seizure",
+      "C": "Epilepsy",
+      "D": "Syncope"
+    },
+    "answer": "B",
+    "rationale": "Seizures are a sudden, uncontrolled electrical disturbance in the brain. It causes a change in behaviour, movement, feelings and in levels of consciousness."
+  },
+  {
+    "question": "Which common symptom/warning sign of epilepsy includes 'jerking movements of an arm, leg, or body'?",
+    "options": {
+      "A": "Feeling spacey",
+      "B": "Jerking movements of an arm, leg, or body",
+      "C": "Odd feelings",
+      "D": "Unusual smells"
+    },
+    "answer": "B",
+    "rationale": "Common Symptoms/Warning Signs include Jerking movements of an arm, leg, or body."
+  },
+  {
+    "question": "Which medication is used for daily administration to reduce seizure occurrence?",
+    "options": {
+      "A": "Diazepam",
+      "B": "Midazolam",
+      "C": "CLONAZEPAM",
+      "D": "Adrenaline"
+    },
+    "answer": "C",
+    "rationale": "Individuals with Epilepsy will be medicated daily to reduce their seizure occurrence. These include medications such as KEPPRA (Levetiracetam), LAMOTRIGINE, CLONAZEPAM, TEGRATOL, SODIUM VALPORATE (epilem)."
+  },
+  {
+    "question": "What is a red flag for seizures if there is 'No previous history of seizures'?",
+    "options": {
+      "A": "It means it's not a seizure.",
+      "B": "It is a red flag indicating a need for further investigation.",
+      "C": "It indicates a benign condition.",
+      "D": "It suggests a temporary issue."
+    },
+    "answer": "B",
+    "rationale": "Red Flags for seizures include No previous history of seizures."
+  },
+  {
+    "question": "What is a key aspect of managing an unconscious patient related to their environment?",
+    "options": {
+      "A": "Increase room temperature.",
+      "B": "Remove from extreme environments.",
+      "C": "Keep lights dim.",
+      "D": "Play soothing music."
+    },
+    "answer": "B",
+    "rationale": "Manage the unconscious patient: Remove from extreme environments."
+  },
+  {
+    "question": "Which of the following is NOT a type of primary headache mentioned?",
+    "options": {
+      "A": "Migraine",
+      "B": "Tension headache",
+      "C": "Cluster headache",
+      "D": "Sinus headache"
+    },
+    "answer": "D",
+    "rationale": "Examples of primary headaches are Migraine, Cluster headache, and Tension headache."
+  },
+  {
+    "question": "What is the typical character of a Tension-type headache?",
+    "options": {
+      "A": "Pulsating/throbbing",
+      "B": "Excruciating, stabbing, burning",
+      "C": "Pressing/tightening/bandlike",
+      "D": "Sharp, sudden pain"
+    },
+    "answer": "C",
+    "rationale": "The character of a Tension-type headache is Pressing/tightening/bandlike."
+  },
+  {
+    "question": "Which of the following is a symptom of a ruptured aneurysm?",
+    "options": {
+      "A": "Pain behind the eye",
+      "B": "Thunderclap headache",
+      "C": "Numbness on face",
+      "D": "Vision changes without double vision"
+    },
+    "answer": "B",
+    "rationale": "Ruptured Aneurysm symptoms include Thunderclap headache."
+  }
+];
+
+// --- DOM Elements ---
+const questionText = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const feedbackElement = document.getElementById('feedback');
+const rationaleElement = document.getElementById('rationale');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const currentScoreSpan = document.getElementById('current-score');
+const totalQuestionsSpan = document.getElementById('total-questions');
+const restartBtn = document.getElementById('restart-btn');
+
+// --- Quiz State Variables ---
+let currentQuestionIndex = 0;
+let score = 0;
+let answeredQuestions = new Array(quizQuestions.length).fill(null); // To store user's answer for each question
+
+// --- Functions ---
+
+function loadQuestion(index) {
+    if (index >= 0 && index < quizQuestions.length) {
+        currentQuestionIndex = index;
+        const question = quizQuestions[currentQuestionIndex];
+
+        questionText.textContent = `${currentQuestionIndex + 1}. ${question.question}`;
+        optionsContainer.innerHTML = ''; // Clear previous options
+        feedbackElement.textContent = ''; // Clear previous feedback
+        feedbackElement.className = 'feedback'; // Reset feedback class
+        rationaleElement.textContent = ''; // Clear previous rationale
+        rationaleElement.style.display = 'none'; // Hide rationale
+
+        // Create option buttons
+        for (const optionKey in question.options) {
+            const optionValue = question.options[optionKey];
+            const button = document.createElement('button');
+            button.className = 'option-btn';
+            button.dataset.option = optionKey;
+            button.textContent = `${optionKey}. ${optionValue}`;
+            optionsContainer.appendChild(button);
+
+            // Add event listener for answering
+            button.addEventListener('click', handleAnswer);
+        }
+
+        // Update navigation button states
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.disabled = false; // Next is enabled unless it's the last question and not answered yet
+
+        // If the question was already answered, show feedback and disable options
+        if (answeredQuestions[currentQuestionIndex] !== null) {
+            disableOptions();
+            showFeedbackAndRationale(answeredQuestions[currentQuestionIndex]);
+            if (currentQuestionIndex === quizQuestions.length - 1) {
+                nextBtn.disabled = true; // Disable next if at the end and answered
+            }
+        }
+        updateScoreDisplay();
+    } else if (index === quizQuestions.length) {
+        // End of quiz - show final score and option to restart
+        displayFinalScore();
+    }
+}
+
+function handleAnswer(event) {
+    const selectedOption = event.target.dataset.option;
+    const currentQuestion = quizQuestions[currentQuestionIndex];
+    const correctAnswer = currentQuestion.answer;
+
+    disableOptions(); // Disable all options after one is selected
+
+    // Mark selected option
+    const optionButtons = optionsContainer.querySelectorAll('.option-btn');
+    optionButtons.forEach(button => {
+        if (button.dataset.option === selectedOption) {
+            if (selectedOption === correctAnswer) {
+                button.classList.add('correct');
+                feedbackElement.textContent = 'Correct!';
+                feedbackElement.classList.add('correct-feedback');
+                if (answeredQuestions[currentQuestionIndex] === null) { // Only increment score if not already answered
+                    score++;
+                }
+            } else {
+                button.classList.add('incorrect');
+                feedbackElement.textContent = 'Incorrect!';
+                feedbackElement.classList.add('incorrect-feedback');
+            }
+        }
+        // Also highlight the correct answer if the selected one was incorrect
+        if (button.dataset.option === correctAnswer) {
+            button.classList.add('correct');
+        }
+    });
+
+    answeredQuestions[currentQuestionIndex] = selectedOption; // Store the user's answer
+    showFeedbackAndRationale(selectedOption);
+    updateScoreDisplay();
+
+    // If it's the last question, disable the next button
+    if (currentQuestionIndex === quizQuestions.length - 1) {
+        nextBtn.disabled = true;
+    }
+}
+
+function showFeedbackAndRationale(selectedOption) {
+    const currentQuestion = quizQuestions[currentQuestionIndex];
+    rationaleElement.textContent = `Rationale: ${currentQuestion.rationale}`;
+    rationaleElement.style.display = 'block'; // Show rationale
+}
+
+function disableOptions() {
+    const optionButtons = optionsContainer.querySelectorAll('.option-btn');
+    optionButtons.forEach(button => {
+        button.disabled = true;
+    });
+}
+
+function enableOptions() {
+    const optionButtons = optionsContainer.querySelectorAll('.option-btn');
+    optionButtons.forEach(button => {
+        button.disabled = false;
+        button.classList.remove('correct', 'incorrect'); // Remove feedback classes
+    });
+}
+
+function updateScoreDisplay() {
+    currentScoreSpan.textContent = score;
+    totalQuestionsSpan.textContent = quizQuestions.length;
+}
+
+function displayFinalScore() {
+    questionText.textContent = 'Quiz Completed!';
+    optionsContainer.innerHTML = '';
+    feedbackElement.textContent = `You scored ${score} out of ${quizQuestions.length}!`;
+    feedbackElement.className = 'feedback correct-feedback'; // Can adjust styling for final score
+    rationaleElement.style.display = 'none';
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    restartBtn.style.display = 'block'; // Show restart button
+}
+
+function restartQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    answeredQuestions = new Array(quizQuestions.length).fill(null);
+    restartBtn.style.display = 'none'; // Hide restart button
+    loadQuestion(currentQuestionIndex);
+}
+
+// --- Event Listeners ---
+prevBtn.addEventListener('click', () => {
+    if (currentQuestionIndex > 0) {
+        loadQuestion(currentQuestionIndex - 1);
+    }
+});
+
+nextBtn.addEventListener('click', () => {
+    if (currentQuestionIndex < quizQuestions.length) {
+        loadQuestion(currentQuestionIndex + 1);
+    } else {
+        displayFinalScore(); // If at the end, clicking next finishes the quiz
+    }
+});
+
+restartBtn.addEventListener('click', restartQuiz);
+
+// --- Initialize Quiz ---
+document.addEventListener('DOMContentLoaded', () => {
+    loadQuestion(currentQuestionIndex);
+    updateScoreDisplay();
+});
