@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Physiology Quiz - Kahoot Style (Combined)</title>
+    <title>Medical Conditions Quiz - Kahoot Style</title>
     <style>
         /* --- CSS (style.css content goes here) --- */
         body {
@@ -55,7 +55,7 @@
         #timer {
             background-color: #FF9800; /* Orange timer */
             padding: 5px 15px;
-            border-radius: 10px;
+            border-radius: 110px;
         }
 
         .btn {
@@ -115,6 +115,17 @@
             min-height: 30px; /* Reserve space */
         }
 
+        #explanation {
+            margin-top: 15px;
+            font-size: 1em;
+            color: #e0e0e0;
+            text-align: left;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            display: none; /* Hidden by default */
+        }
+
         #final-score {
             color: #FFEB3B;
             font-size: 1.5em;
@@ -144,7 +155,7 @@
 <body>
     <div class="quiz-container">
         <div id="quiz-start-screen" class="screen">
-            <h1>Physiology & Pathophysiology Quiz</h1>
+            <h1>Medical Conditions Quiz</h1>
             <button id="start-quiz-btn">Start Quiz</button>
         </div>
 
@@ -161,6 +172,7 @@
                 <button class="btn answer-btn" data-answer-index="3"></button>
             </div>
             <div id="feedback-message"></div>
+            <div id="explanation"></div>
         </div>
 
         <div id="quiz-end-screen" class="screen hidden">
@@ -185,6 +197,7 @@
             const questionText = document.getElementById('question-text');
             const answerButtonsContainer = document.getElementById('answer-buttons');
             const feedbackMessage = document.getElementById('feedback-message');
+            const explanationDiv = document.getElementById('explanation');
             const finalScoreSpan = document.getElementById('final-score');
             const totalQuestionsSpan = document.getElementById('total-questions');
 
@@ -198,408 +211,693 @@
             // Follow this exact format.
             // Make sure 'correctAnswerIndex' matches the 0-based index of the correct answer in the 'options' array.
             const questions = [
-                {
-                    question: "What is the primary gas exchanged *from the blood into the alveoli* for exhalation?",
-                    options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Methane"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "Which chamber of the heart is responsible for pumping deoxygenated blood to the lungs?",
-                    options: ["Left Atrium", "Left Ventricle", "Right Atrium", "Right Ventricle"],
-                    correctAnswerIndex: 3
-                },
-                {
-                    question: "True or False: Bradycardia is characterized by an abnormally *slow* heart rate.",
-                    options: ["True", "False"],
-                    correctAnswerIndex: 0
-                },
-                {
-                    question: "A patient presents with sudden-onset unilateral weakness, facial drooping, and slurred speech. What medical emergency should be immediately suspected?",
-                    options: ["Myocardial Infarction", "Anaphylaxis", "Stroke", "Diabetic Ketoacidosis"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "In the context of hypovolemic shock, what vital sign change is most commonly observed due to the body's compensatory mechanisms?",
-                    options: ["Bradycardia", "Hypertension", "Bradypnea", "Tachycardia"],
-                    correctAnswerIndex: 3
-                },
-                {
-                    question: "When assessing a patient's pain, what common mnemonic helps gather comprehensive information about its characteristics?",
-                    options: ["ABCDE", "SAMPLE", "PQRST", "SOAP"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "What is the immediate and life-saving priority in the treatment of severe anaphylaxis?",
-                    options: ["Administering oral antihistamines", "Administering inhaled bronchodilators", "Administering intravenous fluids", "Administering epinephrine"],
-                    correctAnswerIndex: 3
-                },
-                {
-                    question: "Which medication is often administered sublingually (under the tongue) to relieve chest pain associated with angina?",
-                    options: ["Aspirin", "Metformin", "Nitroglycerin", "Ibuprofen"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "What term describes the deep, rapid, and labored breathing pattern often observed in patients with diabetic ketoacidosis?",
-                    options: ["Cheyne-Stokes respiration", "Kussmaul respirations", "Biot's respiration", "Apnea"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "What is considered the normal range for an adult's blood pressure (systolic over diastolic)?",
-                    options: ["140/90 mmHg or higher", "Below 90/60 mmHg", "90/60 to 120/80 mmHg", "120/80 to 139/89 mmHg"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "Which hormone is primarily responsible for the 'fight or flight' response?",
-                    options: ["Insulin", "Glucagon", "Adrenaline (Epinephrine)", "Thyroxine"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "Damage to the myelin sheath around neurons results in what neurological condition?",
-                    options: ["Parkinson's Disease", "Alzheimer's Disease", "Multiple Sclerosis", "Epilepsy"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "A patient complaining of 'the worst headache of my life' might be experiencing which condition?",
-                    options: ["Migraine", "Tension Headache", "Cluster Headache", "Subarachnoid Hemorrhage"],
-                    correctAnswerIndex: 3
-                },
-                {
-                    question: "What is the medical term for low blood glucose?",
-                    options: ["Hyperglycemia", "Hypoglycemia", "Glycosuria", "Ketoacidosis"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "Which organ produces bile to aid in fat digestion?",
-                    options: ["Pancreas", "Stomach", "Gallbladder", "Liver"],
-                    correctAnswerIndex: 3
-                },
-                {
-                    question: "What is the key physiological response to a significant drop in core body temperature?",
-                    options: ["Vasodilation", "Sweating", "Shivering", "Increased heart rate"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "A sudden, severe chest pain radiating to the left arm and jaw is a classic symptom of what?",
-                    options: ["Heartburn", "Pneumonia", "Angina Pectoris", "Myocardial Infarction"],
-                    correctAnswerIndex: 3
-                },
-                {
-                    question: "Which type of shock is caused by severe allergic reaction?",
-                    options: ["Cardiogenic", "Hypovolemic", "Anaphylactic", "Septic"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "What assessment finding is typical for a patient experiencing a stroke on the right side of the brain?",
-                    options: ["Left-sided weakness", "Right-sided weakness", "Aphasia", "Swallowing difficulties"],
-                    correctAnswerIndex: 0
-                },
-                {
-                    question: "The presence of protein in the urine (proteinuria) is a sign of dysfunction in which organ system?",
-                    options: ["Respiratory", "Cardiovascular", "Renal", "Endocrine"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "What is the function of red blood cells?",
-                    options: ["Fighting infection", "Clotting blood", "Transporting oxygen", "Producing antibodies"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "In chronic obstructive pulmonary disease (COPD), which of the following is a common symptom?",
-                    options: ["Sudden chest pain", "Pink, frothy sputum", "Chronic cough with sputum production", "High fever and chills"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "Which part of the brain controls balance and coordination?",
-                    options: ["Cerebrum", "Brainstem", "Cerebellum", "Thalamus"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "The inability to speak or understand language due to brain damage is known as:",
-                    options: ["Dysphagia", "Ataxia", "Aphasia", "Dyspnea"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "What is the primary role of platelets in the body?",
-                    options: ["Oxygen transport", "Immune response", "Blood clotting", "Nutrient absorption"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "Pain described as 'tearing' or 'ripping' in the chest or back could indicate what serious condition?",
-                    options: ["Pneumothorax", "Pericarditis", "Aortic Dissection", "Esophagitis"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "What is a common sign of a urinary tract infection (UTI)?",
-                    options: ["Increased appetite", "Painful urination", "Blurred vision", "Joint stiffness"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "Which hormone regulates calcium levels in the blood?",
-                    options: ["Insulin", "Cortisol", "Thyroid hormone", "Parathyroid hormone"],
-                    correctAnswerIndex: 3
-                },
-                {
-                    question: "What assessment technique involves listening to body sounds, often with a stethoscope?",
-                    options: ["Palpation", "Percussion", "Auscultation", "Inspection"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "The physiological process of maintaining a stable internal environment is called:",
-                    options: ["Metabolism", "Catabolism", "Homeostasis", "Anabolism"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "What is the medical term for difficulty breathing?",
-                    options: ["Tachypnea", "Bradypnea", "Apnea", "Dyspnea"],
-                    correctAnswerIndex: 3
-                },
-                {
-                    question: "Which type of diabetes is characterized by the body's immune system attacking insulin-producing cells?",
-                    options: ["Type 1 Diabetes", "Type 2 Diabetes", "Gestational Diabetes", "Insipidous Diabetes"],
-                    correctAnswerIndex: 0
-                },
-                {
-                    question: "A rigid, board-like abdomen is a classic sign of what abdominal emergency?",
-                    options: ["Appendicitis", "Gastroenteritis", "Peritonitis", "Constipation"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "What is the main function of the kidneys?",
-                    options: ["Digestion", "Filtering blood and producing urine", "Pumping blood", "Gas exchange"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "Which cranial nerve is primarily responsible for vision?",
-                    options: ["Oculomotor (III)", "Optic (II)", "Trigeminal (V)", "Facial (VII)"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "A patient with a new onset of confusion, fever, and neck stiffness should be assessed for:",
-                    options: ["Common Cold", "Influenza", "Meningitis", "Allergic Reaction"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "What does 'NPO' stand for in medical terminology?",
-                    options: ["New Patient Orientation", "Nothing By Mouth", "No Pain Observed", "Nerve Pathway Open"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "Which part of the brain is responsible for voluntary movements and higher-level thinking?",
-                    options: ["Cerebellum", "Brainstem", "Cerebrum", "Spinal Cord"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "What is the normal body temperature in degrees Celsius?",
-                    options: ["35.0°C", "37.0°C", "39.0°C", "41.0°C"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "Which electrolyte imbalance is often associated with cardiac arrhythmias?",
-                    options: ["Hypocalcemia", "Hypernatremia", "Hypokalemia", "Hypomagnesemia"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "What is the medical term for a collapsed lung?",
-                    options: ["Bronchitis", "Pneumonia", "Pneumothorax", "Asthma"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "The 'A' in the ABCs of emergency care stands for:",
-                    options: ["Assessment", "Airway", "Alertness", "Activity"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "What is a common sign of dehydration in adults?",
-                    options: ["Increased urination", "Dry mucous membranes", "Bradycardia", "High blood pressure"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "Which class of medication is commonly used to lower blood pressure?",
-                    options: ["Antibiotics", "Anticoagulants", "Antihypertensives", "Analgesics"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "What is the primary function of the large intestine?",
-                    options: ["Nutrient absorption", "Water absorption and waste elimination", "Digestion of fats", "Protein breakdown"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "A sudden drop in blood pressure upon standing is known as:",
-                    options: ["Hypertension", "Orthostatic Hypotension", "Vasovagal Syncope", "Shock"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "What condition is characterized by painful, swollen joints due to uric acid crystal buildup?",
-                    options: ["Osteoarthritis", "Rheumatoid Arthritis", "Gout", "Fibromyalgia"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "Which of the following is a common symptom of a myocardial infarction (heart attack)?",
-                    options: ["Sharp, localized leg pain", "Crushing chest pain radiating to the arm/jaw", "Blurred vision", "Sudden headache"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "What is the normal respiratory rate for a healthy adult at rest?",
-                    options: ["4-8 breaths/min", "12-20 breaths/min", "25-35 breaths/min", "40-50 breaths/min"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "The inability of the heart to pump enough blood to meet the body's demands is called:",
-                    options: ["Angina", "Arrhythmia", "Heart Failure", "Hypertension"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "What is the medical term for inflammation of the liver?",
-                    options: ["Nephritis", "Gastritis", "Hepatitis", "Colitis"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "Which white blood cell is primarily involved in allergic reactions and parasitic infections?",
-                    options: ["Neutrophil", "Lymphocyte", "Monocyte", "Eosinophil"],
-                    correctAnswerIndex: 3
-                },
-                {
-                    question: "What is the main purpose of performing CPR?",
-                    options: ["To restart the heart directly", "To provide oxygen to the brain and vital organs", "To clear a blocked airway", "To assess neurological function"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "A patient with yellowing of the skin and eyes (jaundice) likely has an issue with which organ?",
-                    options: ["Kidneys", "Lungs", "Liver", "Spleen"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "Which medical device is used to measure blood oxygen saturation?",
-                    options: ["Sphygmomanometer", "Thermometer", "Pulse Oximeter", "Glucometer"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "What is the immediate management for a severe external bleeding injury?",
-                    options: ["Applying a cold compress", "Elevating the limb only", "Applying direct pressure", "Tourniquet application as a first resort"],
-                    correctAnswerIndex: 2
-                },
-                {
-                    question: "The condition where bones become brittle and fragile from loss of tissue, typically due to hormonal changes, or deficiency of calcium or vitamin D, is called:",
-                    options: ["Osteoarthritis", "Osteoporosis", "Rickets", "Gout"],
-                    correctAnswerIndex: 1
-                },
-                {
-                    question: "What is the normal range for a healthy adult's pulse (heart rate) at rest?",
-                    options: ["20-40 bpm", "60-100 bpm", "110-140 bpm", "150-180 bpm"],
-                    correctAnswerIndex: 1
-                },
-                // --- NEW QUESTIONS BASED ON THE PRESENTATION ---
+                // Anaphylaxis, Sepsis & Poisonings
                 {
                     question: "According to the Resuscitation Council UK 2008 definition, what is anaphylaxis?",
                     options: ["A mild allergic reaction", "A severe, life-threatening, generalized or systemic hypersensitivity reaction", "A localized skin rash", "An infection of the bloodstream"],
-                    correctAnswerIndex: 1
+                    correctAnswerIndex: 1,
+                    explanation: "Anaphylaxis is defined as a severe, life-threatening, generalized or systemic hypersensitivity reaction."
                 },
                 {
-                    question: "Which of the following is *not* listed as a common risk factor or allergen for anaphylaxis in the presentation?",
+                    question: "Which of the following is NOT listed as a common risk factor or allergen for anaphylaxis in the presentation?",
                     options: ["Peanuts", "Shellfish", "Dust mites", "Bee/Wasp stings"],
-                    correctAnswerIndex: 2
+                    correctAnswerIndex: 2,
+                    explanation: "Common risk factors/allergens mentioned include peanuts, tree nuts, shellfish, milk, eggs, bee/wasp stings, and certain medications like penicillin. Dust mites are not specifically listed as a common anaphylaxis allergen in this presentation."
                 },
                 {
                     question: "Upon second exposure to an antigen during anaphylaxis, what process leads to a mass release of histamine?",
                     options: ["Antibody production", "Degranulation of mast cells", "B cell activation", "Th2 cell proliferation"],
-                    correctAnswerIndex: 1
+                    correctAnswerIndex: 1,
+                    explanation: "Upon second exposure, the antigen binds to IgE on mast cells, causing degranulation and a mass release of histamine."
                 },
                 {
                     question: "Which cardiovascular symptom is a 'red flag' for anaphylaxis?",
                     options: ["Hypertension", "Bradycardia", "Normal heart rate", "Hypotension"],
-                    correctAnswerIndex: 3
+                    correctAnswerIndex: 3,
+                    explanation: "Hypotension (low blood pressure) is a red flag symptom indicating a severe systemic reaction in anaphylaxis."
                 },
                 {
                     question: "What is the recommended route of administration for Adrenaline (Epinephrine) in the immediate management of anaphylaxis, according to the JRCALC guidelines shown?",
-                    options: ["Intravenous (IV)", "Subcutaneous (SC)", "Oral", "Intramuscular (IM)"],
-                    correctAnswerIndex: 3
+                    options: ["Intravenous (IV)", "FSubcutaneous (SC)", "Oral", "Intramuscular (IM)"],
+                    correctAnswerIndex: 3,
+                    explanation: "The recommended route of administration for Adrenaline (Epinephrine) in anaphylaxis is Intramuscular (IM)."
                 },
                 {
                     question: "After administering IM adrenaline for anaphylaxis, if there is no response, when should it be repeated?",
                     options: ["After 1 minute", "After 2 minutes", "After 5 minutes", "After 10 minutes"],
-                    correctAnswerIndex: 2
+                    correctAnswerIndex: 2,
+                    explanation: "If there is no response, IM adrenaline should be repeated after 5 minutes."
                 },
                 {
                     question: "What effect does increased levels of adrenaline have on smooth muscle in the airways during anaphylaxis?",
                     options: ["Contraction", "No effect", "Relaxation", "Spasm"],
-                    correctAnswerIndex: 2
+                    correctAnswerIndex: 2,
+                    explanation: "Adrenaline causes relaxation of smooth muscle in the airways (bronchodilation)."
                 },
                 {
                     question: "Septicaemia is sometimes known as:",
                     options: ["Anaphylaxis", "Sepsis shock", "Blood poisoning", "Inflammation"],
-                    correctAnswerIndex: 2
+                    correctAnswerIndex: 2,
+                    explanation: "Septicaemia is sometimes known as blood poisoning."
                 },
                 {
                     question: "What is the core definition of sepsis?",
                     options: ["A bacterial infection", "A viral infection", "A life-threatening reaction to an infection where the immune system damages its own tissues and organs", "A localized inflammatory response"],
-                    correctAnswerIndex: 2
+                    correctAnswerIndex: 2,
+                    explanation: "Sepsis is a life-threatening reaction to an infection where the immune system damages its own tissues and organs."
                 },
                 {
                     question: "According to the presentation, approximately how many hospital admissions with sepsis occur in children each year in the UK?",
                     options: ["5,000", "10,000", "25,000", "50,000"],
-                    correctAnswerIndex: 2
+                    correctAnswerIndex: 2,
+                    explanation: "The presentation states approximately 25,000 hospital admissions with sepsis occur in children each year in the UK."
                 },
                 {
                     question: "In sepsis, what happens to the body's inflammatory response compared to a typical infection?",
                     options: ["It is localized to the infection site", "It is suppressed throughout the body", "It occurs everywhere, involving the entire body", "It only affects the immune cells"],
-                    correctAnswerIndex: 2
+                    correctAnswerIndex: 2,
+                    explanation: "In sepsis, the inflammatory response occurs everywhere, involving the entire body."
                 },
                 {
                     question: "A NEWS2 score of greater than 5, or greater than 3 in any one category, coupled with a history of infection, should prompt consideration for what?",
                     options: ["Anaphylaxis screening", "Sepsis screening", "Poisoning assessment", "Cardiac arrest protocol"],
-                    correctAnswerIndex: 1
+                    correctAnswerIndex: 1,
+                    explanation: "A NEWS2 score of greater than 5, or greater than 3 in any one category, coupled with a history of infection, should prompt consideration for sepsis screening."
                 },
                 {
                     question: "Which of the following is *not* one of the 'Sepsis Six' interventions mentioned in the care bundle?",
                     options: ["Give high-flow oxygen", "Take blood cultures", "Administer oral antibiotics", "Measure lactate"],
-                    correctAnswerIndex: 2
+                    correctAnswerIndex: 2,
+                    explanation: "The 'Sepsis Six' interventions include: Give oxygen, Take blood cultures, Give IV antibiotics, Give IV fluids, Measure lactate, Measure urine output. Administering oral antibiotics is not part of the immediate Sepsis Six."
                 },
                 {
                     question: "For a hypotensive sepsis patient, what is the recommended initial fluid administration strategy?",
                     options: ["50ml boluses (max 500ml)", "250ml boluses (max 2000ml)", "500ml boluses (no max)", "100ml boluses (max 1000ml)"],
-                    correctAnswerIndex: 1
+                    correctAnswerIndex: 1,
+                    explanation: "For a hypotensive sepsis patient, the initial fluid administration strategy is 250ml boluses up to a maximum of 2000ml."
                 },
                 {
                     question: "Should paracetamol be routinely administered to reduce pyrexia (fever) in patients with sepsis?",
                     options: ["Yes, always", "Only if the patient requests it", "No, unless to relieve pain or discomfort as a result of fever", "Only if the patient cannot take oral medication"],
-                    correctAnswerIndex: 2
+                    correctAnswerIndex: 2,
+                    explanation: "Paracetamol should not be routinely administered to reduce pyrexia in sepsis unless it is to relieve pain or discomfort as a result of fever."
                 },
                 {
                     question: "Which type of poisoning involves a substance being introduced into the body via injection?",
                     options: ["Ingested", "Inhaled", "Absorbed", "Injected"],
-                    correctAnswerIndex: 3
+                    correctAnswerIndex: 3,
+                    explanation: "The presentation categorizes poisoning by route of entry, including injected."
                 },
                 {
                     question: "What effect do opioids have on the central nervous system?",
                     options: ["Stimulate it", "Have no effect", "Depress it", "Only affect the peripheral nervous system"],
-                    correctAnswerIndex: 2
+                    correctAnswerIndex: 2,
+                    explanation: "Opioids are central nervous system (CNS) depressants."
                 },
                 {
                     question: "Which of these is a classic sign of an opioid overdose?",
                     options: ["Dilated pupils", "Fast breathing", "Tiny pupils", "Warm, dry skin"],
-                    correctAnswerIndex: 2
+                    correctAnswerIndex: 2,
+                    explanation: "Classic signs of an opioid overdose include tiny (pinpoint) pupils, slow/shallow breathing, and drowsiness/unconsciousness."
                 },
                 {
                     question: "What is the immediate antidote that quickly reverses the effects of opioids?",
                     options: ["Insulin", "Adrenaline", "Naloxone", "Chlorphenamine"],
-                    correctAnswerIndex: 2
+                    correctAnswerIndex: 2,
+                    explanation: "Naloxone is the immediate antidote for opioid overdose, quickly reversing its effects."
                 },
                 {
                     question: "What does 'Toxidrome' refer to?",
                     options: ["A type of toxic chemical", "A collection of signs and symptoms associated with a particular class of toxins", "A method of decontamination", "A specific type of poisoning treatment"],
-                    correctAnswerIndex: 1
+                    correctAnswerIndex: 1,
+                    explanation: "A Toxidrome is a collection of signs and symptoms associated with a particular class of toxins."
                 },
                 {
                     question: "In the management of a poisoned patient, what does the 'D' in the 'DEAD' acronym stand for?",
                     options: ["Diagnosis", "Dehydration", "Decontamination", "Dialysis"],
-                    correctAnswerIndex: 2
+                    correctAnswerIndex: 2,
+                    explanation: "The 'DEAD' acronym in poisoning management refers to Decontamination, Enhanced Elimination, Antidotes, and Disposition."
                 },
                 {
                     question: "When assessing a poisoned patient, what factors should be considered according to the presentation?",
                     options: ["Only the type of drug", "Drug, dose, time since ingestion, clinical features, and patient factors", "Only vital signs", "Only the patient's age"],
-                    correctAnswerIndex: 1
+                    correctAnswerIndex: 1,
+                    explanation: "When assessing a poisoned patient, factors to consider include the drug, dose, time since ingestion, clinical features, and patient factors."
+                },
+                // Cardiac Conditions & Assessment
+                {
+                    question: "What is one of the most common causes of death worldwide, primarily discussed in relation to cardiovascular conditions?",
+                    options: ["Hypertension", "Coronary Artery Disease", "Arrhythmia", "Heart Failure"],
+                    correctAnswerIndex: 1,
+                    explanation: "Coronary Artery Disease is presented as one of the most common causes of death worldwide and a primary cause of many cardiovascular conditions covered."
+                },
+                {
+                    question: "Which of the following conditions is NOT explicitly listed as an objective to understand in the Cardiac Conditions presentation?",
+                    options: ["Angina", "Heart Failure", "Pericarditis", "Aortic Dissection"],
+                    correctAnswerIndex: 2,
+                    explanation: "The objectives include understanding angina, ACS, heart failure, aortic dissection, and sickle cell anaemia. Pericarditis is not explicitly listed as an objective."
+                },
+                {
+                    question: "What specific skill related to patient assessment is emphasized for managing service users with medical conditions?",
+                    options: ["Performing advanced surgical procedures", "Following a stepwise and holistic approach, undertaking physiological measurements", "Prescribing medications independently", "Conducting complex laboratory tests"],
+                    correctAnswerIndex: 1,
+                    explanation: "Skills include 'Follow a stepwise and holistic approach to patient assessment, undertaking a range of physiological measurements using appropriate equipment in a safe and effective manner.'"
+                },
+                {
+                    question: "The knowledge section highlights understanding restrictions regarding the administration of what?",
+                    options: ["Fluids", "Medications", "Oxygen", "Bandages"],
+                    correctAnswerIndex: 1,
+                    explanation: "Knowledge includes 'understand their own restrictions of the administration of medications in accordance with the AAP’s scope of practice.'"
+                },
+                // Shock AAP
+                {
+                    question: "Shock is defined as a life-threatening condition where the body is not getting enough of what?",
+                    options: ["Glucose", "Blood flow", "Air", "Warmth"],
+                    correctAnswerIndex: 1,
+                    explanation: "Shock is a life-threatening condition that occurs when the body is not getting enough blood flow."
+                },
+                {
+                    question: "According to the presentation, what can be damaged as a result of insufficient blood flow during shock?",
+                    options: ["Only the brain", "Only the heart", "Many organs", "Only muscles"],
+                    correctAnswerIndex: 2,
+                    explanation: "Lack of blood flow means the cells and organs do not get enough oxygen and nutrients to function properly. Many organs can be damaged as a result."
+                },
+                {
+                    question: "Which of the following is listed as a common cause of Hypovolaemic shock?",
+                    options: ["Heart attack", "Severe allergic reaction", "Excessive or prolonged diarrhea", "Spinal cord injury"],
+                    correctAnswerIndex: 2,
+                    explanation: "Causes of Hypovolaemic shock listed include excessive or prolonged diarrhea, severe burns, protracted/excessive vomiting, excessive sweating, and bleeding."
+                },
+                {
+                    question: "Hypovolemic shock primarily relates to a problem with which component of the circulatory system?",
+                    options: ["The pump (heart)", "The tubes (vessels)", "The liquid (blood)", "The electrical impulses"],
+                    correctAnswerIndex: 2,
+                    explanation: "Shock always involves either the pump (heart), the tubes (vessels), or the liquid (blood). Hypovolemic shock specifically relates to issues with the liquid (blood) volume."
+                },
+                {
+                    question: "What is mentioned as a general management principle for Dissociative shock?",
+                    options: ["Administering large fluid boluses", "Oxygen and consulting Toxbase", "Immediate surgery", "Only pain management"],
+                    correctAnswerIndex: 1,
+                    explanation: "Management for Dissociative shock includes oxygen and consulting Toxbase for guidance."
+                },
+                // AAP Neuro Conditions
+                {
+                    question: "Which of these conditions is NOT an objective to outline pathophysiology for in the Nervous Conditions presentation?",
+                    options: ["Headaches", "Epilepsy", "Multiple Sclerosis", "Stroke"],
+                    correctAnswerIndex: 2,
+                    explanation: "The objectives include headaches, epilepsy, convulsions, stroke, meningococcal disease, and cauda equina syndrome. Multiple Sclerosis is not listed."
+                },
+                {
+                    question: "What term is defined as part of the objectives in the Nervous Conditions presentation?",
+                    options: ["Paralysis", "Epilepsy", "Dementia", "Coma"],
+                    correctAnswerIndex: 1,
+                    explanation: "One of the objectives is to 'Define the term: Epilepsy'."
+                },
+                {
+                    question: "The presentation outlines the pathophysiology, risk factors, and signs/symptoms of what neurological emergency?",
+                    options: ["Migraine", "Vertigo", "Stroke", "Bell's Palsy"],
+                    correctAnswerIndex: 2,
+                    explanation: "The presentation outlines the pathophysiology, risk factors, and signs and symptoms of stroke."
+                },
+                {
+                    question: "What neurological condition's pathophysiology and signs/symptoms are outlined in relation to an altered level of consciousness?",
+                    options: ["Alzheimer's disease", "Cauda equina syndrome (CES)", "Parkinson's disease", "Meningococcal disease"],
+                    correctAnswerIndex: 3,
+                    explanation: "The presentation covers altered levels of consciousness and also outlines the pathophysiology and signs/symptoms of meningococcal disease."
+                },
+                {
+                    question: "The 'Skills' section emphasizes managing service users across various age ranges within the emergency and urgent care setting for conditions including:",
+                    options: ["Financial counseling", "Airway, respiratory & circulatory management", "Home renovation advice", "Legal consultation"],
+                    correctAnswerIndex: 1,
+                    explanation: "Skills include managing service users within the emergency & urgent care setting, to include: airway, respiratory & circulatory management."
+                },
+                // Environmentally related conditions
+                {
+                    question: "Which of these is NOT listed as an environmentally related condition to be explained in the presentation?",
+                    options: ["Hypothermia", "Heat-related illness", "Frostbite", "Drowning"],
+                    correctAnswerIndex: 2,
+                    explanation: "The objectives are to explain the principles and management of Hypothermia, Heat-related illness, and Drowning. Frostbite is not explicitly listed."
+                },
+                {
+                    question: "Heat-related illness can be separated into how many categories according to the presentation?",
+                    options: ["One", "Two", "Three", "Four"],
+                    correctAnswerIndex: 2,
+                    explanation: "Heat related illness can be separated into 3 categories: Heat stress, Heat exhaustion, and Heat stroke."
+                },
+                {
+                    question: "What temperature range defines Heat exhaustion?",
+                    options: ["Below 35°C", "35°C-37°C", "37°C-40°C", "Above 40°C"],
+                    correctAnswerIndex: 2,
+                    explanation: "Heat exhaustion is characterized by a temperature range of 37°C-40°C."
+                },
+                {
+                    question: "Heat stroke is defined by a core body temperature above what?",
+                    options: ["35°C", "37°C", "38°C", "40°C"],
+                    correctAnswerIndex: 3,
+                    explanation: "Heat stroke is defined as a temperature above 40°C."
+                },
+                {
+                    question: "Non-exertional heat related illness is often related to what type of exposure?",
+                    options: ["Intense physical activity", "Sudden cold exposure", "Prolonged environmental exposure", "High altitude"],
+                    correctAnswerIndex: 2,
+                    explanation: "Non-exertional heat related illness (Prolonged exposure) is environmentally related."
+                },
+                // Respiratory conditions
+                {
+                    question: "Which of the following is NOT a respiratory condition whose pathophysiology, risk factors, signs, and symptoms are described in the presentation?",
+                    options: ["Asthma", "COPD", "Cystic Fibrosis", "Pneumonia"],
+                    correctAnswerIndex: 2,
+                    explanation: "The presentation covers asthma, COPD, pneumonia/chest infections, bronchitis, emphysema, pulmonary embolism, dyspnoea, apnoea, respiratory distress, and hyperventilation. Cystic Fibrosis is not mentioned."
+                },
+                {
+                    question: "Asthma is characterized as what type of disease of the airways of the lungs?",
+                    options: ["Infectious", "Degenerative", "Inflammatory", "Obstructive"],
+                    correctAnswerIndex: 2,
+                    explanation: "Asthma is an inflammatory disease of the airways of the lungs."
+                },
+                {
+                    question: "Approximately how many people in the UK are diagnosed with asthma?",
+                    options: ["2 million", "5.4 million", "8 million", "12 million"],
+                    correctAnswerIndex: 2,
+                    explanation: "8 million people in the UK are diagnosed with asthma."
+                },
+                {
+                    question: "What percentage of the UK population has asthma, according to the presentation?",
+                    options: ["5%", "8%", "10%", "12%"],
+                    correctAnswerIndex: 3,
+                    explanation: "12% of the UK population has asthma."
+                },
+                {
+                    question: "Which of these is a common risk factor for asthma?",
+                    options: ["Daily vigorous exercise", "Family history", "Eating spicy food", "Exposure to direct sunlight"],
+                    correctAnswerIndex: 1,
+                    explanation: "A family history of asthma is a common risk factor. If you have a parent with asthma, you are three to six times more likely to develop asthma."
+                },
+                {
+                    question: "Common signs and symptoms of asthma are usually noticed during what phase?",
+                    options: ["Periods of remission", "During an exacerbation (attack)", "After medication intake", "During sleep only"],
+                    correctAnswerIndex: 1,
+                    explanation: "Signs and symptoms are usually noticed when there is an exacerbation of the condition, so symptoms tend to be that of an asthma attack."
+                },
+                {
+                    question: "What are the common symptoms of an asthma attack?",
+                    options: ["Diarrhea, vomiting, and abdominal pain", "Wheezing, coughing, and chest tightness", "Headache, fever, and rash", "Joint pain, stiffness, and swelling"],
+                    correctAnswerIndex: 1,
+                    explanation: "Common symptoms of an asthma attack include wheezing, coughing, and chest tightness becoming severe and constant."
+                },
+                // Endocrine conditions (5)
+                {
+                    question: "What endocrine condition's pathophysiology and signs/symptoms are outlined in the presentation?",
+                    options: ["Thyroid disorders", "Diabetic emergencies", "Growth hormone deficiency", "Cushing's syndrome"],
+                    correctAnswerIndex: 1,
+                    explanation: "The objectives include outlining the pathophysiology and signs and symptoms of diabetic emergencies."
+                },
+                {
+                    question: "The presentation also outlines the pathophysiology and risk factors of which specific adrenal gland condition?",
+                    options: ["Addison's disease", "Adrenal fatigue", "Conn's syndrome", "Pheochromocytoma"],
+                    correctAnswerIndex: 0,
+                    explanation: "The presentation outlines the pathophysiology and risk factors of Addison's disease."
+                },
+                {
+                    question: "In the context of 'Skills', what type of approach to patient assessment is emphasized?",
+                    options: ["Rapid and generalized", "Subjective and intuitive", "Stepwise and holistic", "Fragmented and isolated"],
+                    correctAnswerIndex: 2,
+                    explanation: "Skills include: 'Follow a stepwise and holistic approach to patient assessment, undertaking a range of physiological measurements using appropriate equipment in a safe and effective manner.'"
+                },
+                {
+                    question: "What is mentioned as a necessity prior to discharging a patient following an organization’s referral pathways?",
+                    options: ["Ordering a full set of new clothes", "Safety netting and completion of relevant documentation", "Providing a detailed travel itinerary", "Arranging a celebratory dinner"],
+                    correctAnswerIndex: 1,
+                    explanation: "The necessity of safety netting prior to discharging following organisation’s referral pathways including completion of relevant documentation is highlighted."
+                },
+                // Abdominal conditions 2022
+                {
+                    question: "What common condition causing abdominal pain, including its characteristics and associated symptoms, is outlined?",
+                    options: ["Migraine", "Gastroenteritis", "Pneumonia", "Arthritis"],
+                    correctAnswerIndex: 1,
+                    explanation: "The objectives include outlining common conditions that cause abdominal pain, such as Gastroenteritis, and their characteristics of pain and associated symptoms."
+                },
+                {
+                    question: "The presentation outlines the common causes, signs, and symptoms of which type of infection?",
+                    options: ["Skin infections", "Urinary tract infections (UTIs)", "Respiratory infections", "Eye infections"],
+                    correctAnswerIndex: 1,
+                    explanation: "The presentation outlines the common causes, signs and symptoms of urinary tract infections (UTIs)."
+                },
+                {
+                    question: "What specific management role related to patients undergoing a certain renal procedure is outlined?",
+                    options: ["Management of patients undergoing renal dialysis", "Management of kidney transplants", "Management of kidney stone removal", "Management of kidney biopsies"],
+                    correctAnswerIndex: 0,
+                    explanation: "The presentation outlines own management of patients undergoing renal dialysis."
+                },
+                {
+                    question: "The 'Skills' section emphasizes undertaking physiological measurements in what manner?",
+                    options: ["Rapidly and without precision", "Sporadically and inconsistently", "Using appropriate equipment in a safe and effective manner", "Verbally, without equipment"],
+                    correctAnswerIndex: 2,
+                    explanation: "Skills include 'undertaking a range of physiological measurements using appropriate equipment in a safe and effective manner.'"
+                },
+                {
+                    question: "What quality is emphasized for service delivery in the 'Behaviour' section?",
+                    options: ["Being unresponsive to individual needs", "Being responsive to individual needs, recognizing good performance", "Focusing solely on personal gain", "Avoiding engagement with new technologies"],
+                    correctAnswerIndex: 1,
+                    explanation: "Behaviours include 'Deliver a first-class service which is responsive to individual needs, recognising and celebrating good performance, striving to maintain a positive, safe, caring and compassionate working environment for all.'"
+                },
+                // General Medical Knowledge (to ensure 50+ questions and complement slide content)
+                {
+                    question: "What is the primary gas exchanged *from the blood into the alveoli* for exhalation?",
+                    options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Methane"],
+                    correctAnswerIndex: 1,
+                    explanation: "During respiration, carbon dioxide moves from the blood into the alveoli to be exhaled, while oxygen moves from the alveoli into the blood."
+                },
+                {
+                    question: "Which chamber of the heart is responsible for pumping deoxygenated blood to the lungs?",
+                    options: ["Left Atrium", "Left Ventricle", "Right Atrium", "Right Ventricle"],
+                    correctAnswerIndex: 3,
+                    explanation: "The Right Ventricle pumps deoxygenated blood into the pulmonary artery, which carries it to the lungs."
+                },
+                {
+                    question: "True or False: Bradycardia is characterized by an abnormally *slow* heart rate.",
+                    options: ["True", "False"],
+                    correctAnswerIndex: 0,
+                    explanation: "True. Bradycardia is defined as a heart rate that is slower than normal, typically below 60 beats per minute in adults."
+                },
+                {
+                    question: "A patient presents with sudden-onset unilateral weakness, facial drooping, and slurred speech. What medical emergency should be immediately suspected?",
+                    options: ["Myocardial Infarction", "Anaphylaxis", "Stroke", "Diabetic Ketoacidosis"],
+                    correctAnswerIndex: 2,
+                    explanation: "These are classic signs and symptoms of a stroke, often remembered by the FAST acronym (Facial drooping, Arm weakness, Speech difficulty, Time to call emergency services)."
+                },
+                {
+                    question: "What is the immediate and life-saving priority in the treatment of severe anaphylaxis?",
+                    options: ["Administering oral antihistamines", "Administering inhaled bronchodilators", "Administering intravenous fluids", "Administering epinephrine"],
+                    correctAnswerIndex: 3,
+                    explanation: "Epinephrine (adrenaline) is the first-line and most critical treatment for severe anaphylaxis, addressing bronchoconstriction and hypotension."
+                },
+                {
+                    question: "Which medication is often administered sublingually (under the tongue) to relieve chest pain associated with angina?",
+                    options: ["Aspirin", "Metformin", "Nitroglycerin", "Ibuprofen"],
+                    correctAnswerIndex: 2,
+                    explanation: "Nitroglycerin is commonly used sublingually to rapidly dilate blood vessels and relieve angina pain."
+                },
+                {
+                    question: "What term describes the deep, rapid, and labored breathing pattern often observed in patients with diabetic ketoacidosis?",
+                    options: ["Cheyne-Stokes respiration", "Kussmaul respirations", "Biot's respiration", "Apnea"],
+                    correctAnswerIndex: 1,
+                    explanation: "Kussmaul respirations are a characteristic deep and labored breathing pattern associated with severe metabolic acidosis, particularly diabetic ketoacidosis (DKA)."
+                },
+                {
+                    question: "What is considered the normal range for an adult's blood pressure (systolic over diastolic)?",
+                    options: ["140/90 mmHg or higher", "Below 90/60 mmHg", "90/60 to 120/80 mmHg", "120/80 to 139/89 mmHg"],
+                    correctAnswerIndex: 2,
+                    explanation: "A normal adult blood pressure is typically considered to be between 90/60 mmHg and 120/80 mmHg."
+                },
+                {
+                    question: "Which hormone is primarily responsible for the 'fight or flight' response?",
+                    options: ["Insulin", "Glucagon", "Adrenaline (Epinephrine)", "Thyroxine"],
+                    correctAnswerIndex: 2,
+                    explanation: "Adrenaline (Epinephrine) is a key hormone in the 'fight or flight' response, preparing the body for action during stress."
+                },
+                {
+                    question: "Damage to the myelin sheath around neurons results in what neurological condition?",
+                    options: ["Parkinson's Disease", "Alzheimer's Disease", "Multiple Sclerosis", "Epilepsy"],
+                    correctAnswerIndex: 2,
+                    explanation: "Multiple Sclerosis (MS) is an autoimmune disease where the body's immune system attacks the myelin sheath, disrupting nerve signal transmission."
+                },
+                {
+                    question: "A patient complaining of 'the worst headache of my life' might be experiencing which condition?",
+                    options: ["Migraine", "Tension Headache", "Cluster Headache", "Subarachnoid Hemorrhage"],
+                    correctAnswerIndex: 3,
+                    explanation: "A 'thunderclap headache' described as the 'worst headache of my life' is a classic warning sign of a subarachnoid hemorrhage, a life-threatening bleeding around the brain."
+                },
+                {
+                    question: "What is the medical term for low blood glucose?",
+                    options: ["Hyperglycemia", "Hypoglycemia", "Glycosuria", "Ketoacidosis"],
+                    correctAnswerIndex: 1,
+                    explanation: "Hypoglycemia refers to abnormally low blood glucose (sugar) levels."
+                },
+                {
+                    question: "Which organ produces bile to aid in fat digestion?",
+                    options: ["Pancreas", "Stomach", "Gallbladder", "Liver"],
+                    correctAnswerIndex: 3,
+                    explanation: "The liver produces bile, which is then stored in the gallbladder and released into the small intestine to help digest fats."
+                },
+                {
+                    question: "What is the key physiological response to a significant drop in core body temperature?",
+                    options: ["Vasodilation", "Sweating", "Shivering", "Increased heart rate"],
+                    correctAnswerIndex: 2,
+                    explanation: "Shivering is an involuntary muscle contraction that generates heat to raise body temperature in response to cold."
+                },
+                {
+                    question: "A sudden, severe chest pain radiating to the left arm and jaw is a classic symptom of what?",
+                    options: ["Heartburn", "Pneumonia", "Angina Pectoris", "Myocardial Infarction"],
+                    correctAnswerIndex: 3,
+                    explanation: "Crushing chest pain that radiates to the left arm, jaw, or back is a classic symptom of a myocardial infarction (heart attack)."
+                },
+                {
+                    question: "Which type of shock is caused by severe allergic reaction?",
+                    options: ["Cardiogenic", "Hypovolemic", "Anaphylactic", "Septic"],
+                    correctAnswerIndex: 2,
+                    explanation: "Anaphylactic shock is a severe and potentially life-threatening allergic reaction."
+                },
+                {
+                    question: "What assessment finding is typical for a patient experiencing a stroke on the right side of the brain?",
+                    options: ["Left-sided weakness", "Right-sided weakness", "Aphasia", "Swallowing difficulties"],
+                    correctAnswerIndex: 0,
+                    explanation: "Due to the brain's contralateral control, a stroke affecting the right side of the brain typically results in weakness or paralysis on the left side of the body."
+                },
+                {
+                    question: "The presence of protein in the urine (proteinuria) is a sign of dysfunction in which organ system?",
+                    options: ["Respiratory", "Cardiovascular", "Renal", "Endocrine"],
+                    correctAnswerIndex: 2,
+                    explanation: "Proteinuria indicates that the kidneys, part of the renal system, are not filtering blood properly, allowing protein to leak into the urine."
+                },
+                {
+                    question: "What is the function of red blood cells?",
+                    options: ["Fighting infection", "Clotting blood", "Transporting oxygen", "Producing antibodies"],
+                    correctAnswerIndex: 2,
+                    explanation: "Red blood cells contain hemoglobin, which is responsible for binding and transporting oxygen from the lungs to the body's tissues."
+                },
+                {
+                    question: "In chronic obstructive pulmonary disease (COPD), which of the following is a common symptom?",
+                    options: ["Sudden chest pain", "Pink, frothy sputum", "Chronic cough with sputum production", "High fever and chills"],
+                    correctAnswerIndex: 2,
+                    explanation: "A chronic cough that produces sputum is a hallmark symptom of COPD."
+                },
+                {
+                    question: "Which part of the brain controls balance and coordination?",
+                    options: ["Cerebrum", "Brainstem", "Cerebellum", "Thalamus"],
+                    correctAnswerIndex: 2,
+                    explanation: "The cerebellum is located at the back of the brain and is crucial for coordinating voluntary movements, balance, and posture."
+                },
+                {
+                    question: "The inability to speak or understand language due to brain damage is known as:",
+                    options: ["Dysphagia", "Ataxia", "Aphasia", "Dyspnea"],
+                    correctAnswerIndex: 2,
+                    explanation: "Aphasia is a language disorder caused by damage to the brain, affecting a person's ability to communicate."
+                },
+                {
+                    question: "What is the primary role of platelets in the body?",
+                    options: ["Oxygen transport", "Immune response", "Blood clotting", "Nutrient absorption"],
+                    correctAnswerIndex: 2,
+                    explanation: "Platelets are small, colorless cell fragments in our blood that form clots to stop or prevent bleeding."
+                },
+                {
+                    question: "Pain described as 'tearing' or 'ripping' in the chest or back could indicate what serious condition?",
+                    options: ["Pneumothorax", "Pericarditis", "Aortic Dissection", "Esophagitis"],
+                    correctAnswerIndex: 2,
+                    explanation: "Aortic dissection, a tear in the inner layer of the aorta, often presents with sudden, severe, tearing or ripping pain in the chest or back."
+                },
+                {
+                    question: "What is a common sign of a urinary tract infection (UTI)?",
+                    options: ["Increased appetite", "Painful urination", "Blurred vision", "Joint stiffness"],
+                    correctAnswerIndex: 1,
+                    explanation: "Painful urination (dysuria) is a very common symptom of a urinary tract infection."
+                },
+                {
+                    question: "Which hormone regulates calcium levels in the blood?",
+                    options: ["Insulin", "Cortisol", "Thyroid hormone", "Parathyroid hormone"],
+                    correctAnswerIndex: 3,
+                    explanation: "Parathyroid hormone (PTH) plays a central role in regulating the body's calcium and phosphate levels."
+                },
+                {
+                    question: "What assessment technique involves listening to body sounds, often with a stethoscope?",
+                    options: ["Palpation", "Percussion", "Auscultation", "Inspection"],
+                    correctAnswerIndex: 2,
+                    explanation: "Auscultation is the medical term for listening to the internal sounds of the body, typically using a stethoscope."
+                },
+                {
+                    question: "The physiological process of maintaining a stable internal environment is called:",
+                    options: ["Metabolism", "Catabolism", "Homeostasis", "Anabolism"],
+                    correctAnswerIndex: 2,
+                    explanation: "Homeostasis is the tendency of the body to seek and maintain a condition of equilibrium or stability within its internal environment when dealing with external changes."
+                },
+                {
+                    question: "What is the medical term for difficulty breathing?",
+                    options: ["Tachypnea", "Bradypnea", "Apnea", "Dyspnea"],
+                    correctAnswerIndex: 3,
+                    explanation: "Dyspnea is the medical term for shortness of breath or difficulty breathing."
+                },
+                {
+                    question: "Which type of diabetes is characterized by the body's immune system attacking insulin-producing cells?",
+                    options: ["Type 1 Diabetes", "Type 2 Diabetes", "Gestational Diabetes", "Insipidous Diabetes"],
+                    correctAnswerIndex: 0,
+                    explanation: "Type 1 diabetes is an autoimmune disease in which the body's immune system attacks and destroys the insulin-producing beta cells in the pancreas."
+                },
+                {
+                    question: "A rigid, board-like abdomen is a classic sign of what abdominal emergency?",
+                    options: ["Appendicitis", "Gastroenteritis", "Peritonitis", "Constipation"],
+                    correctAnswerIndex: 2,
+                    explanation: "A rigid, board-like abdomen is a classic sign of peritonitis, which is inflammation of the peritoneum, usually caused by bacterial infection."
+                },
+                {
+                    question: "What is the main function of the kidneys?",
+                    options: ["Digestion", "Filtering blood and producing urine", "Pumping blood", "Gas exchange"],
+                    correctAnswerIndex: 1,
+                    explanation: "The kidneys are vital organs that filter waste products from the blood and produce urine."
+                },
+                {
+                    question: "Which cranial nerve is primarily responsible for vision?",
+                    options: ["Oculomotor (III)", "Optic (II)", "Trigeminal (V)", "Facial (VII)"],
+                    correctAnswerIndex: 1,
+                    explanation: "The Optic nerve (Cranial Nerve II) transmits visual information from the retina to the brain."
+                },
+                {
+                    question: "A patient with a new onset of confusion, fever, and neck stiffness should be assessed for:",
+                    options: ["Common Cold", "Influenza", "Meningitis", "Allergic Reaction"],
+                    correctAnswerIndex: 2,
+                    explanation: "Confusion, fever, and neck stiffness are hallmark symptoms of meningitis, an inflammation of the membranes surrounding the brain and spinal cord."
+                },
+                {
+                    question: "What does 'NPO' stand for in medical terminology?",
+                    options: ["New Patient Orientation", "Nothing By Mouth", "No Pain Observed", "Nerve Pathway Open"],
+                    correctAnswerIndex: 1,
+                    explanation: "NPO is a medical abbreviation for 'nil per os', meaning 'nothing by mouth'."
+                },
+                {
+                    question: "Which part of the brain is responsible for voluntary movements and higher-level thinking?",
+                    options: ["Cerebellum", "Brainstem", "Cerebrum", "Spinal Cord"],
+                    correctAnswerIndex: 2,
+                    explanation: "The cerebrum is the largest part of the brain and is responsible for functions like voluntary movement, thought, and language."
+                },
+                {
+                    question: "What is the normal body temperature in degrees Celsius?",
+                    options: ["35.0°C", "37.0°C", "39.0°C", "41.0°C"],
+                    correctAnswerIndex: 1,
+                    explanation: "The average normal human body temperature is generally accepted as 37.0°C (98.6°F)."
+                },
+                {
+                    question: "Which electrolyte imbalance is often associated with cardiac arrhythmias?",
+                    options: ["Hypocalcemia", "Hypernatremia", "Hypokalemia", "Hypomagnesemia"],
+                    correctAnswerIndex: 2,
+                    explanation: "Hypokalemia (low potassium levels) is a common electrolyte imbalance that can lead to cardiac arrhythmias."
+                },
+                {
+                    question: "What is the medical term for a collapsed lung?",
+                    options: ["Bronchitis", "Pneumonia", "Pneumothorax", "Asthma"],
+                    correctAnswerIndex: 2,
+                    explanation: "Pneumothorax is the medical term for a collapsed lung, occurring when air leaks into the space between the lung and chest wall."
+                },
+                {
+                    question: "The 'A' in the ABCs of emergency care stands for:",
+                    options: ["Assessment", "Airway", "Alertness", "Activity"],
+                    correctAnswerIndex: 1,
+                    explanation: "In the ABCs of emergency care, 'A' stands for Airway, which is the first priority to ensure the patient can breathe."
+                },
+                {
+                    question: "What is a common sign of dehydration in adults?",
+                    options: ["Increased urination", "Dry mucous membranes", "Bradycardia", "High blood pressure"],
+                    correctAnswerIndex: 1,
+                    explanation: "Dry mucous membranes (e.g., dry mouth) are a common clinical sign of dehydration."
+                },
+                {
+                    question: "Which class of medication is commonly used to lower blood pressure?",
+                    options: ["Antibiotics", "Anticoagulants", "Antihypertensives", "Analgesics"],
+                    correctAnswerIndex: 2,
+                    explanation: "Antihypertensives are a class of drugs used to treat high blood pressure (hypertension)."
+                },
+                {
+                    question: "What is the primary function of the large intestine?",
+                    options: ["Nutrient absorption", "Water absorption and waste elimination", "Digestion of fats", "Protein breakdown"],
+                    correctAnswerIndex: 1,
+                    explanation: "The large intestine's main function is to absorb water from the remaining indigestible food matter and transmit the useless waste material from the body."
+                },
+                {
+                    question: "A sudden drop in blood pressure upon standing is known as:",
+                    options: ["Hypertension", "Orthostatic Hypotension", "Vasovagal Syncope", "Shock"],
+                    correctAnswerIndex: 1,
+                    explanation: "Orthostatic hypotension is a form of low blood pressure that happens when you stand up from sitting or lying down, causing dizziness or lightheadedness."
+                },
+                {
+                    question: "What condition is characterized by painful, swollen joints due to uric acid crystal buildup?",
+                    options: ["Osteoarthritis", "Rheumatoid Arthritis", "Gout", "Fibromyalgia"],
+                    correctAnswerIndex: 2,
+                    explanation: "Gout is a type of arthritis characterized by sudden, severe attacks of pain, swelling, redness, and tenderness in the joints, often the big toe, caused by uric acid crystal accumulation."
+                },
+                {
+                    question: "Which of the following is a common symptom of a myocardial infarction (heart attack)?",
+                    options: ["Sharp, localized leg pain", "Crushing chest pain radiating to the arm/jaw", "Blurred vision", "Sudden headache"],
+                    correctAnswerIndex: 1,
+                    explanation: "Crushing chest pain, often radiating to the arm, jaw, or back, is a classic and severe symptom of a heart attack."
+                },
+                {
+                    question: "What is the normal respiratory rate for a healthy adult at rest?",
+                    options: ["4-8 breaths/min", "12-20 breaths/min", "25-35 breaths/min", "40-50 breaths/min"],
+                    correctAnswerIndex: 1,
+                    explanation: "A normal respiratory rate for a healthy adult at rest is typically between 12 and 20 breaths per minute."
+                },
+                {
+                    question: "The inability of the heart to pump enough blood to meet the body's demands is called:",
+                    options: ["Angina", "Arrhythmia", "Heart Failure", "Hypertension"],
+                    correctAnswerIndex: 2,
+                    explanation: "Heart failure is a chronic, progressive condition in which the heart muscle is unable to pump enough blood to meet the body's needs for blood and oxygen."
+                },
+                {
+                    question: "What is the medical term for inflammation of the liver?",
+                    options: ["Nephritis", "Gastritis", "Hepatitis", "Colitis"],
+                    correctAnswerIndex: 2,
+                    explanation: "Hepatitis is a medical condition defined by the inflammation of the liver tissue."
+                },
+                {
+                    question: "Which white blood cell is primarily involved in allergic reactions and parasitic infections?",
+                    options: ["Neutrophil", "Lymphocyte", "Monocyte", "Eosinophil"],
+                    correctAnswerIndex: 3,
+                    explanation: "Eosinophils are a type of white blood cell that play a significant role in allergic reactions and defense against parasites."
+                },
+                {
+                    question: "What is the main purpose of performing CPR?",
+                    options: ["To restart the heart directly", "To provide oxygen to the brain and vital organs", "To clear a blocked airway", "To assess neurological function"],
+                    correctAnswerIndex: 1,
+                    explanation: "CPR (Cardiopulmonary Resuscitation) aims to circulate oxygenated blood to the brain and other vital organs until professional medical help arrives or the heart and breathing resume."
+                },
+                {
+                    question: "A patient with yellowing of the skin and eyes (jaundice) likely has an issue with which organ?",
+                    options: ["Kidneys", "Lungs", "Liver", "Spleen"],
+                    correctAnswerIndex: 2,
+                    explanation: "Jaundice, characterized by yellowing of the skin and eyes, is typically a sign of an underlying liver or gallbladder problem."
+                },
+                {
+                    question: "Which medical device is used to measure blood oxygen saturation?",
+                    options: ["Sphygmomanometer", "Thermometer", "Pulse Oximeter", "Glucometer"],
+                    correctAnswerIndex: 2,
+                    explanation: "A pulse oximeter is a non-invasive device used to measure the oxygen saturation level of your blood (SpO2)."
+                },
+                {
+                    question: "What is the immediate management for a severe external bleeding injury?",
+                    options: ["Applying a cold compress", "Elevating the limb only", "Applying direct pressure", "Tourniquet application as a first resort"],
+                    correctAnswerIndex: 2,
+                    explanation: "Direct pressure applied to the wound is the most immediate and effective way to control severe external bleeding."
+                },
+                {
+                    question: "The condition where bones become brittle and fragile from loss of tissue, typically due to hormonal changes, or deficiency of calcium or vitamin D, is called:",
+                    options: ["Osteoarthritis", "Osteoporosis", "Rickets", "Gout"],
+                    correctAnswerIndex: 1,
+                    explanation: "Osteoporosis is a disease that weakens bones, making them more likely to break. It often develops as people age, particularly in women after menopause."
+                },
+                {
+                    question: "What is the normal range for a healthy adult's pulse (heart rate) at rest?",
+                    options: ["20-40 bpm", "60-100 bpm", "110-140 bpm", "150-180 bpm"],
+                    correctAnswerIndex: 1,
+                    explanation: "For most healthy adults, a normal resting heart rate is between 60 and 100 beats per minute (bpm)."
                 }
-
             ];
             // --- END OF QUESTIONS ARRAY ---
 
@@ -630,6 +928,7 @@
                 timeLeft = 30; // Reset timer for new question
                 timerDisplay.textContent = timeLeft;
                 feedbackMessage.textContent = ''; // Clear previous feedback
+                explanationDiv.style.display = 'none'; // Hide explanation
 
                 const currentQuestion = questions[currentQuestionIndex];
                 questionNumberSpan.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
@@ -637,23 +936,24 @@
 
                 // Clear previous answer buttons and add new ones
                 answerButtonsContainer.innerHTML = '';
-                // Randomize button positions
+                // Randomize button positions (Fisher-Yates shuffle)
                 const shuffledOptions = [...currentQuestion.options]; // Create a copy
+                const originalIndices = Array.from({length: shuffledOptions.length}, (_, i) => i); // Array of original indices
                 for (let i = shuffledOptions.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
-                    [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]]; // Swap
+                    [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]]; // Swap options
+                    [originalIndices[i], originalIndices[j]] = [originalIndices[j], originalIndices[i]]; // Swap their original indices
                 }
 
-                shuffledOptions.forEach((option) => {
+                shuffledOptions.forEach((option, index) => {
                     const button = document.createElement('button');
                     button.classList.add('btn', 'answer-btn');
                     button.textContent = option;
-                    // Store the original index (for correctness check) not the shuffled one
-                    button.dataset.answerIndex = currentQuestion.options.indexOf(option);
+                    // Store the original index of this option for correctness check
+                    button.dataset.originalAnswerIndex = originalIndices[index];
                     button.addEventListener('click', handleAnswerClick);
                     answerButtonsContainer.appendChild(button);
                 });
-
 
                 startTimer();
             }
@@ -667,7 +967,9 @@
                         if (!questionAnswered) { // If time runs out and no answer was selected
                             revealCorrectAnswer(questions[currentQuestionIndex].correctAnswerIndex, null); // Highlight correct answer
                             feedbackMessage.textContent = "Time's up!";
-                            setTimeout(nextQuestion, 2000); // Wait 2 seconds before moving on
+                            explanationDiv.textContent = questions[currentQuestionIndex].explanation;
+                            explanationDiv.style.display = 'block';
+                            setTimeout(nextQuestion, 4000); // Wait longer to read explanation
                         }
                     }
                 }, 1000);
@@ -679,32 +981,36 @@
                 clearInterval(timer); // Stop the timer
 
                 const selectedButton = event.target;
-                const selectedAnswerIndex = parseInt(selectedButton.dataset.answerIndex);
+                const selectedAnswerOriginalIndex = parseInt(selectedButton.dataset.originalAnswerIndex);
                 const currentQuestion = questions[currentQuestionIndex];
 
-                revealCorrectAnswer(currentQuestion.correctAnswerIndex, selectedAnswerIndex);
+                revealCorrectAnswer(currentQuestion.correctAnswerIndex, selectedAnswerOriginalIndex);
 
-                if (selectedAnswerIndex === currentQuestion.correctAnswerIndex) {
+                if (selectedAnswerOriginalIndex === currentQuestion.correctAnswerIndex) {
                     score++;
                     feedbackMessage.textContent = "Correct!";
                 } else {
                     feedbackMessage.textContent = "Incorrect!";
                 }
 
+                // Display the explanation
+                explanationDiv.textContent = currentQuestion.explanation;
+                explanationDiv.style.display = 'block';
+
                 // Disable all buttons after an answer is selected
                 const buttons = answerButtonsContainer.querySelectorAll('.answer-btn');
                 buttons.forEach(button => {
                     button.removeEventListener('click', handleAnswerClick);
+                    button.disabled = true; // Disable buttons
                 });
 
-                setTimeout(nextQuestion, 2000); // Wait 2 seconds before moving to the next question
+                setTimeout(nextQuestion, 4000); // Wait 4 seconds to read feedback and explanation
             }
 
             function revealCorrectAnswer(correctIndex, selectedIndex) {
                 const buttons = answerButtonsContainer.querySelectorAll('.answer-btn');
                 buttons.forEach((button) => {
-                    // Re-parse dataset index because it refers to the original index in the options array
-                    const buttonOriginalIndex = parseInt(button.dataset.answerIndex);
+                    const buttonOriginalIndex = parseInt(button.dataset.originalAnswerIndex);
 
                     if (buttonOriginalIndex === correctIndex) {
                         button.classList.add('correct');
