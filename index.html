@@ -156,7 +156,7 @@
     <div class="quiz-container">
         <div id="quiz-start-screen" class="screen">
             <h1>Medical Conditions Quiz</h1>
-            <button id="start-quiz-btn" class="btn">Start Quiz</button>
+            <button id="start-quiz-btn">Start Quiz</button>
         </div>
 
         <div id="quiz-game-screen" class="screen hidden">
@@ -178,7 +178,7 @@
         <div id="quiz-end-screen" class="screen hidden">
             <h2>Quiz Complete!</h2>
             <p>You scored: <span id="final-score">0</span> out of <span id="total-questions">0</span></p>
-            <button id="restart-quiz-btn" class="btn">Play Again</button>
+            <button id="restart-quiz-btn">Play Again</button>
         </div>
     </div>
 
@@ -970,9 +970,9 @@
                     questionNumberSpan.textContent = `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
                     questionText.textContent = currentQuestion.question;
 
-                    const answerButtons = answerButtonsContainer.querySelectorAll('.answer-btn');
-                    answerButtons.forEach((button, index) => {
-                        button.textContent = currentQuestion.options[index];
+                    currentQuestion.options.forEach((option, index) => {
+                        const button = answerButtonsContainer.children[index];
+                        button.textContent = option;
                         button.onclick = () => selectAnswer(index);
                     });
                     startTimer();
@@ -982,68 +982,67 @@
             }
 
             function resetButtons() {
-                const answerButtons = answerButtonsContainer.querySelectorAll('.answer-btn');
-                answerButtons.forEach(button => {
+                Array.from(answerButtonsContainer.children).forEach(button => {
                     button.classList.remove('correct', 'incorrect');
                     button.disabled = false;
                 });
             }
 
             function selectAnswer(selectedIndex) {
-                if (questionAnswered) return;
+                if (questionAnswered) return; // Prevent multiple answers
                 questionAnswered = true;
-                clearInterval(timer);
+                clearInterval(timer); // Stop the timer
 
                 const currentQuestion = questions[currentQuestionIndex];
-                const answerButtons = answerButtonsContainer.querySelectorAll('.answer-btn');
-                const correctButton = answerButtons[currentQuestion.correctAnswerIndex];
-                const selectedButton = answerButtons[selectedIndex];
+                const correctButton = answerButtonsContainer.children[currentQuestion.correctAnswerIndex];
+                const selectedButton = answerButtonsContainer.children[selectedIndex];
 
-                answerButtons.forEach(button => {
-                    button.disabled = true;
+                Array.from(answerButtonsContainer.children).forEach(button => {
+                    button.disabled = true; // Disable all buttons after an answer is selected
                 });
 
                 if (selectedIndex === currentQuestion.correctAnswerIndex) {
                     score++;
                     selectedButton.classList.add('correct');
                     feedbackMessage.textContent = "Correct!";
-                    feedbackMessage.style.color = '#8BC34A';
+                    feedbackMessage.style.color = '#8BC34A'; // Green for correct
                 } else {
                     selectedButton.classList.add('incorrect');
-                    correctButton.classList.add('correct');
+                    correctButton.classList.add('correct'); // Show the correct answer
                     feedbackMessage.textContent = "Incorrect!";
-                    feedbackMessage.style.color = '#EF5350';
+                    feedbackMessage.style.color = '#EF5350'; // Red for incorrect
                 }
 
                 explanationDiv.textContent = `Explanation: ${currentQuestion.explanation}`;
-                explanationDiv.style.display = 'block';
+                explanationDiv.style.display = 'block'; // Show explanation
 
                 setTimeout(() => {
                     currentQuestionIndex++;
                     loadQuestion();
-                }, 5000);
+                }, 5000); // Wait 5 seconds before loading next question
             }
 
             function startTimer() {
                 timeLeft = 30;
                 timerDisplay.textContent = timeLeft;
-                timerDisplay.style.backgroundColor = '#FF9800';
+                timerDisplay.style.backgroundColor = '#FF9800'; // Orange
                 timer = setInterval(() => {
                     timeLeft--;
                     timerDisplay.textContent = timeLeft;
                     if (timeLeft <= 10) {
-                        timerDisplay.style.backgroundColor = '#F44336';
+                        timerDisplay.style.backgroundColor = '#F44336'; // Red when low
                     }
                     if (timeLeft <= 0) {
                         clearInterval(timer);
                         feedbackMessage.textContent = "Time's up!";
                         feedbackMessage.style.color = '#F44336';
                         Array.from(answerButtonsContainer.children).forEach(button => {
-                            button.disabled = true;
+                            button.disabled = true; // Disable all buttons if time runs out
                         });
+                        // Show correct answer if time runs out without an answer
                         if (!questionAnswered) {
                             const currentQuestion = questions[currentQuestionIndex];
-                            const correctButton = answerButtonsContainer.querySelectorAll('.answer-btn')[currentQuestion.correctAnswerIndex];
+                            const correctButton = answerButtonsContainer.children[currentQuestion.correctAnswerIndex];
                             correctButton.classList.add('correct');
                             explanationDiv.textContent = `Explanation: ${currentQuestion.explanation}`;
                             explanationDiv.style.display = 'block';
@@ -1063,7 +1062,6 @@
                 totalQuestionsSpan.textContent = totalQuestions;
             }
 
-            // Corrected: Ensure the event listener is attached to the start quiz button
             startQuizBtn.addEventListener('click', startQuiz);
             restartQuizBtn.addEventListener('click', startQuiz);
         });
