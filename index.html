@@ -25,6 +25,7 @@
             text-align: center;
             width: 90%;
             max-width: 700px;
+            position: relative; /* For positioning navigation buttons */
         }
 
         .screen {
@@ -93,8 +94,8 @@
         }
 
         /* Specific colors for Kahoot-like answer buttons */
-        .answer-btn:nth-child(1) { background-color: #Ffa500; color: white; } /* Orange */
-        .answer-btn:nth-child(2) { background-color: #C5B4E3; color: white; } /* Purple */
+        .answer-btn:nth-child(1) { background-color: #F44336; color: white; } /* Red */
+        .answer-btn:nth-child(2) { background-color: #4CAF50; color: white; } /* Green */
         .answer-btn:nth-child(3) { background-color: #2196F3; color: white; } /* Blue */
         .answer-btn:nth-child(4) { background-color: #FFEB3B; color: #333; } /* Yellow */
 
@@ -135,6 +136,18 @@
             color: #FFEB3B;
         }
 
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .navigation-buttons button {
+            flex: 1;
+            margin: 0 5px;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 600px) {
             .answer-grid {
@@ -155,8 +168,8 @@
 <body>
     <div class="quiz-container">
         <div id="quiz-start-screen" class="screen">
-            <h1>Medical Conditions Quiz</h1><br /> <h3>Good Luck ;)</h3>
-            <button id="start-quiz-btn">Start Quiz</button>
+            <h1>Medical Conditions Quiz</h1>
+            <button id="start-quiz-btn" class="btn">Start Quiz</button>
         </div>
 
         <div id="quiz-game-screen" class="screen hidden">
@@ -182,7 +195,7 @@
         <div id="quiz-end-screen" class="screen hidden">
             <h2>Quiz Complete!</h2>
             <p>You scored: <span id="final-score">0</span> out of <span id="total-questions">0</span></p>
-            <button id="restart-quiz-btn">Play Again</button>
+            <button id="restart-quiz-btn" class="btn">Play Again</button>
         </div>
     </div>
 
@@ -207,756 +220,692 @@
             const finalScoreSpan = document.getElementById('final-score');
             const totalQuestionsSpan = document.getElementById('total-questions');
 
-            let questions = [];
+            let questions = []; // This will hold the shuffled questions
             let currentQuestionIndex = 0;
             let score = 0;
             let timer;
             let timeLeft = 30; // seconds per question
             let questionAnswered = false; // Flag to prevent multiple answers per question
-            const answeredQuestions = new Map();
+            const answeredQuestions = new Map(); // To store answers and whether they were correct {index: {selected: 1, correct: true}}
 
-           // --- YOUR 50+ QUESTIONS GO HERE ---
-            // Follow this exact format.
-            // Make sure 'correctAnswerIndex' matches the 0-based index of the correct answer in the 'options' array.
+            // --- ALL YOUR QUESTIONS GO HERE ---
             const allQuestions = [
                 // Anaphylaxis, Sepsis & Poisonings
                 {
-                    question: "According to the Resuscitation Council UK 2008 definition, what is anaphylaxis?",
+                    question: "What is anaphylaxis, according to the Resuscitation Council UK 2008 definition?",
                     options: ["A mild allergic reaction", "A severe, life-threatening, generalized or systemic hypersensitivity reaction", "A localized skin rash", "An infection of the bloodstream"],
                     correctAnswerIndex: 1,
                     explanation: "Anaphylaxis is defined as a severe, life-threatening, generalized or systemic hypersensitivity reaction."
                 },
                 {
-                    question: "Which of the following is NOT listed as a common risk factor or allergen for anaphylaxis in the presentation?",
-                    options: ["Peanuts", "Shellfish", "Dust mites", "Bee/Wasp stings"],
+                    question: "Which of the following is NOT a common allergen known to cause anaphylaxis?",
+                    options: ["Peanuts", "Shellfish", "Hay fever pollen", "Bee/Wasp stings"],
                     correctAnswerIndex: 2,
-                    explanation: "Common risk factors/allergens mentioned include peanuts, tree nuts, shellfish, milk, eggs, bee/wasp stings, and certain medications like penicillin. Dust mites are not specifically listed as a common anaphylaxis allergen in this presentation."
+                    explanation: "Common allergens for anaphylaxis include peanuts, tree nuts, shellfish, milk, eggs, bee/wasp stings, and certain medications. Hay fever pollen typically causes localized allergic reactions, not anaphylaxis."
                 },
                 {
-                    question: "Upon second exposure to an antigen during anaphylaxis, what process leads to a mass release of histamine?",
-                    options: ["Antibody production", "Degranulation of mast cells", "B cell activation", "Th2 cell proliferation"],
+                    question: "What immunological process leads to a mass release of histamine upon second exposure to an antigen during anaphylaxis?",
+                    options: ["Antibody production by B cells", "Degranulation of mast cells", "T cell proliferation", "Phagocytosis by macrophages"],
                     correctAnswerIndex: 1,
-                    explanation: "Upon second exposure, the antigen binds to IgE on mast cells, causing degranulation and a mass release of histamine."
+                    explanation: "Upon second exposure, the antigen binds to IgE antibodies on mast cells, causing them to degranulate and release large amounts of histamine and other mediators."
                 },
                 {
-                    question: "Which cardiovascular symptom is a 'red flag' for anaphylaxis?",
-                    options: ["Hypertension", "Bradycardia", "Normal heart rate", "Hypotension"],
+                    question: "Which cardiovascular symptom is a 'red flag' indicating severe anaphylaxis?",
+                    options: ["High blood pressure", "Slow heart rate", "Normal heart rate", "Low blood pressure"],
                     correctAnswerIndex: 3,
-                    explanation: "Hypotension (low blood pressure) is a red flag symptom indicating a severe systemic reaction in anaphylaxis."
+                    explanation: "Hypotension (low blood pressure) is a critical 'red flag' symptom in anaphylaxis, indicating a severe systemic circulatory collapse."
                 },
                 {
-                    question: "What is the recommended route of administration for Adrenaline (Epinephrine) in the immediate management of anaphylaxis, according to the JRCALC guidelines shown?",
+                    question: "What is the recommended route of administration for Adrenaline (Epinephrine) in the immediate management of anaphylaxis?",
                     options: ["Intravenous (IV)", "Subcutaneous (SC)", "Oral", "Intramuscular (IM)"],
                     correctAnswerIndex: 3,
-                    explanation: "The recommended route of administration for Adrenaline (Epinephrine) in anaphylaxis is Intramuscular (IM)."
+                    explanation: "Intramuscular (IM) injection of adrenaline is the recommended first-line treatment for anaphylaxis due to its rapid absorption and systemic effects."
                 },
                 {
-                    question: "After administering IM adrenaline for anaphylaxis, if there is no response, when should it be repeated?",
+                    question: "If there is no response after the initial IM adrenaline dose for anaphylaxis, when should it be repeated?",
                     options: ["After 1 minute", "After 2 minutes", "After 5 minutes", "After 10 minutes"],
                     correctAnswerIndex: 2,
-                    explanation: "If there is no response, IM adrenaline should be repeated after 5 minutes."
+                    explanation: "Repeat doses of IM adrenaline can be given every 5 minutes if there is no clinical improvement or if symptoms worsen."
                 },
                 {
-                    question: "What effect does increased levels of adrenaline have on smooth muscle in the airways during anaphylaxis?",
-                    options: ["Contraction", "No effect", "Relaxation", "Spasm"],
+                    question: "What effect does adrenaline (epinephrine) have on the smooth muscle in the airways during an anaphylactic reaction?",
+                    options: ["Contraction, worsening breathing", "No significant effect", "Relaxation, improving breathing", "Spasm, leading to airway closure"],
                     correctAnswerIndex: 2,
-                    explanation: "Adrenaline causes relaxation of smooth muscle in the airways (bronchodilation)."
+                    explanation: "Adrenaline causes bronchodilation (relaxation of smooth muscle in the airways), which helps to relieve respiratory distress in anaphylaxis."
                 },
                 {
-                    question: "Septicaemia is sometimes known as:",
-                    options: ["Anaphylaxis", "Sepsis shock", "Blood poisoning", "Inflammation"],
+                    question: "What is the common term for Septicaemia?",
+                    options: ["Anaphylactic shock", "Toxic shock syndrome", "Blood poisoning", "Systemic inflammatory response syndrome"],
                     correctAnswerIndex: 2,
-                    explanation: "Septicaemia is sometimes known as blood poisoning."
+                    explanation: "Septicaemia is commonly known as blood poisoning, referring to bacteria in the bloodstream."
                 },
                 {
-                    question: "What is the core definition of sepsis?",
-                    options: ["A bacterial infection", "A viral infection", "A life-threatening reaction to an infection where the immune system damages its own tissues and organs", "A localized inflammatory response"],
+                    question: "Which statement best defines sepsis?",
+                    options: ["A localized skin infection", "A viral infection of the respiratory tract", "A life-threatening organ dysfunction caused by a dysregulated host response to infection", "A mild allergic reaction to medication"],
                     correctAnswerIndex: 2,
-                    explanation: "Sepsis is a life-threatening reaction to an infection where the immune system damages its own tissues and organs."
+                    explanation: "Sepsis is defined as a life-threatening organ dysfunction caused by a dysregulated host response to infection."
                 },
                 {
-                    question: "In sepsis, what happens to the body's inflammatory response compared to a typical infection?",
-                    options: ["It is localized to the infection site", "It is suppressed throughout the body", "It occurs everywhere, involving the entire body", "It only affects the immune cells"],
+                    question: "In sepsis, how does the body's inflammatory response differ from a typical infection?",
+                    options: ["It is limited to the site of infection", "It is suppressed throughout the body", "It becomes widespread and damages the body's own tissues and organs", "It primarily affects only the immune cells"],
                     correctAnswerIndex: 2,
-                    explanation: "In sepsis, the inflammatory response occurs everywhere, involving the entire body."
+                    explanation: "In sepsis, the body's immune response to an infection becomes dysregulated, leading to a widespread inflammatory response that damages the body's own tissues and organs."
                 },
                 {
-                    question: "A NEWS2 score of greater than 5, or greater than 3 in any one category, coupled with a history of infection, should prompt consideration for what?",
-                    options: ["Anaphylaxis screening", "Sepsis screening", "Poisoning assessment", "Cardiac arrest protocol"],
+                    question: "A NEWS2 score greater than 5, or greater than 3 in any one category, coupled with a history of infection, should immediately raise suspicion for what condition?",
+                    options: ["Anaphylaxis", "Myocardial Infarction", "Sepsis", "Stroke"],
+                    correctAnswerIndex: 2,
+                    explanation: "A high NEWS2 score in a patient with a suspected infection is a key indicator for urgent sepsis screening and management."
+                },
+                {
+                    question: "Which of the following is an immediate intervention included in the 'Sepsis Six' care bundle?",
+                    options: ["Administering oral corticosteroids", "Taking blood cultures", "Applying a tourniquet", "Performing a lumbar puncture"],
                     correctAnswerIndex: 1,
-                    explanation: "A NEWS2 score of greater than 5, or greater than 3 in any one category, coupled with a history of infection, should prompt consideration for sepsis screening."
+                    explanation: "Taking blood cultures is a crucial part of the 'Sepsis Six' to identify the causative organism and guide antibiotic therapy."
                 },
                 {
-                    question: "Which of the following is *not* one of the 'Sepsis Six' interventions mentioned in the care bundle?",
-                    options: ["Give high-flow oxygen", "Take blood cultures", "Administer oral antibiotics", "Measure lactate"],
-                    correctAnswerIndex: 2,
-                    explanation: "The 'Sepsis Six' interventions include: Give oxygen, Take blood cultures, Give IV antibiotics, Give IV fluids, Measure lactate, Measure urine output. Administering oral antibiotics is not part of the immediate Sepsis Six."
-                },
-                {
-                    question: "For a hypotensive sepsis patient, what is the recommended initial fluid administration strategy?",
+                    question: "For a hypotensive sepsis patient, what is the recommended initial intravenous fluid bolus strategy?",
                     options: ["50ml boluses (max 500ml)", "250ml boluses (max 2000ml)", "500ml boluses (no max)", "100ml boluses (max 1000ml)"],
                     correctAnswerIndex: 1,
-                    explanation: "For a hypotensive sepsis patient, the initial fluid administration strategy is 250ml boluses up to a maximum of 2000ml."
+                    explanation: "Initial fluid resuscitation in hypotensive sepsis typically involves administering 250ml boluses up to a total of 2000ml, titrated to response."
                 },
                 {
-                    question: "Should paracetamol be routinely administered to reduce pyrexia (fever) in patients with sepsis?",
-                    options: ["Yes, always", "Only if the patient requests it", "No, unless to relieve pain or discomfort as a result of fever", "Only if the patient cannot take oral medication"],
+                    question: "In patients with sepsis, what is the general recommendation regarding the routine administration of paracetamol for fever reduction?",
+                    options: ["It should always be given", "It should be given only if the patient requests it", "It is not routinely recommended unless for pain or discomfort associated with fever", "It should only be given intravenously"],
                     correctAnswerIndex: 2,
-                    explanation: "Paracetamol should not be routinely administered to reduce pyrexia in sepsis unless it is to relieve pain or discomfort as a result of fever."
+                    explanation: "Routine use of paracetamol for fever in sepsis is not generally recommended unless the fever is causing significant discomfort or pain, as it does not improve outcomes."
                 },
                 {
-                    question: "Which type of poisoning involves a substance being introduced into the body via injection?",
-                    options: ["Ingested", "Inhaled", "Absorbed", "Injected"],
+                    question: "What route of poisoning involves a substance being introduced into the body via injection?",
+                    options: ["Ingestion", "Inhalation", "Absorption", "Injection"],
                     correctAnswerIndex: 3,
-                    explanation: "The presentation categorizes poisoning by route of entry, including injected."
+                    explanation: "Injection is a direct route of poisoning where a substance is introduced into the body through a needle or other sharp object."
                 },
                 {
-                    question: "What effect do opioids have on the central nervous system?",
-                    options: ["Stimulate it", "Have no effect", "Depress it", "Only affect the peripheral nervous system"],
+                    question: "What is the primary effect of opioids on the central nervous system?",
+                    options: ["Stimulation", "No effect", "Depression", "Selective sensory blockade"],
                     correctAnswerIndex: 2,
-                    explanation: "Opioids are central nervous system (CNS) depressants."
+                    explanation: "Opioids are central nervous system depressants, leading to reduced consciousness, respiratory depression, and pain relief."
                 },
                 {
                     question: "Which of these is a classic sign of an opioid overdose?",
-                    options: ["Dilated pupils", "Fast breathing", "Tiny pupils", "Warm, dry skin"],
+                    options: ["Dilated pupils", "Rapid, shallow breathing", "Pinpoint pupils", "Warm, dry skin"],
                     correctAnswerIndex: 2,
-                    explanation: "Classic signs of an opioid overdose include tiny (pinpoint) pupils, slow/shallow breathing, and drowsiness/unconsciousness."
+                    explanation: "Pinpoint pupils (miosis) are a classic sign of opioid overdose, along with respiratory depression and altered mental status."
                 },
                 {
-                    question: "What is the immediate antidote that quickly reverses the effects of opioids?",
-                    options: ["Insulin", "Adrenaline", "Naloxone", "Chlorphenamine"],
+                    question: "What is the immediate antidote used to reverse the effects of opioid overdose?",
+                    options: ["Insulin", "Adrenaline", "Naloxone", "Activated charcoal"],
                     correctAnswerIndex: 2,
-                    explanation: "Naloxone is the immediate antidote for opioid overdose, quickly reversing its effects."
+                    explanation: "Naloxone is an opioid antagonist that rapidly reverses the effects of opioid overdose by blocking opioid receptors."
                 },
                 {
-                    question: "What does 'Toxidrome' refer to?",
-                    options: ["A type of toxic chemical", "A collection of signs and symptoms associated with a particular class of toxins", "A method of decontamination", "A specific type of poisoning treatment"],
+                    question: "What does the medical term 'Toxidrome' refer to?",
+                    options: ["A specific type of poisonous substance", "A collection of signs and symptoms associated with a particular class of toxins", "A method for detoxifying the body", "A diagnostic test for poisoning"],
                     correctAnswerIndex: 1,
-                    explanation: "A Toxidrome is a collection of signs and symptoms associated with a particular class of toxins."
+                    explanation: "A Toxidrome is a clinical syndrome characterized by a specific constellation of signs and symptoms that suggest exposure to a particular class of toxic substances."
                 },
                 {
-                    question: "In the management of a poisoned patient, what does the 'D' in the 'DEAD' acronym stand for?",
+                    question: "In the 'DEAD' acronym for poisoning management, what does 'D' stand for?",
                     options: ["Diagnosis", "Dehydration", "Decontamination", "Dialysis"],
                     correctAnswerIndex: 2,
-                    explanation: "The 'DEAD' acronym in poisoning management refers to Decontamination, Enhanced Elimination, Antidotes, and Disposition."
+                    explanation: "The 'DEAD' acronym in poisoning management stands for Decontamination, Enhanced Elimination, Antidotes, and Disposition."
                 },
                 {
-                    question: "When assessing a poisoned patient, what factors should be considered according to the presentation?",
-                    options: ["Only the type of drug", "Drug, dose, time since ingestion, clinical features, and patient factors", "Only vital signs", "Only the patient's age"],
+                    question: "When assessing a poisoned patient, which of the following factors is crucial to consider?",
+                    options: ["Only the patient's age", "The type of drug, dose, time since ingestion, and clinical features", "Only the patient's diet", "Only environmental factors"],
                     correctAnswerIndex: 1,
-                    explanation: "When assessing a poisoned patient, factors to consider include the drug, dose, time since ingestion, clinical features, and patient factors."
+                    explanation: "A comprehensive assessment of a poisoned patient includes evaluating the specific drug involved, the estimated dose, the time of ingestion, the patient's clinical presentation, and individual patient factors."
                 },
                 // Cardiac Conditions & Assessment
                 {
-                    question: "What is one of the most common causes of death worldwide, primarily discussed in relation to cardiovascular conditions?",
+                    question: "What is one of the leading causes of death worldwide, often a precursor to many cardiovascular conditions?",
                     options: ["Hypertension", "Coronary Artery Disease", "Arrhythmia", "Heart Failure"],
                     correctAnswerIndex: 1,
-                    explanation: "Coronary Artery Disease is presented as one of the most common causes of death worldwide and a primary cause of many cardiovascular conditions covered."
+                    explanation: "Coronary Artery Disease (CAD) is a major global health burden and a primary underlying cause of many cardiac emergencies like myocardial infarction."
                 },
                 {
-                    question: "Which of the following conditions is NOT explicitly listed as an objective to understand in the Cardiac Conditions presentation?",
-                    options: ["Angina", "Heart Failure", "Pericarditis", "Aortic Dissection"],
-                    correctAnswerIndex: 2,
-                    explanation: "The objectives include understanding angina, ACS, heart failure, aortic dissection, and sickle cell anaemia. Pericarditis is not explicitly listed as an objective."
-                },
-                {
-                    question: "What specific skill related to patient assessment is emphasized for managing service users with medical conditions?",
-                    options: ["Performing advanced surgical procedures", "Following a stepwise and holistic approach, undertaking physiological measurements", "Prescribing medications independently", "Conducting complex laboratory tests"],
-                    correctAnswerIndex: 1,
-                    explanation: "Skills include 'Follow a stepwise and holistic approach to patient assessment, undertaking a range of physiological measurements using appropriate equipment in a safe and effective manner.'"
-                },
-                {
-                    question: "Which chamber of the heart is responsible for pumping deoxygenated blood to the lungs?",
-                    options: ["Left Atrium", "Left Ventricle", "Right Atrium", "Right Ventricle"],
+                    question: "Which chamber of the heart pumps oxygenated blood to the rest of the body?",
+                    options: ["Right Atrium", "Right Ventricle", "Left Atrium", "Left Ventricle"],
                     correctAnswerIndex: 3,
-                    explanation: "The Right Ventricle pumps deoxygenated blood into the pulmonary artery, which carries it to the lungs."
+                    explanation: "The Left Ventricle is the strongest chamber of the heart and is responsible for pumping oxygenated blood into the aorta and to the systemic circulation."
                 },
                 {
-                    question: "True or False: Bradycardia is characterized by an abnormally *slow* heart rate.",
+                    question: "True or False: Tachycardia is characterized by an abnormally *fast* heart rate.",
                     options: ["True", "False"],
                     correctAnswerIndex: 0,
-                    explanation: "True. Bradycardia is defined as a heart rate that is slower than normal, typically below 60 beats per minute in adults."
+                    explanation: "True. Tachycardia is defined as a heart rate that is faster than normal, typically above 100 beats per minute in adults."
                 },
                 {
-                    question: "Which medication is often administered sublingually (under the tongue) to relieve chest pain associated with angina?",
-                    options: ["Aspirin", "Metformin", "Nitroglycerin", "Ibuprofen"],
+                    question: "Which medication is commonly administered sublingually (under the tongue) to alleviate chest pain caused by angina?",
+                    options: ["Aspirin", "Metoprolol", "Nitroglycerin", "Ibuprofen"],
                     correctAnswerIndex: 2,
-                    explanation: "Nitroglycerin is commonly used sublingually to rapidly dilate blood vessels and relieve angina pain."
+                    explanation: "Nitroglycerin (glyceryl trinitrate) is a potent vasodilator used sublingually to rapidly relieve angina by increasing blood flow to the heart."
                 },
                 {
-                    question: "A sudden, severe chest pain radiating to the left arm and jaw is a classic symptom of what?",
+                    question: "Sudden, severe, crushing chest pain radiating to the left arm, neck, or jaw, often accompanied by sweating and nausea, is a classic symptom of what acute cardiac event?",
                     options: ["Heartburn", "Pneumonia", "Angina Pectoris", "Myocardial Infarction"],
                     correctAnswerIndex: 3,
-                    explanation: "Crushing chest pain that radiates to the left arm, jaw, or back is a classic symptom of a myocardial infarction (heart attack)."
+                    explanation: "These are classic symptoms of a Myocardial Infarction (heart attack), caused by a blockage of blood flow to the heart muscle."
                 },
                 {
-                    question: "Which electrolyte imbalance is often associated with cardiac arrhythmias?",
-                    options: ["Hypocalcemia", "Hypernatremia", "Hypokalemia", "Hypomagnesemia"],
+                    question: "Which electrolyte imbalance is well-known to predispose individuals to cardiac arrhythmias?",
+                    options: ["Hypocalcemia", "Hypernatremia", "Hypokalemia", "Hypermagnesemia"],
                     correctAnswerIndex: 2,
-                    explanation: "Hypokalemia (low potassium levels) is a common electrolyte imbalance that can lead to cardiac arrhythmias."
+                    explanation: "Hypokalemia (low potassium levels) can significantly affect cardiac electrical activity and lead to various arrhythmias."
                 },
                 {
-                    question: "Pain described as 'tearing' or 'ripping' in the chest or back could indicate what serious condition?",
-                    options: ["Pneumothorax", "Pericarditis", "Aortic Dissection", "Esophagitis"],
+                    question: "Pain described as 'tearing' or 'ripping' in the chest or back, often acute and severe, should raise immediate suspicion for which life-threatening vascular condition?",
+                    options: ["Pneumothorax", "Pericarditis", "Aortic Dissection", "Esophageal rupture"],
                     correctAnswerIndex: 2,
-                    explanation: "Aortic dissection, a tear in the inner layer of the aorta, often presents with sudden, severe, tearing or ripping pain in the chest or back."
+                    explanation: "Aortic dissection, a tear in the inner layer of the aorta, classically presents with sudden, severe, tearing or ripping pain."
                 },
                 {
-                    question: "The inability of the heart to pump enough blood to meet the body's demands is called:",
+                    question: "What condition results from the heart's inability to pump enough blood to meet the body's metabolic demands?",
                     options: ["Angina", "Arrhythmia", "Heart Failure", "Hypertension"],
                     correctAnswerIndex: 2,
-                    explanation: "Heart failure is a chronic, progressive condition in which the heart muscle is unable to pump enough blood to meet the body's needs for blood and oxygen."
+                    explanation: "Heart failure is a chronic condition where the heart muscle is weakened and cannot pump sufficient blood to supply the body's needs."
                 },
                 {
-                    question: "Which class of medication is commonly used to lower blood pressure?",
+                    question: "Which class of medication is commonly prescribed to reduce high blood pressure?",
                     options: ["Antibiotics", "Anticoagulants", "Antihypertensives", "Analgesics"],
                     correctAnswerIndex: 2,
-                    explanation: "Antihypertensives are a class of drugs used to treat high blood pressure (hypertension)."
+                    explanation: "Antihypertensives are medications specifically designed to lower blood pressure."
                 },
                 {
-                    question: "A sudden drop in blood pressure upon standing is known as:",
-                    options: ["Hypertension", "Orthostatic Hypotension", "Vasovagal Syncope", "Shock"],
+                    question: "What is the medical term for a sudden drop in blood pressure that occurs when a person stands up, often causing dizziness?",
+                    options: ["Hypertension", "Orthostatic Hypotension", "Vasovagal Syncope", "Cardiogenic Shock"],
                     correctAnswerIndex: 1,
-                    explanation: "Orthostatic hypotension is a form of low blood pressure that happens when you stand up from sitting or lying down, causing dizziness or lightheadedness."
+                    explanation: "Orthostatic hypotension is a common condition where blood pressure drops significantly upon standing, leading to symptoms like lightheadedness or dizziness."
                 },
                 {
-                    question: "What is the main purpose of performing CPR?",
-                    options: ["To restart the heart directly", "To provide oxygen to the brain and vital organs", "To clear a blocked airway", "To assess neurological function"],
+                    question: "What is the primary goal of Cardiopulmonary Resuscitation (CPR)?",
+                    options: ["To directly restart the heart", "To provide artificial circulation and ventilation to maintain organ perfusion", "To clear a foreign body airway obstruction", "To assess the patient's neurological status"],
                     correctAnswerIndex: 1,
-                    explanation: "CPR (Cardiopulmonary Resuscitation) aims to circulate oxygenated blood to the brain and other vital organs until professional medical help arrives or the heart and breathing resume."
+                    explanation: "CPR aims to maintain blood flow and oxygen delivery to vital organs, especially the brain and heart, until definitive treatment can be provided."
                 },
                 {
-                    question: "What is a common symptom of a myocardial infarction (heart attack)?",
-                    options: ["Sharp, localized leg pain", "Crushing chest pain radiating to the arm/jaw", "Blurred vision", "Sudden headache"],
-                    correctAnswerIndex: 1,
-                    explanation: "Crushing chest pain, often radiating to the arm, jaw, or back, is a classic and severe symptom of a heart attack."
-                },
-                {
-                    question: "What is a major risk factor for coronary artery disease?",
-                    options: ["Regular exercise", "Healthy diet", "High blood pressure", "Low stress levels"],
+                    question: "What is a major modifiable risk factor for the development of coronary artery disease and other cardiovascular diseases?",
+                    options: ["Regular exercise", "A balanced diet", "Smoking", "Low stress levels"],
                     correctAnswerIndex: 2,
-                    explanation: "High blood pressure (hypertension) is a significant risk factor for the development of coronary artery disease, as it damages arterial walls over time."
+                    explanation: "Smoking is a highly significant and modifiable risk factor that greatly increases the risk of coronary artery disease and other cardiovascular conditions."
                 },
                 {
-                    question: "Which term describes chest pain that occurs when the heart muscle doesn't get enough blood, usually during exertion, and is relieved by rest or medication?",
+                    question: "Chest pain that typically occurs during physical exertion or emotional stress and is relieved by rest or nitroglycerin is characteristic of what condition?",
                     options: ["Myocardial Infarction", "Pericarditis", "Angina Pectoris", "Pleurisy"],
                     correctAnswerIndex: 2,
-                    explanation: "Angina pectoris is chest pain or discomfort caused by reduced blood flow to the heart muscle. It's often triggered by physical activity or emotional stress."
+                    explanation: "Angina pectoris is chest pain or discomfort that occurs when the heart muscle doesn't get enough oxygen-rich blood, often triggered by exertion and relieved by rest."
                 },
                 {
-                    question: "What is the primary intervention for a patient experiencing an acute coronary syndrome (ACS)?",
-                    options: ["Administering oral antibiotics", "Rest and observation only", "Immediate medical evaluation and management, often including aspirin and nitrates", "Applying a warm compress to the chest"],
+                    question: "Sickle cell anaemia can lead to cardiovascular complications because the abnormally shaped red blood cells can cause what?",
+                    options: ["Increased oxygen carrying capacity", "Reduced blood viscosity", "Blockages in small blood vessels", "Enhanced immune response"],
                     correctAnswerIndex: 2,
-                    explanation: "Acute coronary syndrome (ACS) is a medical emergency requiring immediate medical attention. Management typically includes medications like aspirin, nitrates, and potentially revascularization procedures."
+                    explanation: "The sickle shape of red blood cells in sickle cell anaemia can cause them to clump together and block small blood vessels, leading to various complications, including cardiovascular issues."
                 },
                 {
-                    question: "Sickle cell anaemia can lead to cardiovascular complications due to what characteristic of red blood cells?",
-                    options: ["Their increased oxygen-carrying capacity", "Their ability to clot easily", "Their crescent (sickle) shape causing blockages", "Their short lifespan"],
-                    correctAnswerIndex: 2,
-                    explanation: "In sickle cell anaemia, red blood cells are abnormally shaped (like a sickle or crescent) and can get stuck in small blood vessels, blocking blood flow and leading to complications including cardiovascular issues."
-                },
-                {
-                    question: "What is an important part of assessing a patient with a suspected cardiovascular condition, as mentioned in the slides?",
-                    options: ["Only physical examination", "Detailed history taking, including family and social history", "Ignoring current medications", "Asking only about pain severity"],
-                    correctAnswerIndex: 1,
-                    explanation: "The presentation emphasizes comprehensive history taking, including signs and symptoms, family history, social history, and current medications, as crucial for cardiac assessment."
-                },
-                {
-                    question: "Which diagnostic tool is essential for assessing the electrical activity of the heart?",
+                    question: "Which diagnostic tool measures the electrical activity of the heart and can detect arrhythmias or signs of myocardial ischemia?",
                     options: ["X-ray", "Ultrasound", "Electrocardiogram (ECG)", "Blood glucose monitor"],
                     correctAnswerIndex: 2,
-                    explanation: "An Electrocardiogram (ECG or EKG) is a medical test that records the electrical activity of the heart over a period of time."
+                    explanation: "An Electrocardiogram (ECG) records the electrical signals of the heart and is essential for diagnosing a wide range of cardiac conditions."
                 },
-                // Shock AAP
+                // Shock
                 {
-                    question: "Shock is defined as a life-threatening condition where the body is not getting enough of what?",
-                    options: ["Glucose", "Blood flow", "Air", "Warmth"],
+                    question: "What is the fundamental physiological problem in all types of shock?",
+                    options: ["Too much fluid in the body", "Insufficient blood flow to meet the body's demands", "Excessive oxygen delivery to tissues", "Localized inflammation"],
                     correctAnswerIndex: 1,
-                    explanation: "Shock is a life-threatening condition that occurs when the body is not getting enough blood flow."
+                    explanation: "Shock is fundamentally a state of inadequate tissue perfusion, meaning the body's cells and organs are not receiving enough oxygen and nutrients."
                 },
                 {
-                    question: "According to the presentation, what can be damaged as a result of insufficient blood flow during shock?",
-                    options: ["Only the brain", "Only the heart", "Many organs", "Only muscles"],
+                    question: "Which of the following is a common cause of Hypovolemic shock?",
+                    options: ["Severe heart attack", "Spinal cord injury", "Massive hemorrhage", "Severe allergic reaction"],
                     correctAnswerIndex: 2,
-                    explanation: "Lack of blood flow means the cells and organs do not get enough oxygen and nutrients to function properly. Many organs can be damaged as a result."
+                    explanation: "Hypovolemic shock is caused by a significant loss of circulating blood volume, with massive hemorrhage being a prime example."
                 },
                 {
-                    question: "Which of the following is listed as a common cause of Hypovolaemic shock?",
-                    options: ["Heart attack", "Severe allergic reaction", "Excessive or prolonged diarrhea", "Spinal cord injury"],
+                    question: "What type of shock results from the heart's inability to pump enough blood effectively?",
+                    options: ["Hypovolemic shock", "Distributive shock", "Cardiogenic shock", "Obstructive shock"],
                     correctAnswerIndex: 2,
-                    explanation: "Causes of Hypovolaemic shock listed include excessive or prolonged diarrhea, severe burns, protracted/excessive vomiting, excessive sweating, and bleeding."
+                    explanation: "Cardiogenic shock occurs when the heart's pumping ability is severely impaired, leading to insufficient blood flow to the body."
                 },
                 {
-                    question: "Hypovolemic shock primarily relates to a problem with which component of the circulatory system?",
-                    options: ["The pump (heart)", "The tubes (vessels)", "The liquid (blood)", "The electrical impulses"],
+                    question: "Which general management principle applies to most types of shock?",
+                    options: ["Restricting oxygen administration", "Promoting fluid restriction", "Maintaining airway, breathing, and circulation (ABC) and addressing the underlying cause", "Applying cold compresses to the extremities"],
                     correctAnswerIndex: 2,
-                    explanation: "Shock always involves either the pump (heart), the tubes (vessels), or the liquid (blood). Hypovolemic shock specifically relates to issues with the liquid (blood) volume."
+                    explanation: "The fundamental management of shock involves supporting the ABCs (Airway, Breathing, Circulation) and identifying and treating the specific underlying cause."
                 },
                 {
-                    question: "What is mentioned as a general management principle for Dissociative shock?",
-                    options: ["Administering large fluid boluses", "Oxygen and consulting Toxbase", "Immediate surgery", "Only pain management"],
-                    correctAnswerIndex: 1,
-                    explanation: "Management for Dissociative shock includes oxygen and consulting Toxbase for guidance."
+                    question: "What is a common sign or symptom of early shock?",
+                    options: ["Warm, flushed skin", "Bradycardia (slow heart rate)", "Tachycardia (fast heart rate)", "High blood pressure"],
+                    correctAnswerIndex: 2,
+                    explanation: "Tachycardia (an increased heart rate) is an early compensatory mechanism in shock as the body tries to maintain cardiac output."
                 },
                 // Neuro Conditions
                 {
-                    question: "Which of these conditions is NOT an objective to outline pathophysiology for in the Nervous Conditions presentation?",
-                    options: ["Headaches", "Epilepsy", "Multiple Sclerosis", "Stroke"],
-                    correctAnswerIndex: 2,
-                    explanation: "The objectives include headaches, epilepsy, convulsions, stroke, meningococcal disease, and cauda equina syndrome. Multiple Sclerosis is not listed."
-                },
-                {
-                    question: "What term is defined as part of the objectives in the Nervous Conditions presentation?",
-                    options: ["Paralysis", "Epilepsy", "Dementia", "Coma"],
-                    correctAnswerIndex: 1,
-                    explanation: "One of the objectives is to 'Define the term: Epilepsy'."
-                },
-                {
-                    question: "The presentation outlines the pathophysiology, risk factors, and signs/symptoms of what neurological emergency?",
-                    options: ["Migraine", "Vertigo", "Stroke", "Bell's Palsy"],
-                    correctAnswerIndex: 2,
-                    explanation: "The presentation outlines the pathophysiology, risk factors, and signs and symptoms of stroke."
-                },
-                {
-                    question: "What neurological condition's pathophysiology and signs/symptoms are outlined in relation to an altered level of consciousness?",
-                    options: ["Alzheimer's disease", "Cauda equina syndrome (CES)", "Parkinson's disease", "Meningococcal disease"],
-                    correctAnswerIndex: 3,
-                    explanation: "The presentation covers altered levels of consciousness and also outlines the pathophysiology and signs/symptoms of meningococcal disease."
-                },
-                {
-                    question: "The 'Skills' section emphasizes managing service users across various age ranges within the emergency and urgent care setting for conditions including:",
-                    options: ["Financial counseling", "Airway, respiratory & circulatory management", "Home renovation advice", "Legal consultation"],
-                    correctAnswerIndex: 1,
-                    explanation: "Skills include managing service users within the emergency & urgent care setting, to include: airway, respiratory & circulatory management."
-                },
-                {
-                    question: "A patient presents with sudden-onset unilateral weakness, facial drooping, and slurred speech. What medical emergency should be immediately suspected?",
+                    question: "A patient presenting with sudden-onset facial drooping, arm weakness, and slurred speech should immediately be assessed for which medical emergency?",
                     options: ["Myocardial Infarction", "Anaphylaxis", "Stroke", "Diabetic Ketoacidosis"],
                     correctAnswerIndex: 2,
-                    explanation: "These are classic signs and symptoms of a stroke, often remembered by the FAST acronym (Facial drooping, Arm weakness, Speech difficulty, Time to call emergency services)."
+                    explanation: "These are classic signs of a stroke, often remembered by the FAST acronym (Face drooping, Arm weakness, Speech difficulty, Time to call emergency services)."
                 },
                 {
-                    question: "Damage to the myelin sheath around neurons results in what neurological condition?",
+                    question: "Damage to the myelin sheath, which insulates nerve fibers in the brain and spinal cord, is characteristic of what neurological condition?",
                     options: ["Parkinson's Disease", "Alzheimer's Disease", "Multiple Sclerosis", "Epilepsy"],
                     correctAnswerIndex: 2,
-                    explanation: "Multiple Sclerosis (MS) is an autoimmune disease where the body's immune system attacks the myelin sheath, disrupting nerve signal transmission."
+                    explanation: "Multiple Sclerosis (MS) is an autoimmune disease characterized by demyelination, the damage to the myelin sheath, which impairs nerve signal transmission."
                 },
                 {
-                    question: "A patient complaining of 'the worst headache of my life' might be experiencing which condition?",
+                    question: "A sudden, severe headache described as 'the worst headache of my life' is a red flag symptom for which serious condition?",
                     options: ["Migraine", "Tension Headache", "Cluster Headache", "Subarachnoid Hemorrhage"],
                     correctAnswerIndex: 3,
-                    explanation: "A 'thunderclap headache' described as the 'worst headache of my life' is a classic warning sign of a subarachnoid hemorrhage, a life-threatening bleeding around the brain."
+                    explanation: "A 'thunderclap headache' or 'worst headache of my life' is a classic symptom of a subarachnoid hemorrhage, a life-threatening bleeding around the brain."
                 },
                 {
-                    question: "Which part of the brain controls balance and coordination?",
+                    question: "Which part of the brain is primarily responsible for coordinating voluntary movements, balance, and posture?",
                     options: ["Cerebrum", "Brainstem", "Cerebellum", "Thalamus"],
                     correctAnswerIndex: 2,
-                    explanation: "The cerebellum is located at the back of the brain and is crucial for coordinating voluntary movements, balance, and posture."
+                    explanation: "The cerebellum plays a critical role in motor control, balance, and coordination."
                 },
                 {
-                    question: "The inability to speak or understand language due to brain damage is known as:",
+                    question: "The medical term for the inability to speak or understand language due to brain damage is:",
                     options: ["Dysphagia", "Ataxia", "Aphasia", "Dyspnea"],
                     correctAnswerIndex: 2,
-                    explanation: "Aphasia is a language disorder caused by damage to the brain, affecting a person's ability to communicate."
+                    explanation: "Aphasia is a disorder that affects a person's ability to communicate, often resulting from stroke or other brain injuries."
                 },
                 {
-                    question: "What is a common sign of Cauda Equina Syndrome (CES)?",
+                    question: "What is a characteristic symptom of Cauda Equina Syndrome (CES)?",
                     options: ["Unilateral facial droop", "Sudden severe headache", "Saddle anesthesia", "Pinpoint pupils"],
                     correctAnswerIndex: 2,
-                    explanation: "Saddle anesthesia (numbness in the groin, buttocks, and inner thighs) is a classic symptom of Cauda Equina Syndrome, a serious neurological condition."
+                    explanation: "Saddle anesthesia (numbness in the perineum, buttocks, and inner thighs) is a key symptom of Cauda Equina Syndrome, a serious compression of spinal nerves."
                 },
                 {
-                    question: "Which type of headache is often described as a throbbing pain, usually on one side of the head, and may be accompanied by sensitivity to light and sound?",
+                    question: "Which type of headache typically presents as a throbbing pain, often on one side of the head, and can be accompanied by nausea and sensitivity to light/sound?",
                     options: ["Tension headache", "Cluster headache", "Migraine", "Sinus headache"],
                     correctAnswerIndex: 2,
-                    explanation: "Migraines are typically characterized by a throbbing pain on one side of the head, often accompanied by nausea and sensitivity to light and sound."
+                    explanation: "Migraines are characterized by moderate to severe throbbing pain, often unilateral, and frequently associated with aura, nausea, and phonophobia/photophobia."
                 },
                 {
-                    question: "What is the medical term for a sudden, uncontrolled electrical disturbance in the brain?",
+                    question: "What is the medical term for a sudden, uncontrolled electrical disturbance in the brain that can cause changes in consciousness, movement, or behavior?",
                     options: ["Syncope", "Vertigo", "Seizure", "Tremor"],
                     correctAnswerIndex: 2,
-                    explanation: "A seizure is a sudden, uncontrolled electrical disturbance in the brain that can cause changes in your behavior, movements or feelings, and levels of consciousness."
+                    explanation: "A seizure is an episode of uncontrolled electrical activity in the brain, leading to a temporary change in movement, behavior, or consciousness."
                 },
                 {
-                    question: "What is an important safety measure for a patient experiencing a convulsion?",
-                    options: ["Restrain their movements", "Place a spoon in their mouth", "Protect their head and clear the area of hazards", "Pour water over them"],
+                    question: "During a convulsion (seizure), what is the most important immediate safety measure?",
+                    options: ["Restrain the person's movements", "Place an object in their mouth to prevent biting their tongue", "Protect their head and clear the surrounding area of hazards", "Pour water over them to cool them down"],
                     correctAnswerIndex: 2,
-                    explanation: "During a convulsion, the priority is to protect the patient from injury. This includes protecting their head and moving any dangerous objects away from them."
+                    explanation: "The primary safety measure during a seizure is to protect the person from injury by cushioning their head and removing any nearby dangerous objects."
                 },
                 {
-                    question: "Meningococcal disease is a serious infection that affects the protective membranes surrounding the brain and spinal cord, known as the:",
-                    options: ["Cerebellum", "Meninges", "Ventricles", "Dura mater only"],
+                    question: "Meningococcal disease is a serious bacterial infection that can affect the protective membranes surrounding the brain and spinal cord. What are these membranes called?",
+                    options: ["Cerebrum", "Meninges", "Ventricles", "Pia mater"],
                     correctAnswerIndex: 1,
-                    explanation: "Meningococcal disease is an infection of the meninges, the membranes that cover the brain and spinal cord."
+                    explanation: "Meningococcal disease causes inflammation of the meninges, the membranes that enclose the brain and spinal cord, leading to meningitis."
                 },
                 {
-                    question: "A key symptom of meningococcal disease, especially in children, can be a non-blanching rash. What does 'non-blanching' mean?",
-                    options: ["The rash turns white when pressed", "The rash disappears when pressed", "The rash remains red/purple when pressed", "The rash is only visible in certain light"],
+                    question: "A key symptom of meningococcal disease, particularly in children, is a non-blanching rash. What does 'non-blanching' mean in this context?",
+                    options: ["The rash turns white when pressed", "The rash disappears when pressed", "The rash remains red/purple when pressed", "The rash is only visible under specific lighting"],
                     correctAnswerIndex: 2,
-                    explanation: "A non-blanching rash (or purpuric rash) means the rash does not fade or turn white when a glass is pressed firmly against it, indicating bleeding under the skin."
+                    explanation: "A non-blanching rash (purpuric or petechial) does not fade or blanch when pressure is applied, indicating bleeding under the skin and is a serious sign of meningococcal septicaemia."
                 },
                 {
-                    question: "Which of these is a common cause of altered levels of consciousness?",
-                    options: ["Mild sunburn", "Hypoglycemia", "Common cold", "Seasonal allergies"],
+                    question: "Which of these is a common and often rapidly reversible cause of an altered level of consciousness?",
+                    options: ["Severe headache", "Hypoglycemia", "Common cold", "Allergic rhinitis"],
                     correctAnswerIndex: 1,
-                    explanation: "Hypoglycemia (low blood sugar) is a well-known cause of altered mental status and decreased consciousness."
+                    explanation: "Hypoglycemia (low blood sugar) is a frequent and treatable cause of altered mental status and can rapidly improve with glucose administration."
                 },
                 {
-                    question: "The Glasgow Coma Scale (GCS) is a tool used to assess a patient's:",
+                    question: "The Glasgow Coma Scale (GCS) is a widely used clinical tool to assess what aspect of a patient's condition?",
                     options: ["Pain level", "Blood pressure", "Level of consciousness", "Respiratory rate"],
                     correctAnswerIndex: 2,
-                    explanation: "The Glasgow Coma Scale (GCS) is a neurological scale that aims to give a reliable and objective way of recording the conscious state of a person."
+                    explanation: "The GCS assesses a person's level of consciousness based on eye opening, verbal response, and motor response."
                 },
                 // Environmentally related conditions
                 {
-                    question: "Which of these is NOT listed as an environmentally related condition to be explained in the presentation?",
-                    options: ["Hypothermia", "Heat-related illness", "Frostbite", "Drowning"],
-                    correctAnswerIndex: 2,
-                    explanation: "The objectives are to explain the principles and management of Hypothermia, Heat-related illness, and Drowning. Frostbite is not explicitly listed."
-                },
-                {
-                    question: "Heat-related illness can be separated into how many categories according to the presentation?",
-                    options: ["One", "Two", "Three", "Four"],
-                    correctAnswerIndex: 2,
-                    explanation: "Heat related illness can be separated into 3 categories: Heat stress, Heat exhaustion, and Heat stroke."
-                },
-                {
-                    question: "What temperature range defines Heat exhaustion?",
+                    question: "What temperature range defines Heat Exhaustion?",
                     options: ["Below 35°C", "35°C-37°C", "37°C-40°C", "Above 40°C"],
                     correctAnswerIndex: 2,
-                    explanation: "Heat exhaustion is characterized by a temperature range of 37°C-40°C."
+                    explanation: "Heat exhaustion is a milder form of heat-related illness, characterized by a core body temperature between 37°C and 40°C."
                 },
                 {
-                    question: "Heat stroke is defined by a core body temperature above what?",
+                    question: "Heat stroke, a life-threatening emergency, is defined by a core body temperature above what threshold?",
                     options: ["35°C", "37°C", "38°C", "40°C"],
                     correctAnswerIndex: 3,
-                    explanation: "Heat stroke is defined as a temperature above 40°C."
+                    explanation: "Heat stroke is a severe form of hyperthermia defined by a core body temperature of 40°C or higher, accompanied by central nervous system dysfunction."
                 },
                 {
-                    question: "Non-exertional heat related illness is often related to what type of exposure?",
-                    options: ["Intense physical activity", "Sudden cold exposure", "Prolonged environmental exposure", "High altitude"],
+                    question: "Non-exertional heat-related illness is typically associated with what kind of exposure?",
+                    options: ["Intense physical activity in heat", "Sudden exposure to extreme cold", "Prolonged environmental exposure to high temperatures", "High altitude climbing"],
                     correctAnswerIndex: 2,
-                    explanation: "Non-exertional heat related illness (Prolonged exposure) is environmentally related."
+                    explanation: "Non-exertional heat-related illness, also known as classic heat stroke, often affects vulnerable individuals during prolonged exposure to hot environments, such as during heatwaves."
+                },
+                {
+                    question: "What is the primary danger associated with prolonged immersion in cold water or exposure to cold temperatures leading to hypothermia?",
+                    options: ["Dehydration", "Organ dysfunction due to decreased metabolic rate and arrhythmias", "Increased blood pressure", "Hyperactivity and agitation"],
+                    correctAnswerIndex: 1,
+                    explanation: "Hypothermia causes a dangerous drop in core body temperature, leading to a slowing of metabolic processes, cardiac arrhythmias, and potential organ failure if not treated promptly."
+                },
+                {
+                    question: "What is a crucial first step in the management of a drowning victim after safe extrication from water?",
+                    options: ["Starting chest compressions immediately", "Providing 5 rescue breaths", "Checking for a pulse for 30 seconds", "Warming them rapidly with hot water"],
+                    correctAnswerIndex: 1,
+                    explanation: "For drowning victims, the initial intervention after ensuring scene safety is to provide 5 rescue breaths before starting chest compressions, as hypoxia is the primary issue."
                 },
                 // Respiratory conditions
                 {
-                    question: "Which of the following is NOT a respiratory condition whose pathophysiology, risk factors, signs, and symptoms are described in the presentation?",
-                    options: ["Asthma", "COPD", "Cystic Fibrosis", "Pneumonia"],
-                    correctAnswerIndex: 2,
-                    explanation: "The presentation covers asthma, COPD, pneumonia/chest infections, bronchitis, emphysema, pulmonary embolism, dyspnoea, apnoea, respiratory distress, and hyperventilation. Cystic Fibrosis is not mentioned."
-                },
-                {
-                    question: "Asthma is characterized as what type of disease of the airways of the lungs?",
+                    question: "Asthma is characterized as what type of chronic disease affecting the airways of the lungs?",
                     options: ["Infectious", "Degenerative", "Inflammatory", "Obstructive"],
                     correctAnswerIndex: 2,
-                    explanation: "Asthma is an inflammatory disease of the airways of the lungs."
+                    explanation: "Asthma is a chronic inflammatory disease of the airways that causes reversible airflow obstruction and bronchial hyperresponsiveness."
                 },
                 {
-                    question: "Which of these is a common risk factor for asthma?",
-                    options: ["Daily vigorous exercise", "Family history", "Eating spicy food", "Exposure to direct sunlight"],
+                    question: "Which of these is a significant risk factor for developing asthma?",
+                    options: ["Daily vigorous exercise", "Family history of asthma or allergies", "Eating spicy food regularly", "Exposure to direct sunlight"],
                     correctAnswerIndex: 1,
-                    explanation: "A family history of asthma is a common risk factor. If you have a parent with asthma, you are three to six times more likely to develop asthma."
+                    explanation: "A strong family history of asthma or other atopic conditions (allergies, eczema) significantly increases an individual's risk of developing asthma."
                 },
                 {
-                    question: "Common signs and symptoms of asthma are usually noticed during what phase?",
-                    options: ["Periods of remission", "During an exacerbation (attack)", "After medication intake", "During sleep only"],
-                    correctAnswerIndex: 1,
-                    explanation: "Signs and symptoms are usually noticed when there is an exacerbation of the condition, so symptoms tend to be that of an asthma attack."
-                },
-                {
-                    question: "What are the common symptoms of an asthma attack?",
+                    question: "What are the three common symptoms of an acute asthma attack?",
                     options: ["Diarrhea, vomiting, and abdominal pain", "Wheezing, coughing, and chest tightness", "Headache, fever, and rash", "Joint pain, stiffness, and swelling"],
                     correctAnswerIndex: 1,
-                    explanation: "Common symptoms of an asthma attack include wheezing, coughing, and chest tightness becoming severe and constant."
+                    explanation: "The classic symptoms of an asthma attack include wheezing (a high-pitched whistling sound during breathing), persistent coughing, and a sensation of chest tightness."
                 },
                 {
-                    question: "What is the medical term for difficulty breathing?",
+                    question: "What is the medical term for difficulty breathing or shortness of breath?",
                     options: ["Apnea", "Bradypnea", "Dyspnea", "Tachypnea"],
                     correctAnswerIndex: 2,
-                    explanation: "Dyspnea is the medical term for shortness of breath or difficulty breathing."
+                    explanation: "Dyspnea is the subjective sensation of shortness of breath or difficulty breathing."
                 },
                 {
-                    question: "Chronic Obstructive Pulmonary Disease (COPD) is a progressive lung disease that includes which two main conditions?",
-                    options: ["Asthma and Pneumonia", "Bronchitis and Emphysema", "Cystic Fibrosis and Tuberculosis", "Pleurisy and Pneumothorax"],
+                    question: "Chronic Obstructive Pulmonary Disease (COPD) is an umbrella term that primarily includes which two lung conditions?",
+                    options: ["Asthma and Pneumonia", "Chronic Bronchitis and Emphysema", "Cystic Fibrosis and Tuberculosis", "Pleurisy and Pneumothorax"],
                     correctAnswerIndex: 1,
-                    explanation: "COPD is an umbrella term that includes chronic bronchitis and emphysema."
+                    explanation: "COPD is a progressive lung disease encompassing both chronic bronchitis (inflammation of the bronchial tubes) and emphysema (damage to the alveoli)."
                 },
                 {
-                    question: "What is a common risk factor for developing COPD?",
-                    options: ["Regular consumption of fruits and vegetables", "Active or passive smoking", "Daily meditation", "Living in a rural area"],
+                    question: "What is the most significant preventable risk factor for developing COPD?",
+                    options: ["Regular exercise", "Active or passive smoking", "Eating a high-fiber diet", "Living in a rural environment"],
                     correctAnswerIndex: 1,
-                    explanation: "Smoking, both active and passive, is the leading cause of COPD."
+                    explanation: "Smoking, both active and passive, is by far the leading cause of COPD globally."
                 },
                 {
-                    question: "What is the medical term for a collapsed lung?",
+                    question: "What is the medical term for a collapsed lung, where air leaks into the space between the lung and chest wall?",
                     options: ["Bronchitis", "Pneumonia", "Pneumothorax", "Pleurisy"],
                     correctAnswerIndex: 2,
-                    explanation: "A pneumothorax refers to a collapsed lung due to air leaking into the space between the lung and chest wall."
+                    explanation: "A pneumothorax occurs when air enters the pleural space, causing the lung to collapse."
                 },
                 {
-                    question: "Pneumonia is an infection that inflames what part of the lungs?",
-                    options: ["Bronchi", "Trachea", "Alveoli", "Diaphragm"],
+                    question: "Pneumonia is an infection that primarily inflames which part of the lungs?",
+                    options: ["Bronchi", "Trachea", "Alveoli (air sacs)", "Diaphragm"],
                     correctAnswerIndex: 2,
-                    explanation: "Pneumonia is an infection that inflames the air sacs (alveoli) in one or both lungs."
+                    explanation: "Pneumonia is an infection that inflames the air sacs (alveoli) in one or both lungs, which may fill with fluid or pus."
                 },
                 {
-                    question: "A pulmonary embolism (PE) is a blockage in one of the pulmonary arteries in your lungs, often caused by what?",
-                    options: ["Airway spasm", "Blood clot", "Bacterial infection", "Allergic reaction"],
+                    question: "A pulmonary embolism (PE) is a sudden blockage in a lung artery, most commonly caused by what?",
+                    options: ["An airway spasm", "A blood clot (thrombus) that travels from elsewhere in the body", "A bacterial infection in the lungs", "An allergic reaction in the airways"],
                     correctAnswerIndex: 1,
-                    explanation: "A pulmonary embolism is most often caused by blood clots that travel to the lungs from the legs or, rarely, other parts of the body."
+                    explanation: "Pulmonary embolisms are most frequently caused by deep vein thromboses (DVT) – blood clots that form in the legs and then travel to the lungs."
                 },
                 {
-                    question: "What is the definition of Apnoea?",
-                    options: ["Rapid breathing", "Shallow breathing", "Temporary cessation of breathing", "Painful breathing"],
+                    question: "What is the definition of Apnea?",
+                    options: ["Rapid and deep breathing", "Shallow and painful breathing", "Temporary cessation of breathing", "Increased respiratory rate"],
                     correctAnswerIndex: 2,
-                    explanation: "Apnoea is the temporary cessation of breathing, especially during sleep."
+                    explanation: "Apnea refers to a temporary pause in breathing, which can occur during sleep (sleep apnea) or due to other medical conditions."
                 },
                 {
                     question: "Hyperventilation is characterized by breathing that is:",
-                    options: ["Too slow and shallow", "Too fast and deep", "Normal and steady", "Absent"],
+                    options: ["Too slow and shallow", "Too fast and deep, often leading to a decrease in CO2", "Normal and steady", "Absent or irregular"],
                     correctAnswerIndex: 1,
-                    explanation: "Hyperventilation is rapid and deep breathing, often causing a decrease in carbon dioxide levels in the blood."
+                    explanation: "Hyperventilation involves breathing excessively fast and/or deeply, which can lead to a reduction in blood carbon dioxide levels (hypocapnia)."
                 },
                 {
-                    question: "What assessment finding is a 'red flag' in a patient with a respiratory condition?",
-                    options: ["Normal skin color", "SpO2 of 98%", "Accessory muscle use for breathing", "Calm and relaxed demeanor"],
+                    question: "What assessment finding in a patient with a respiratory condition is considered a 'red flag' indicating significant respiratory distress?",
+                    options: ["Normal skin color", "Oxygen saturation (SpO2) of 98%", "Use of accessory muscles for breathing (e.g., neck and shoulder muscles)", "Calm and relaxed demeanor"],
                     correctAnswerIndex: 2,
-                    explanation: "The use of accessory muscles (neck and shoulder muscles) to breathe indicates increased work of breathing and significant respiratory distress."
+                    explanation: "The use of accessory muscles of respiration indicates that the patient is working hard to breathe and is in significant respiratory distress."
                 },
                 {
-                    question: "In the management of respiratory conditions, what is often a primary intervention to improve oxygenation?",
-                    options: ["Administering oral pain relief", "Providing supplemental oxygen", "Encouraging strenuous exercise", "Applying a cold compress to the chest"],
+                    question: "In the immediate management of acute respiratory distress, what is a primary intervention to improve oxygenation?",
+                    options: ["Administering oral antibiotics", "Providing supplemental oxygen", "Encouraging strenuous physical activity", "Applying ice packs to the chest"],
                     correctAnswerIndex: 1,
-                    explanation: "Providing supplemental oxygen is a fundamental intervention to improve oxygenation in patients with respiratory distress or hypoxia."
+                    explanation: "Providing supplemental oxygen is a critical first step to improve oxygenation and alleviate hypoxia in patients experiencing respiratory distress."
                 },
-                // Endocrine conditions (5)
+                // Endocrine conditions
                 {
-                    question: "What endocrine condition's pathophysiology and signs/symptoms are outlined in the presentation?",
-                    options: ["Thyroid disorders", "Diabetic emergencies", "Growth hormone deficiency", "Cushing's syndrome"],
-                    correctAnswerIndex: 1,
-                    explanation: "The objectives include outlining the pathophysiology and signs and symptoms of diabetic emergencies."
-                },
-                {
-                    question: "The presentation also outlines the pathophysiology and risk factors of which specific adrenal gland condition?",
-                    options: ["Addison's disease", "Adrenal fatigue", "Conn's syndrome", "Pheochromocytoma"],
+                    question: "Which type of diabetes is characterized by the body's immune system attacking and destroying the insulin-producing cells in the pancreas?",
+                    options: ["Type 1 Diabetes", "Type 2 Diabetes", "Gestational Diabetes", "Insulin Resistance"],
                     correctAnswerIndex: 0,
-                    explanation: "The presentation outlines the pathophysiology and risk factors of Addison's disease."
+                    explanation: "Type 1 diabetes is an autoimmune disease where the body fails to produce insulin because the immune system has destroyed the beta cells in the pancreas."
                 },
                 {
-                    question: "In the context of 'Skills', what type of approach to patient assessment is emphasized?",
-                    options: ["Rapid and generalized", "Subjective and intuitive", "Stepwise and holistic", "Fragmented and isolated"],
-                    correctAnswerIndex: 2,
-                    explanation: "Skills include: 'Follow a stepwise and holistic approach to patient assessment, undertaking a range of physiological measurements using appropriate equipment in a safe and effective manner.'"
-                },
-                {
-                    question: "What is mentioned as a necessity prior to discharging a patient following an organization’s referral pathways?",
-                    options: ["Ordering a full set of new clothes", "Safety netting and completion of relevant documentation", "Providing a detailed travel itinerary", "Arranging a celebratory dinner"],
+                    question: "What is the medical term for dangerously low blood glucose levels?",
+                    options: ["Hyperglycemia", "Hypoglycemia", "Glycosuria", "Diabetic Ketoacidosis"],
                     correctAnswerIndex: 1,
-                    explanation: "The necessity of safety netting prior to discharging following organisation’s referral pathways including completion of relevant documentation is highlighted."
+                    explanation: "Hypoglycemia is a condition characterized by abnormally low blood glucose (blood sugar) levels."
+                },
+                {
+                    question: "What is the medical term for dangerously high blood glucose levels, often seen in uncontrolled diabetes?",
+                    options: ["Hypoglycemia", "Hypertension", "Hyperglycemia", "Hypovolemia"],
+                    correctAnswerIndex: 2,
+                    explanation: "Hyperglycemia refers to an excess of glucose in the bloodstream, often associated with diabetes mellitus."
+                },
+                {
+                    question: "Diabetic Ketoacidosis (DKA) is a severe complication of diabetes characterized by high blood glucose, acidosis, and the presence of what in the urine/blood?",
+                    options: ["Proteins", "Ketones", "Calcium", "White blood cells"],
+                    correctAnswerIndex: 1,
+                    explanation: "DKA is characterized by hyperglycemia, metabolic acidosis, and the presence of ketones in the blood and urine, resulting from the body breaking down fat for energy."
+                },
+                {
+                    question: "What is Addison's disease?",
+                    options: ["A condition where the thyroid gland is overactive", "A disorder where the adrenal glands produce too much cortisol", "A disorder where the adrenal glands produce insufficient amounts of certain hormones", "A type of diabetes insipidus"],
+                    correctAnswerIndex: 2,
+                    explanation: "Addison's disease is a rare disorder in which your body produces insufficient amounts of certain hormones produced by your adrenal glands."
                 },
                 // Abdominal conditions 2022
                 {
-                    question: "What common condition causing abdominal pain, including its characteristics and associated symptoms, is outlined?",
+                    question: "What common condition causing abdominal pain is characterized by nausea, vomiting, diarrhea, and abdominal cramps, often referred to as 'stomach flu'?",
                     options: ["Migraine", "Gastroenteritis", "Pneumonia", "Arthritis"],
                     correctAnswerIndex: 1,
-                    explanation: "The objectives include outlining common conditions that cause abdominal pain, such as Gastroenteritis, and their characteristics of pain and associated symptoms."
+                    explanation: "Gastroenteritis is an inflammation of the stomach and intestines, commonly caused by viral or bacterial infections, leading to the listed symptoms."
                 },
                 {
-                    question: "The presentation outlines the common causes, signs, and symptoms of which type of infection?",
+                    question: "Which type of infection commonly causes symptoms like painful urination, frequent urination, and a burning sensation during urination?",
                     options: ["Skin infections", "Urinary tract infections (UTIs)", "Respiratory infections", "Eye infections"],
                     correctAnswerIndex: 1,
-                    explanation: "The presentation outlines the common causes, signs and symptoms of urinary tract infections (UTIs)."
+                    explanation: "Urinary tract infections (UTIs) are common bacterial infections that cause symptoms related to urination."
                 },
                 {
-                    question: "What specific management role related to patients undergoing a certain renal procedure is outlined?",
-                    options: ["Management of patients undergoing renal dialysis", "Management of kidney transplants", "Management of kidney stone removal", "Management of kidney biopsies"],
-                    correctAnswerIndex: 0,
-                    explanation: "The presentation outlines own management of patients undergoing renal dialysis."
-                },
-                {
-                    question: "The 'Skills' section emphasizes undertaking physiological measurements in what manner?",
-                    options: ["Rapidly and without precision", "Sporadically and inconsistently", "Using appropriate equipment in a safe and effective manner", "Verbally, without equipment"],
-                    correctAnswerIndex: 2,
-                    explanation: "Skills include 'undertaking a range of physiological measurements using appropriate equipment in a safe and effective manner.'"
-                },
-                {
-                    question: "What quality is emphasized for service delivery in the 'Behaviour' section?",
-                    options: ["Being unresponsive to individual needs", "Being responsive to individual needs, recognizing good performance", "Focusing solely on personal gain", "Avoiding engagement with new technologies"],
-                    correctAnswerIndex: 1,
-                    explanation: "Behaviours include 'Deliver a first-class service which is responsive to individual needs, recognising and celebrating good performance, striving to maintain a positive, safe, caring and compassionate working environment for all.'"
-                },
-                {
-                    question: "What is the medical term for inflammation of the stomach lining?",
-                    options: ["Appendicitis", "Cholecystitis", "Gastritis", "Pancreatitis"],
-                    correctAnswerIndex: 2,
-                    explanation: "Gastritis is the inflammation of the lining of the stomach."
-                },
-                {
-                    question: "A rigid, board-like abdomen is a classic sign of what abdominal emergency?",
+                    question: "A rigid, board-like abdomen with severe pain on palpation is a critical sign of what abdominal emergency?",
                     options: ["Constipation", "Irritable Bowel Syndrome", "Peritonitis", "Heartburn"],
                     correctAnswerIndex: 2,
-                    explanation: "A rigid, board-like abdomen is a hallmark symptom of peritonitis, which is inflammation of the peritoneum, the lining of the abdominal cavity."
+                    explanation: "A rigid, board-like abdomen is a classic sign of peritonitis, a life-threatening inflammation of the peritoneum, usually due to rupture of an abdominal organ."
                 },
                 {
-                    question: "Right upper quadrant (RUQ) pain that worsens after fatty meals is a classic symptom of what condition?",
+                    question: "Right upper quadrant (RUQ) pain that often worsens after eating fatty meals and may radiate to the right shoulder is characteristic of what condition?",
                     options: ["Appendicitis", "Diverticulitis", "Cholecystitis", "Kidney Stones"],
                     correctAnswerIndex: 2,
-                    explanation: "Cholecystitis, inflammation of the gallbladder, often presents with RUQ pain that is triggered or worsened by fatty foods."
+                    explanation: "Cholecystitis, inflammation of the gallbladder, typically causes RUQ pain, especially post-prandially after fatty food consumption."
                 },
                 {
                     question: "What is the medical term for inflammation of the appendix?",
                     options: ["Gastritis", "Diverticulitis", "Appendicitis", "Colitis"],
                     correctAnswerIndex: 2,
-                    explanation: "Appendicitis is the inflammation of the appendix, a small finger-shaped pouch that projects from your colon."
+                    explanation: "Appendicitis is the inflammation of the appendix, a small finger-shaped organ projecting from the colon."
                 },
                 {
-                    question: "Pain described as 'colicky' or 'cramping' in the abdomen, often associated with nausea and vomiting, can be a symptom of what?",
+                    question: "Abdominal pain described as 'colicky' or 'cramping', often coming in waves and associated with nausea and vomiting, can suggest what gastrointestinal issue?",
                     options: ["Pneumonia", "Angina", "Bowel obstruction", "Migraine"],
                     correctAnswerIndex: 2,
-                    explanation: "Colicky abdominal pain, which comes in waves and is often severe, can indicate an obstruction in the bowel."
+                    explanation: "Colicky pain is often indicative of an obstruction in a hollow organ, such as a bowel obstruction, as the body tries to push past the blockage."
                 },
                 {
                     question: "What is the primary function of the large intestine?",
-                    options: ["Digesting proteins", "Absorbing nutrients", "Absorbing water and forming stool", "Producing insulin"],
+                    options: ["Digesting proteins", "Absorbing most nutrients", "Absorbing water and forming stool", "Producing digestive enzymes"],
                     correctAnswerIndex: 2,
-                    explanation: "The large intestine's main function is to absorb water from the remaining indigestible food matter and transmit the useless waste material from the body."
+                    explanation: "The main role of the large intestine is to absorb water from the remaining indigestible food matter and to pass the useless waste material from the body."
                 },
                 {
                     question: "What is the medical term for inflammation of the liver?",
                     options: ["Nephritis", "Pancreatitis", "Hepatitis", "Gastritis"],
                     correctAnswerIndex: 2,
-                    explanation: "Hepatitis is a general term for inflammation of the liver."
+                    explanation: "Hepatitis is the general term for inflammation of the liver, often caused by viral infections, alcohol, or autoimmune diseases."
                 },
                 {
-                    question: "Which abdominal organ produces insulin and glucagon?",
+                    question: "Which abdominal organ produces vital hormones like insulin and glucagon, essential for blood sugar regulation?",
                     options: ["Liver", "Stomach", "Pancreas", "Spleen"],
                     correctAnswerIndex: 2,
-                    explanation: "The pancreas is an organ located behind the stomach that produces hormones, including insulin and glucagon, which regulate blood sugar."
+                    explanation: "The pancreas has both exocrine functions (producing digestive enzymes) and endocrine functions (producing hormones like insulin and glucagon)."
                 },
                 {
-                    question: "Pain that typically starts around the navel and then shifts to the lower right abdomen is a classic sign of what?",
+                    question: "Pain that commonly starts around the umbilicus (navel) and then migrates to the right lower quadrant of the abdomen is a classic symptom of what acute condition?",
                     options: ["Gallstones", "Diverticulitis", "Appendicitis", "Kidney stones"],
                     correctAnswerIndex: 2,
-                    explanation: "The classic presentation of appendicitis is pain that begins near the navel and then migrates to the right lower quadrant."
+                    explanation: "The characteristic migratory pain from the periumbilical region to the right lower quadrant is a hallmark sign of acute appendicitis."
                 },
                 {
-                    question: "What common cause of urinary tract infections (UTIs) is mentioned in the slides?",
-                    options: ["Viral infections", "Fungal infections", "Bacterial infections (e.g., E. coli)", "Parasitic infections"],
+                    question: "What is the most common bacterial cause of urinary tract infections (UTIs)?",
+                    options: ["Staphylococcus aureus", "Streptococcus pneumoniae", "Escherichia coli (E. coli)", "Pseudomonas aeruginosa"],
                     correctAnswerIndex: 2,
-                    explanation: "The presentation states that UTIs are commonly caused by bacterial infections, particularly E. coli."
+                    explanation: "E. coli is responsible for the vast majority of community-acquired UTIs."
                 },
                 {
-                    question: "What is a common symptom of a Urinary Tract Infection (UTI)?",
-                    options: ["Sudden chest pain", "Painful urination (dysuria)", "Blurred vision", "Joint stiffness"],
-                    correctAnswerIndex: 1,
-                    explanation: "Painful urination, known as dysuria, is a very common symptom of a UTI."
-                },
-                {
-                    question: "What is a serious complication of untreated Gastroenteritis, especially in vulnerable populations?",
+                    question: "What is a serious complication of severe gastroenteritis, especially in very young or elderly individuals, due to fluid loss?",
                     options: ["Hypertension", "Dehydration", "Seizures", "Cardiac arrest"],
                     correctAnswerIndex: 1,
-                    explanation: "Severe gastroenteritis, especially with persistent vomiting and diarrhea, can lead to dangerous dehydration, particularly in children and the elderly."
+                    explanation: "Prolonged vomiting and diarrhea from gastroenteritis can rapidly lead to severe dehydration, which can be life-threatening if not managed."
                 },
                 {
-                    question: "What is the common term for inflammation of small, bulging pouches (diverticula) in the digestive tract?",
+                    question: "What is the common term for inflammation and infection of small, bulging pouches (diverticula) that can form in the wall of the digestive tract, most commonly the colon?",
                     options: ["Gastritis", "Colitis", "Diverticulitis", "Appendicitis"],
                     correctAnswerIndex: 2,
-                    explanation: "Diverticulitis occurs when small, bulging pouches (diverticula) in your digestive tract become inflamed or infected."
+                    explanation: "Diverticulitis occurs when diverticula become inflamed or infected, leading to symptoms like abdominal pain, fever, and changes in bowel habits."
                 },
                 {
-                    question: "What is the primary role of the kidneys in the body?",
-                    options: ["Digesting food", "Filtering blood and producing urine", "Pumping blood", "Producing hormones for growth"],
+                    question: "What is the primary role of the kidneys in the human body?",
+                    options: ["Digesting food", "Filtering blood to remove waste products and regulate fluid balance", "Pumping blood to the lungs", "Producing digestive enzymes"],
                     correctAnswerIndex: 1,
-                    explanation: "The kidneys are vital organs that filter waste products from the blood, regulate fluid balance, and produce urine."
+                    explanation: "The kidneys are vital organs that filter blood to remove waste products, excess water, and toxins, forming urine in the process."
                 },
-                // General Medical Knowledge (remaining after reclassification)
+                // General Medical Knowledge (additional questions)
                 {
-                    question: "What is the immediate and life-saving priority in the treatment of severe anaphylaxis?",
-                    options: ["Administering oral antihistamines", "Administering inhaled bronchodilators", "Administering intravenous fluids", "Administering epinephrine"],
-                    correctAnswerIndex: 3,
-                    explanation: "Epinephrine (adrenaline) is the first-line and most critical treatment for severe anaphylaxis, addressing bronchoconstriction and hypotension."
-                },
-                {
-                    question: "What term describes the deep, rapid, and labored breathing pattern often observed in patients with diabetic ketoacidosis?",
+                    question: "What term describes the deep, rapid, and often labored breathing pattern seen in patients with severe metabolic acidosis, such as diabetic ketoacidosis?",
                     options: ["Cheyne-Stokes respiration", "Kussmaul respirations", "Biot's respiration", "Apnea"],
                     correctAnswerIndex: 1,
-                    explanation: "Kussmaul respirations are a characteristic deep and labored breathing pattern associated with severe metabolic acidosis, particularly diabetic ketoacidosis (DKA)."
+                    explanation: "Kussmaul respirations are a compensatory mechanism to blow off excess carbon dioxide in severe metabolic acidosis."
                 },
                 {
-                    question: "Which hormone is primarily responsible for the 'fight or flight' response?",
+                    question: "Which hormone is primarily responsible for raising blood glucose levels by stimulating the liver to release stored glucose?",
                     options: ["Insulin", "Glucagon", "Adrenaline (Epinephrine)", "Thyroxine"],
-                    correctAnswerIndex: 2,
-                    explanation: "Adrenaline (Epinephrine) is a key hormone in the 'fight or flight' response, preparing the body for action during stress."
-                },
-                {
-                    question: "What is the medical term for low blood glucose?",
-                    options: ["Hyperglycemia", "Hypoglycemia", "Glycosuria", "Ketoacidosis"],
                     correctAnswerIndex: 1,
-                    explanation: "Hypoglycemia refers to abnormally low blood glucose (sugar) levels."
+                    explanation: "Glucagon, produced by the pancreas, has the opposite effect of insulin, raising blood glucose levels."
                 },
                 {
-                    question: "Which organ produces bile to aid in fat digestion?",
+                    question: "Which organ produces bile, a digestive fluid that aids in the breakdown and absorption of fats?",
                     options: ["Pancreas", "Stomach", "Gallbladder", "Liver"],
                     correctAnswerIndex: 3,
-                    explanation: "The liver produces bile, which is then stored in the gallbladder and released into the small intestine to help digest fats."
+                    explanation: "The liver produces bile, which is then stored in the gallbladder and released into the small intestine to emulsify fats."
                 },
                 {
-                    question: "What is the key physiological response to a significant drop in core body temperature?",
-                    options: ["Vasodilation", "Sweating", "Shivering", "Increased heart rate"],
+                    question: "What is the key physiological response when the core body temperature significantly drops (hypothermia)?",
+                    options: ["Vasodilation", "Sweating", "Shivering", "Increased heart rate and blood pressure"],
                     correctAnswerIndex: 2,
-                    explanation: "Shivering is an involuntary muscle contraction that generates heat to raise body temperature in response to cold."
+                    explanation: "Shivering is an involuntary muscle contraction designed to generate heat and raise body temperature in response to cold."
                 },
                 {
-                    question: "The presence of protein in the urine (proteinuria) is a sign of dysfunction in which organ system?",
-                    options: ["Respiratory", "Cardiovascular", "Renal", "Endocrine"],
+                    question: "The presence of blood in the urine (hematuria) is typically a sign of dysfunction in which organ system?",
+                    options: ["Respiratory system", "Cardiovascular system", "Renal (urin-ary) system", "Endocrine system"],
                     correctAnswerIndex: 2,
-                    explanation: "Proteinuria indicates that the kidneys, part of the renal system, are not filtering blood properly, allowing protein to leak into the urine."
+                    explanation: "Hematuria indicates bleeding within the urinary tract, which could originate from the kidneys, ureters, bladder, or urethra."
                 },
                 {
-                    question: "What is the function of red blood cells?",
-                    options: ["Fighting infection", "Clotting blood", "Transporting oxygen", "Producing antibodies"],
+                    question: "What is the primary function of red blood cells?",
+                    options: ["Fighting infection", "Clotting blood", "Transporting oxygen to tissues", "Producing antibodies"],
                     correctAnswerIndex: 2,
-                    explanation: "Red blood cells contain hemoglobin, which is responsible for binding and transporting oxygen from the lungs to the body's tissues."
+                    explanation: "Red blood cells are specialized to transport oxygen from the lungs to the body's tissues via the protein hemoglobin."
                 },
                 {
-                    question: "Which type of diabetes is characterized by the body's immune system attacking insulin-producing cells?",
-                    options: ["Type 1 Diabetes", "Type 2 Diabetes", "Gestational Diabetes", "Insulin Resistance"],
-                    correctAnswerIndex: 0,
-                    explanation: "Type 1 diabetes is an autoimmune condition where the body's immune system mistakenly attacks and destroys the insulin-producing beta cells in the pancreas."
-                },
-                {
-                    question: "What assessment technique involves listening to body sounds, often with a stethoscope?",
+                    question: "What assessment technique involves listening to internal body sounds, most commonly with a stethoscope (e.g., heart, lung, bowel sounds)?",
                     options: ["Palpation", "Percussion", "Auscultation", "Inspection"],
                     correctAnswerIndex: 2,
-                    explanation: "Auscultation is the medical term for listening to the internal sounds of the body, usually with a stethoscope."
+                    explanation: "Auscultation is the technique of listening to sounds from the internal organs to assess their function."
                 },
                 {
-                    question: "What is the physiological process of maintaining a stable internal environment is called:",
+                    question: "What is the physiological process of maintaining a stable internal environment in the body, despite external changes, called?",
                     options: ["Metabolism", "Catabolism", "Homeostasis", "Anabolism"],
                     correctAnswerIndex: 2,
-                    explanation: "Homeostasis is the process by which living organisms maintain a relatively stable internal environment despite changes in external conditions."
+                    explanation: "Homeostasis refers to the body's ability to maintain a relatively stable internal environment, such as regulating temperature, pH, and fluid balance."
                 },
                 {
-                    question: "The 'A' in the ABCs of emergency care stands for:",
-                    options: ["Allergies", "Airway", "Assessment", "Ambulation"],
+                    question: "The 'B' in the ABCs of emergency care stands for:",
+                    options: ["Bleeding", "Breathing", "Body temperature", "Bones"],
                     correctAnswerIndex: 1,
-                    explanation: "The ABCs of emergency care stand for Airway, Breathing, and Circulation, representing the immediate priorities in patient assessment and management."
+                    explanation: "The ABCs (Airway, Breathing, Circulation) represent the critical priorities in initial patient assessment and management."
                 },
                 {
-                    question: "Which white blood cell is primarily involved in allergic reactions and parasitic infections?",
-                    options: ["Neutrophil", "Lymphocyte", "Eosinophil", "Basophil"],
-                    correctAnswerIndex: 2,
-                    explanation: "Eosinophils are a type of white blood cell that play a significant role in allergic reactions and defense against parasites."
-                },
-                {
-                    question: "Which medical device is used to measure blood oxygen saturation?",
+                    question: "Which medical device is commonly used to non-invasively measure a patient's oxygen saturation in the blood?",
                     options: ["Thermometer", "Sphygmomanometer", "Pulse Oximeter", "Glucometer"],
                     correctAnswerIndex: 2,
-                    explanation: "A pulse oximeter is a non-invasive device used to indirectly measure the oxygen saturation level of your blood."
+                    explanation: "A pulse oximeter measures the oxygen saturation of hemoglobin in the arterial blood, providing an SpO2 reading."
                 },
+                {
+                    question: "What is the term for a rapid, involuntary, and rhythmic muscle contraction, often associated with neurological conditions?",
+                    options: ["Paresis", "Paralysis", "Tremor", "Ataxia"],
+                    correctAnswerIndex: 2,
+                    explanation: "A tremor is an involuntary, rhythmic muscle contraction leading to shaking movements in one or more parts of the body."
+                },
+                {
+                    question: "Which type of white blood cell is typically elevated during bacterial infections?",
+                    options: ["Lymphocytes", "Monocytes", "Neutrophils", "Eosinophils"],
+                    correctAnswerIndex: 2,
+                    explanation: "Neutrophils are the most abundant type of white blood cell and are the first responders to bacterial infections."
+                },
+                {
+                    question: "What is the purpose of a bronchodilator medication, commonly used in conditions like asthma or COPD?",
+                    options: ["To reduce inflammation in the airways", "To thin mucus in the lungs", "To relax the smooth muscles of the airways and open them up", "To suppress coughing"],
+                    correctAnswerIndex: 2,
+                    explanation: "Bronchodilators work by relaxing the muscles around the airways, making it easier to breathe."
+                },
+                {
+                    question: "A patient complaining of severe abdominal pain, nausea, vomiting, and often a fever, could be experiencing an acute inflammation of the pancreas, known as:",
+                    options: ["Gastritis", "Hepatitis", "Pancreatitis", "Cholecystitis"],
+                    correctAnswerIndex: 2,
+                    explanation: "Pancreatitis is inflammation of the pancreas, characterized by severe upper abdominal pain that often radiates to the back."
+                },
+                {
+                    question: "What is the common term for a condition where the heart's electrical system malfunctions, causing abnormal heart rhythms?",
+                    options: ["Angina", "Myocardial Infarction", "Arrhythmia", "Heart Failure"],
+                    correctAnswerIndex: 2,
+                    explanation: "An arrhythmia is an abnormal heart rhythm, where the heart beats too fast, too slow, or irregularly."
+                },
+                {
+                    question: "Which part of the brain is responsible for vital involuntary functions like breathing, heart rate, and blood pressure?",
+                    options: ["Cerebrum", "Cerebellum", "Brainstem", "Thalamus"],
+                    correctAnswerIndex: 2,
+                    explanation: "The brainstem controls many essential involuntary functions necessary for life."
+                },
+                {
+                    question: "What condition is characterized by chronic inflammation of the lining of the large intestine (colon)?",
+                    options: ["Gastritis", "Appendicitis", "Crohn's Disease", "Colitis"],
+                    correctAnswerIndex: 3,
+                    explanation: "Colitis is inflammation of the colon, which can be caused by various factors including infections, inflammatory bowel disease, or lack of blood flow."
+                },
+                {
+                    question: "What is the term for a yellowish discoloration of the skin and whites of the eyes, often indicative of liver dysfunction?",
+                    options: ["Cyanosis", "Pallor", "Jaundice", "Erythema"],
+                    correctAnswerIndex: 2,
+                    explanation: "Jaundice is caused by a buildup of bilirubin in the blood, which is usually processed by the liver."
+                },
+                {
+                    question: "Which of the following is a common symptom of a severe allergic reaction that suggests involvement of the respiratory system?",
+                    options: ["Localized rash", "Abdominal cramps", "Wheezing or difficulty breathing", "Itchy eyes"],
+                    correctAnswerIndex: 2,
+                    explanation: "Wheezing and difficulty breathing indicate bronchospasm and airway compromise, which are severe manifestations of an allergic reaction."
+                },
+                {
+                    question: "What is the key difference between stable angina and a myocardial infarction (heart attack)?",
+                    options: ["Stable angina pain is always worse than heart attack pain.", "Stable angina pain is relieved by rest or nitroglycerin, while heart attack pain is not.", "A heart attack occurs only during exercise.", "Stable angina causes permanent heart damage, heart attack does not."],
+                    correctAnswerIndex: 1,
+                    explanation: "Stable angina is typically relieved by rest or nitroglycerin because it's caused by temporary ischemia, whereas a heart attack involves ongoing damage to heart muscle that is not relieved by these measures."
+                }
             ];
-
-            const totalQuestions = questions.length;
 
             function shuffleArray(array) {
                 for (let i = array.length - 1; i > 0; i--) {
@@ -976,6 +925,7 @@
                 totalQuestionsSpan.textContent = questions.length;
                 loadQuestion();
             }
+
             function loadQuestion() {
                 questionAnswered = false;
                 resetButtons();
