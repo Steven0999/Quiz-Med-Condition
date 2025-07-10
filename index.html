@@ -212,7 +212,6 @@
             const nextQuestionBtn = document.getElementById('next-question-btn');
 
             const questionNumberSpan = document.getElementById('question-number');
-            const timerDisplay = document.getElementById('timer');
             const questionText = document.getElementById('question-text');
             const answerButtonsContainer = document.getElementById('answer-buttons');
             const feedbackMessage = document.getElementById('feedback-message');
@@ -223,8 +222,6 @@
             let questions = []; // This will hold the shuffled questions
             let currentQuestionIndex = 0;
             let score = 0;
-            let timer;
-            let timeLeft = 30; // seconds per question
             let questionAnswered = false; // Flag to prevent multiple answers per question
             const answeredQuestions = new Map(); // To store answers and whether they were correct {index: {selected: 1, correct: true}}
 
@@ -1033,44 +1030,6 @@
                     setTimeout(endQuiz, 5000);
                 }
             }
-
-            function startTimer() {
-                timeLeft = 30;
-                timerDisplay.textContent = timeLeft;
-                timerDisplay.style.backgroundColor = '#FF9800';
-                timer = setInterval(() => {
-                    timeLeft--;
-                    timerDisplay.textContent = timeLeft;
-                    if (timeLeft <= 10) {
-                        timerDisplay.style.backgroundColor = '#F44336';
-                    }
-                    if (timeLeft <= 0) {
-                        clearInterval(timer);
-                        feedbackMessage.textContent = "Time's up!";
-                        feedbackMessage.style.color = '#F44336';
-                        Array.from(answerButtonsContainer.children).forEach(button => {
-                            button.disabled = true;
-                        });
-                        if (!questionAnswered) { // If time ran out before answering
-                            const currentQuestion = questions[currentQuestionIndex];
-                            const correctButton = answerButtonsContainer.querySelectorAll('.answer-btn')[currentQuestion.correctAnswerIndex];
-                            correctButton.classList.add('correct');
-                            explanationDiv.textContent = `Explanation: ${currentQuestion.explanation}`;
-                            explanationDiv.style.display = 'block';
-                            answeredQuestions.set(currentQuestionIndex, { selected: -1, correct: false }); // Mark as unanswered/incorrect
-                            setTimeout(() => {
-                                currentQuestionIndex++;
-                                loadQuestion();
-                            }, 5000);
-                        } else if (currentQuestionIndex === questions.length - 1) {
-                             // If last question and answered before timer, but timer finished
-                            nextQuestionBtn.disabled = true;
-                            setTimeout(endQuiz, 5000);
-                        }
-                    }
-                }, 1000);
-            }
-
             function endQuiz() {
                 gameScreen.classList.add('hidden');
                 endScreen.classList.remove('hidden');
