@@ -965,14 +965,15 @@
             }
 
             function startQuiz() {
+                questions = shuffleArray([...allQuestions]); // Shuffle a copy of all questions
                 startScreen.classList.add('hidden');
                 gameScreen.classList.remove('hidden');
                 currentQuestionIndex = 0;
                 score = 0;
-                totalQuestionsSpan.textContent = totalQuestions;
+                answeredQuestions.clear(); // Clear previous answers
+                totalQuestionsSpan.textContent = questions.length;
                 loadQuestion();
             }
-
             function loadQuestion() {
                 questionAnswered = false;
                 resetButtons();
@@ -982,25 +983,53 @@
                 // Update navigation button states
                 prevQuestionBtn.disabled = (currentQuestionIndex === 0);
                 nextQuestionBtn.disabled = false; // Enable next, will be disabled after answer if no more questions
-                
-                if (currentQuestionIndex < totalQuestions) {
+
+                if (currentQuestionIndex < questions.length) {
                     const currentQuestion = questions[currentQuestionIndex];
-                    questionNumberSpan.textContent = `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
+                    questionNumberSpan.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
                     questionText.textContent = currentQuestion.question;
 
-                    currentQuestion.options.forEach((option, index) => {
-                        const button = answerButtonsContainer.children[index];
-                        button.textContent = option;
+                    const answerButtons = answerButtonsContainer.querySelectorAll('.answer-btn');
+                    answerButtons.forEach((button, index) => {
+                        button.textContent = currentQuestion.options[index];
                         button.onclick = () => selectAnswer(index);
+
+                        // If already answered, show selected and correct state
+                        if (answeredQuestions.has(currentQuestionIndex)) {
+                            const ansData = answeredQuestions.get(currentQuestionIndex);
+                            button.disabled = true; // Disable if already answered
+                            if (index === ansData.selected) {
+                                button.classList.add(ansData.correct ? 'correct' : 'incorrect');
+                            }
+                            if (index === currentQuestion.correctAnswerIndex && !ansData.correct) {
+                                button.classList.add('correct'); // Show correct if previous answer was wrong
+                            }
+                            feedbackMessage.textContent = ansData.correct ? "Correct!" : "Incorrect!";
+                            feedbackMessage.style.color = ansData.correct ? '#8BC34A' : '#EF5350';
+                            explanationDiv.textContent = `Explanation: ${currentQuestion.explanation}`;
+                            explanationDiv.style.display = 'block';
+                            questionAnswered = true; // Mark as answered to prevent re-answering
+                            clearInterval(timer); // Stop timer if already answered
+                            timerDisplay.textContent = 'N/A'; // Indicate timer is not active
+                        }
                     });
-                    startTimer();
+
+                    if (!answeredQuestions.has(currentQuestionIndex)) {
+                        startTimer();
+                    } else {
+                         // If already answered, disable next button if it's the last question
+                        if (currentQuestionIndex === questions.length - 1) {
+                            nextQuestionBtn.disabled = true;
+                        }
+                    }
                 } else {
                     endQuiz();
                 }
             }
 
             function resetButtons() {
-                Array.from(answerButtonsContainer.children).forEach(button => {
+                const answerButtons = answerButtonsContainer.querySelectorAll('.answer-btn');
+                answerButtons.forEach(button => {
                     button.classList.remove('correct', 'incorrect');
                     button.disabled = false;
                 });
@@ -1009,65 +1038,82 @@
             function selectAnswer(selectedIndex) {
                 if (questionAnswered) return; // Prevent multiple answers
                 questionAnswered = true;
-                clearInterval(timer); // Stop the timer
+                clearInterval(timer);
+                timerDisplay.textContent = 'N/A'; // Indicate timer stopped
 
                 const currentQuestion = questions[currentQuestionIndex];
-                const correctButton = answerButtonsContainer.children[currentQuestion.correctAnswerIndex];
-                const selectedButton = answerButtonsContainer.children[selectedIndex];
+                const answerButtons = answerButtonsContainer.querySelectorAll('.answer-btn');
+                const correctButton = answerButtons[currentQuestion.correctAnswerIndex];
+                const selectedButton = answerButtons[selectedIndex];
 
-                Array.from(answerButtonsContainer.children).forEach(button => {
-                    button.disabled = true; // Disable all buttons after an answer is selected
+                answerButtons.forEach(button => {
+                    button.disabled = true; // Disable all answer buttons after selection
                 });
 
+                let isCorrect = false;
                 if (selectedIndex === currentQuestion.correctAnswerIndex) {
                     score++;
                     selectedButton.classList.add('correct');
                     feedbackMessage.textContent = "Correct!";
-                    feedbackMessage.style.color = '#8BC34A'; // Green for correct
+                    feedbackMessage.style.color = '#8BC34A';
+                    isCorrect = true;
                 } else {
                     selectedButton.classList.add('incorrect');
                     correctButton.classList.add('correct'); // Show the correct answer
                     feedbackMessage.textContent = "Incorrect!";
-                    feedbackMessage.style.color = '#EF5350'; // Red for incorrect
+                    feedbackMessage.style.color = '#EF5350';
                 }
 
-                explanationDiv.textContent = `Explanation: ${currentQuestion.explanation}`;
-                explanationDiv.style.display = 'block'; // Show explanation
+                answeredQuestions.set(currentQuestionIndex, { selected: selectedIndex, correct: isCorrect });
 
-                setTimeout(() => {
-                    currentQuestionIndex++;
-                    loadQuestion();
-                }, 5000); // Wait 5 seconds before loading next question
+                explanationDiv.textContent = `Explanation: ${currentQuestion.explanation}`;
+                explanationDiv.style.display = 'block';
+
+                // Automatically move to next question after a delay if not the last question
+                if (currentQuestionIndex < questions.length - 1) {
+                    setTimeout(() => {
+                        currentQuestionIndex++;
+                        loadQuestion();
+                    }, 5000); // Wait 5 seconds before moving to next
+                } else {
+                    // If it's the last question, just display feedback and explanation
+                    nextQuestionBtn.disabled = true; // Disable next button at the end
+                    setTimeout(endQuiz, 5000);
+                }
             }
 
             function startTimer() {
                 timeLeft = 30;
                 timerDisplay.textContent = timeLeft;
-                timerDisplay.style.backgroundColor = '#FF9800'; // Orange
+                timerDisplay.style.backgroundColor = '#FF9800';
                 timer = setInterval(() => {
                     timeLeft--;
                     timerDisplay.textContent = timeLeft;
                     if (timeLeft <= 10) {
-                        timerDisplay.style.backgroundColor = '#F44336'; // Red when low
+                        timerDisplay.style.backgroundColor = '#F44336';
                     }
                     if (timeLeft <= 0) {
                         clearInterval(timer);
                         feedbackMessage.textContent = "Time's up!";
                         feedbackMessage.style.color = '#F44336';
                         Array.from(answerButtonsContainer.children).forEach(button => {
-                            button.disabled = true; // Disable all buttons if time runs out
+                            button.disabled = true;
                         });
-                        // Show correct answer if time runs out without an answer
-                        if (!questionAnswered) {
+                        if (!questionAnswered) { // If time ran out before answering
                             const currentQuestion = questions[currentQuestionIndex];
-                            const correctButton = answerButtonsContainer.children[currentQuestion.correctAnswerIndex];
+                            const correctButton = answerButtonsContainer.querySelectorAll('.answer-btn')[currentQuestion.correctAnswerIndex];
                             correctButton.classList.add('correct');
                             explanationDiv.textContent = `Explanation: ${currentQuestion.explanation}`;
                             explanationDiv.style.display = 'block';
+                            answeredQuestions.set(currentQuestionIndex, { selected: -1, correct: false }); // Mark as unanswered/incorrect
                             setTimeout(() => {
                                 currentQuestionIndex++;
                                 loadQuestion();
                             }, 5000);
+                        } else if (currentQuestionIndex === questions.length - 1) {
+                             // If last question and answered before timer, but timer finished
+                            nextQuestionBtn.disabled = true;
+                            setTimeout(endQuiz, 5000);
                         }
                     }
                 }, 1000);
@@ -1077,7 +1123,7 @@
                 gameScreen.classList.add('hidden');
                 endScreen.classList.remove('hidden');
                 finalScoreSpan.textContent = score;
-                totalQuestionsSpan.textContent = totalQuestions;
+                totalQuestionsSpan.textContent = questions.length;
             }
 
             // Navigation button event listeners
@@ -1101,6 +1147,8 @@
                 }
             });
 
+
+            // Initial setup
             startQuizBtn.addEventListener('click', startQuiz);
             restartQuizBtn.addEventListener('click', startQuiz);
         });
