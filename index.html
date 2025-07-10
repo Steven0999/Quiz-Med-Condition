@@ -3,33 +3,612 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AAP Neuro Conditions Quiz</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Physiology Quiz - Kahoot Style (Combined)</title>
+    <style>
+        /* --- CSS (style.css content goes here) --- */
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #4CAF50, #2196F3); /* Kahoot-like gradient */
+            color: white;
+        }
+
+        .quiz-container {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            width: 90%;
+            max-width: 700px;
+        }
+
+        .screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .screen.hidden {
+            display: none;
+        }
+
+        h1, h2 {
+            margin-bottom: 25px;
+            color: #FFEB3B; /* Yellow for titles */
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        #timer {
+            background-color: #FF9800; /* Orange timer */
+            padding: 5px 15px;
+            border-radius: 10px;
+        }
+
+        .btn {
+            background-color: #FFC107; /* Orange/Yellow button */
+            color: #333;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 100%; /* For start/restart buttons */
+            max-width: 300px;
+        }
+
+        .btn:hover {
+            background-color: #FFD54F;
+            transform: translateY(-2px);
+        }
+
+        .answer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two columns */
+            grid-gap: 15px;
+            width: 100%;
+        }
+
+        .answer-btn {
+            min-height: 80px; /* Make buttons larger for touch */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Specific colors for Kahoot-like answer buttons */
+        .answer-btn:nth-child(1) { background-color: #F44336; color: white; } /* Red */
+        .answer-btn:nth-child(2) { background-color: #4CAF50; color: white; } /* Green */
+        .answer-btn:nth-child(3) { background-color: #2196F3; color: white; } /* Blue */
+        .answer-btn:nth-child(4) { background-color: #FFEB3B; color: #333; } /* Yellow */
+
+        .answer-btn.correct {
+            background-color: #8BC34A !important; /* Lighter green */
+            border: 3px solid white;
+        }
+
+        .answer-btn.incorrect {
+            background-color: #EF5350 !important; /* Lighter red */
+            border: 3px solid white;
+        }
+
+        #feedback-message {
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            min-height: 30px; /* Reserve space */
+        }
+
+        #final-score {
+            color: #FFEB3B;
+            font-size: 1.5em;
+        }
+
+        #total-questions {
+            color: #FFEB3B;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .answer-grid {
+                grid-template-columns: 1fr; /* Stack buttons on small screens */
+            }
+            .quiz-container {
+                padding: 20px;
+                margin: 10px;
+            }
+            .btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+        }
+        /* --- End CSS --- */
+    </style>
 </head>
 <body>
     <div class="quiz-container">
-        <h1>AAP Neuro Conditions Quiz</h1>
-        <div id="quiz">
-            <h2 id="question-text">Question will appear here</h2>
-            <div id="options-container" class="options-container">
-                <button class="option-btn" data-option="A">A. Option A</button>
-                <button class="option-btn" data-option="B">B. Option B</button>
-                <button class="option-btn" data-option="C">C. Option C</button>
-                <button class="option-btn" data-option="D">D. Option D</button>
-            </div>
-            <div id="feedback" class="feedback"></div>
-            <div id="rationale" class="rationale"></div>
-            <div class="navigation-controls">
-                <button id="prev-btn" class="nav-btn">Previous</button>
-                <button id="next-btn" class="nav-btn">Next</button>
-            </div>
+        <div id="quiz-start-screen" class="screen">
+            <h1>Physiology & Pathophysiology Quiz</h1>
+            <button id="start-quiz-btn">Start Quiz</button>
         </div>
-        <div id="score-container" class="score-container">
-            Score: <span id="current-score">0</span> / <span id="total-questions">0</span>
+
+        <div id="quiz-game-screen" class="screen hidden">
+            <div class="header">
+                <div id="question-number">Question 1 of X</div>
+                <div id="timer">30</div>
+            </div>
+            <h2 id="question-text"></h2>
+            <div id="answer-buttons" class="answer-grid">
+                <button class="btn answer-btn" data-answer-index="0"></button>
+                <button class="btn answer-btn" data-answer-index="1"></button>
+                <button class="btn answer-btn" data-answer-index="2"></button>
+                <button class="btn answer-btn" data-answer-index="3"></button>
+            </div>
+            <div id="feedback-message"></div>
         </div>
-        <button id="restart-btn" class="restart-btn">Restart Quiz</button>
+
+        <div id="quiz-end-screen" class="screen hidden">
+            <h2>Quiz Complete!</h2>
+            <p>You scored: <span id="final-score">0</span> out of <span id="total-questions">0</span></p>
+            <button id="restart-quiz-btn">Play Again</button>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        /* --- JavaScript (script.js content goes here) --- */
+        document.addEventListener('DOMContentLoaded', () => {
+            const startScreen = document.getElementById('quiz-start-screen');
+            const gameScreen = document.getElementById('quiz-game-screen');
+            const endScreen = document.getElementById('quiz-end-screen');
+
+            const startQuizBtn = document.getElementById('start-quiz-btn');
+            const restartQuizBtn = document.getElementById('restart-quiz-btn');
+
+            const questionNumberSpan = document.getElementById('question-number');
+            const timerDisplay = document.getElementById('timer');
+            const questionText = document.getElementById('question-text');
+            const answerButtonsContainer = document.getElementById('answer-buttons');
+            const feedbackMessage = document.getElementById('feedback-message');
+            const finalScoreSpan = document.getElementById('final-score');
+            const totalQuestionsSpan = document.getElementById('total-questions');
+
+            let currentQuestionIndex = 0;
+            let score = 0;
+            let timer;
+            let timeLeft = 30; // seconds per question
+            let questionAnswered = false; // Flag to prevent multiple answers per question
+
+            // --- YOUR 50 QUESTIONS GO HERE ---
+            // Follow this exact format. I've included 10 examples.
+            // Make sure 'correctAnswerIndex' matches the 0-based index of the correct answer in the 'options' array.
+            const questions = [
+                {
+                    question: "What is the primary gas exchanged *from the blood into the alveoli* for exhalation?",
+                    options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Methane"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "Which chamber of the heart is responsible for pumping deoxygenated blood to the lungs?",
+                    options: ["Left Atrium", "Left Ventricle", "Right Atrium", "Right Ventricle"],
+                    correctAnswerIndex: 3
+                },
+                {
+                    question: "True or False: Bradycardia is characterized by an abnormally *slow* heart rate.",
+                    options: ["True", "False"],
+                    correctAnswerIndex: 0
+                },
+                {
+                    question: "A patient presents with sudden-onset unilateral weakness, facial drooping, and slurred speech. What medical emergency should be immediately suspected?",
+                    options: ["Myocardial Infarction", "Anaphylaxis", "Stroke", "Diabetic Ketoacidosis"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "In the context of hypovolemic shock, what vital sign change is most commonly observed due to the body's compensatory mechanisms?",
+                    options: ["Bradycardia", "Hypertension", "Bradypnea", "Tachycardia"],
+                    correctAnswerIndex: 3
+                },
+                {
+                    question: "When assessing a patient's pain, what common mnemonic helps gather comprehensive information about its characteristics?",
+                    options: ["ABCDE", "SAMPLE", "PQRST", "SOAP"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What is the immediate and life-saving priority in the treatment of severe anaphylaxis?",
+                    options: ["Administering oral antihistamines", "Administering inhaled bronchodilators", "Administering intravenous fluids", "Administering epinephrine"],
+                    correctAnswerIndex: 3
+                },
+                {
+                    question: "Which medication is often administered sublingually (under the tongue) to relieve chest pain associated with angina?",
+                    options: ["Aspirin", "Metformin", "Nitroglycerin", "Ibuprofen"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What term describes the deep, rapid, and labored breathing pattern often observed in patients with diabetic ketoacidosis?",
+                    options: ["Cheyne-Stokes respiration", "Kussmaul respirations", "Biot's respiration", "Apnea"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "What is considered the normal range for an adult's blood pressure (systolic over diastolic)?",
+                    options: ["140/90 mmHg or higher", "Below 90/60 mmHg", "90/60 to 120/80 mmHg", "120/80 to 139/89 mmHg"],
+                    correctAnswerIndex: 2
+                },
+                // --- ADD YOUR REMAINING 40 QUESTIONS HERE, FOLLOWING THE SAME FORMAT ---
+                // Example:
+                // {
+                //     question: "What is the primary function of insulin?",
+                //     options: ["Raise blood glucose", "Lower blood glucose", "Break down proteins", "Regulate blood pressure"],
+                //     correctAnswerIndex: 1
+                // },
+                // ...and so on for 50 total questions.
+                {
+                    question: "Which hormone is primarily responsible for the 'fight or flight' response?",
+                    options: ["Insulin", "Glucagon", "Adrenaline (Epinephrine)", "Thyroxine"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "Damage to the myelin sheath around neurons results in what neurological condition?",
+                    options: ["Parkinson's Disease", "Alzheimer's Disease", "Multiple Sclerosis", "Epilepsy"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "A patient complaining of 'the worst headache of my life' might be experiencing which condition?",
+                    options: ["Migraine", "Tension Headache", "Cluster Headache", "Subarachnoid Hemorrhage"],
+                    correctAnswerIndex: 3
+                },
+                {
+                    question: "What is the medical term for low blood glucose?",
+                    options: ["Hyperglycemia", "Hypoglycemia", "Glycosuria", "Ketoacidosis"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "Which organ produces bile to aid in fat digestion?",
+                    options: ["Pancreas", "Stomach", "Gallbladder", "Liver"],
+                    correctAnswerIndex: 3
+                },
+                {
+                    question: "What is the key physiological response to a significant drop in core body temperature?",
+                    options: ["Vasodilation", "Sweating", "Shivering", "Increased heart rate"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "A sudden, severe chest pain radiating to the left arm and jaw is a classic symptom of what?",
+                    options: ["Heartburn", "Pneumonia", "Angina Pectoris", "Myocardial Infarction"],
+                    correctAnswerIndex: 3
+                },
+                {
+                    question: "Which type of shock is caused by severe allergic reaction?",
+                    options: ["Cardiogenic", "Hypovolemic", "Anaphylactic", "Septic"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What assessment finding is typical for a patient experiencing a stroke on the right side of the brain?",
+                    options: ["Left-sided weakness", "Right-sided weakness", "Aphasia", "Swallowing difficulties"],
+                    correctAnswerIndex: 0
+                },
+                {
+                    question: "The presence of protein in the urine (proteinuria) is a sign of dysfunction in which organ system?",
+                    options: ["Respiratory", "Cardiovascular", "Renal", "Endocrine"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What is the function of red blood cells?",
+                    options: ["Fighting infection", "Clotting blood", "Transporting oxygen", "Producing antibodies"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "In chronic obstructive pulmonary disease (COPD), which of the following is a common symptom?",
+                    options: ["Sudden chest pain", "Pink, frothy sputum", "Chronic cough with sputum production", "High fever and chills"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "Which part of the brain controls balance and coordination?",
+                    options: ["Cerebrum", "Brainstem", "Cerebellum", "Thalamus"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "The inability to speak or understand language due to brain damage is known as:",
+                    options: ["Dysphagia", "Ataxia", "Aphasia", "Dyspnea"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What is the primary role of platelets in the body?",
+                    options: ["Oxygen transport", "Immune response", "Blood clotting", "Nutrient absorption"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "Pain described as 'tearing' or 'ripping' in the chest or back could indicate what serious condition?",
+                    options: ["Pneumothorax", "Pericarditis", "Aortic Dissection", "Esophagitis"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What is a common sign of a urinary tract infection (UTI)?",
+                    options: ["Increased appetite", "Painful urination", "Blurred vision", "Joint stiffness"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "Which hormone regulates calcium levels in the blood?",
+                    options: ["Insulin", "Cortisol", "Thyroid hormone", "Parathyroid hormone"],
+                    correctAnswerIndex: 3
+                },
+                {
+                    question: "What assessment technique involves listening to body sounds, often with a stethoscope?",
+                    options: ["Palpation", "Percussion", "Auscultation", "Inspection"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "The physiological process of maintaining a stable internal environment is called:",
+                    options: ["Metabolism", "Catabolism", "Homeostasis", "Anabolism"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What is the medical term for difficulty breathing?",
+                    options: ["Tachypnea", "Bradypnea", "Apnea", "Dyspnea"],
+                    correctAnswerIndex: 3
+                },
+                {
+                    question: "Which type of diabetes is characterized by the body's immune system attacking insulin-producing cells?",
+                    options: ["Type 1 Diabetes", "Type 2 Diabetes", "Gestational Diabetes", "Insipidous Diabetes"],
+                    correctAnswerIndex: 0
+                },
+                {
+                    question: "A rigid, board-like abdomen is a classic sign of what abdominal emergency?",
+                    options: ["Appendicitis", "Gastroenteritis", "Peritonitis", "Constipation"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What is the main function of the kidneys?",
+                    options: ["Digestion", "Filtering blood and producing urine", "Pumping blood", "Gas exchange"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "Which cranial nerve is primarily responsible for vision?",
+                    options: ["Oculomotor (III)", "Optic (II)", "Trigeminal (V)", "Facial (VII)"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "A patient with a new onset of confusion, fever, and neck stiffness should be assessed for:",
+                    options: ["Common Cold", "Influenza", "Meningitis", "Allergic Reaction"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What does 'NPO' stand for in medical terminology?",
+                    options: ["New Patient Orientation", "Nothing By Mouth", "No Pain Observed", "Nerve Pathway Open"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "Which part of the brain is responsible for voluntary movements and higher-level thinking?",
+                    options: ["Cerebellum", "Brainstem", "Cerebrum", "Spinal Cord"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What is the normal body temperature in degrees Celsius?",
+                    options: ["35.0°C", "37.0°C", "39.0°C", "41.0°C"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "Which electrolyte imbalance is often associated with cardiac arrhythmias?",
+                    options: ["Hypocalcemia", "Hypernatremia", "Hypokalemia", "Hypomagnesemia"],
+                    correctAnswerIndex: 2 // Hypokalemia is a very common cause, though others can too.
+                },
+                {
+                    question: "What is the medical term for a collapsed lung?",
+                    options: ["Bronchitis", "Pneumonia", "Pneumothorax", "Asthma"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "The 'A' in the ABCs of emergency care stands for:",
+                    options: ["Assessment", "Airway", "Alertness", "Activity"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "What is a common sign of dehydration in adults?",
+                    options: ["Increased urination", "Dry mucous membranes", "Bradycardia", "High blood pressure"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "Which class of medication is commonly used to lower blood pressure?",
+                    options: ["Antibiotics", "Anticoagulants", "Antihypertensives", "Analgesics"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What is the primary function of the large intestine?",
+                    options: ["Nutrient absorption", "Water absorption and waste elimination", "Digestion of fats", "Protein breakdown"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "A sudden drop in blood pressure upon standing is known as:",
+                    options: ["Hypertension", "Orthostatic Hypotension", "Vasovagal Syncope", "Shock"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "What condition is characterized by painful, swollen joints due to uric acid crystal buildup?",
+                    options: ["Osteoarthritis", "Rheumatoid Arthritis", "Gout", "Fibromyalgia"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "Which of the following is a common symptom of a myocardial infarction (heart attack)?",
+                    options: ["Sharp, localized leg pain", "Crushing chest pain radiating to the arm/jaw", "Blurred vision", "Sudden headache"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "What is the normal respiratory rate for a healthy adult at rest?",
+                    options: ["4-8 breaths/min", "12-20 breaths/min", "25-35 breaths/min", "40-50 breaths/min"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "The inability of the heart to pump enough blood to meet the body's demands is called:",
+                    options: ["Angina", "Arrhythmia", "Heart Failure", "Hypertension"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What is the medical term for inflammation of the liver?",
+                    options: ["Nephritis", "Gastritis", "Hepatitis", "Colitis"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "Which white blood cell is primarily involved in allergic reactions and parasitic infections?",
+                    options: ["Neutrophil", "Lymphocyte", "Monocyte", "Eosinophil"],
+                    correctAnswerIndex: 3
+                },
+                {
+                    question: "What is the main purpose of performing CPR?",
+                    options: ["To restart the heart directly", "To provide oxygen to the brain and vital organs", "To clear a blocked airway", "To assess neurological function"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "A patient with yellowing of the skin and eyes (jaundice) likely has an issue with which organ?",
+                    options: ["Kidneys", "Lungs", "Liver", "Spleen"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "Which medical device is used to measure blood oxygen saturation?",
+                    options: ["Sphygmomanometer", "Thermometer", "Pulse Oximeter", "Glucometer"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What is the immediate management for a severe external bleeding injury?",
+                    options: ["Applying a cold compress", "Elevating the limb only", "Applying direct pressure", "Tourniquet application as a first resort"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "The condition where bones become brittle and fragile from loss of tissue, typically due to hormonal changes, or deficiency of calcium or vitamin D, is called:",
+                    options: ["Osteoarthritis", "Osteoporosis", "Rickets", "Gout"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "What is the normal range for a healthy adult's pulse (heart rate) at rest?",
+                    options: ["20-40 bpm", "60-100 bpm", "110-140 bpm", "150-180 bpm"],
+                    correctAnswerIndex: 1
+                }
+            ];
+            // --- END OF QUESTIONS ARRAY ---
+
+
+            function showScreen(screenToShow) {
+                startScreen.classList.add('hidden');
+                gameScreen.classList.add('hidden');
+                endScreen.classList.add('hidden');
+                screenToShow.classList.remove('hidden');
+            }
+
+            function startQuiz() {
+                currentQuestionIndex = 0;
+                score = 0;
+                showScreen(gameScreen);
+                totalQuestionsSpan.textContent = questions.length; // Update total questions on end screen
+                loadQuestion();
+            }
+
+            function loadQuestion() {
+                if (currentQuestionIndex >= questions.length) {
+                    endQuiz();
+                    return;
+                }
+
+                questionAnswered = false; // Reset flag for new question
+                clearInterval(timer); // Clear any existing timer
+                timeLeft = 30; // Reset timer for new question
+                timerDisplay.textContent = timeLeft;
+                feedbackMessage.textContent = ''; // Clear previous feedback
+
+                const currentQuestion = questions[currentQuestionIndex];
+                questionNumberSpan.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+                questionText.textContent = currentQuestion.question;
+
+                // Clear previous answer buttons and add new ones
+                answerButtonsContainer.innerHTML = '';
+                currentQuestion.options.forEach((option, index) => {
+                    const button = document.createElement('button');
+                    button.classList.add('btn', 'answer-btn');
+                    button.textContent = option;
+                    button.dataset.answerIndex = index;
+                    button.addEventListener('click', handleAnswerClick);
+                    answerButtonsContainer.appendChild(button);
+                });
+
+                startTimer();
+            }
+
+            function startTimer() {
+                timer = setInterval(() => {
+                    timeLeft--;
+                    timerDisplay.textContent = timeLeft;
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        if (!questionAnswered) { // If time runs out and no answer was selected
+                            revealCorrectAnswer(questions[currentQuestionIndex].correctAnswerIndex, null); // Highlight correct answer
+                            feedbackMessage.textContent = "Time's up!";
+                            setTimeout(nextQuestion, 2000); // Wait 2 seconds before moving on
+                        }
+                    }
+                }, 1000);
+            }
+
+            function handleAnswerClick(event) {
+                if (questionAnswered) return; // Prevent multiple clicks on the same question
+                questionAnswered = true; // Mark question as answered
+                clearInterval(timer); // Stop the timer
+
+                const selectedButton = event.target;
+                const selectedAnswerIndex = parseInt(selectedButton.dataset.answerIndex);
+                const currentQuestion = questions[currentQuestionIndex];
+
+                revealCorrectAnswer(currentQuestion.correctAnswerIndex, selectedAnswerIndex);
+
+                if (selectedAnswerIndex === currentQuestion.correctAnswerIndex) {
+                    score++;
+                    feedbackMessage.textContent = "Correct!";
+                } else {
+                    feedbackMessage.textContent = "Incorrect!";
+                }
+
+                setTimeout(nextQuestion, 2000); // Wait 2 seconds before moving to the next question
+            }
+
+            function revealCorrectAnswer(correctIndex, selectedIndex) {
+                const buttons = answerButtonsContainer.querySelectorAll('.answer-btn');
+                buttons.forEach((button, index) => {
+                    if (index === correctIndex) {
+                        button.classList.add('correct');
+                    } else if (index === selectedIndex) {
+                        button.classList.add('incorrect');
+                    }
+                    button.removeEventListener('click', handleAnswerClick); // Disable further clicks
+                });
+            }
+
+            function nextQuestion() {
+                currentQuestionIndex++;
+                loadQuestion();
+            }
+
+            function endQuiz() {
+                showScreen(endScreen);
+                finalScoreSpan.textContent = score;
+                totalQuestionsSpan.textContent = questions.length;
+            }
+
+            // Event Listeners
+            startQuizBtn.addEventListener('click', startQuiz);
+            restartQuizBtn.addEventListener('click', startQuiz); // Restart button just calls startQuiz again
+        });
+        /* --- End JavaScript --- */
+    </script>
 </body>
 </html>
