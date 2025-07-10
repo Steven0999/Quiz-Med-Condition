@@ -173,6 +173,10 @@
             </div>
             <div id="feedback-message"></div>
             <div id="explanation"></div>
+            <div class="navigation-buttons">
+                <button id="prev-question-btn" class="btn">Previous</button>
+                <button id="next-question-btn" class="btn">Next</button>
+            </div>
         </div>
 
         <div id="quiz-end-screen" class="screen hidden">
@@ -201,11 +205,13 @@
             const finalScoreSpan = document.getElementById('final-score');
             const totalQuestionsSpan = document.getElementById('total-questions');
 
+            let questions = [];
             let currentQuestionIndex = 0;
             let score = 0;
             let timer;
             let timeLeft = 30; // seconds per question
             let questionAnswered = false; // Flag to prevent multiple answers per question
+            const answeredQuestions = new Map();
 
            // --- YOUR 50+ QUESTIONS GO HERE ---
             // Follow this exact format.
@@ -949,6 +955,14 @@
             ];
 
             const totalQuestions = questions.length;
+
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
 
             function startQuiz() {
                 startScreen.classList.add('hidden');
