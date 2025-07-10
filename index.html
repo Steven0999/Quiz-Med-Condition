@@ -979,6 +979,10 @@
                 explanationDiv.style.display = 'none'; // Hide explanation for new question
                 feedbackMessage.textContent = ''; // Clear feedback
 
+                // Update navigation button states
+                prevQuestionBtn.disabled = (currentQuestionIndex === 0);
+                nextQuestionBtn.disabled = false; // Enable next, will be disabled after answer if no more questions
+                
                 if (currentQuestionIndex < totalQuestions) {
                     const currentQuestion = questions[currentQuestionIndex];
                     questionNumberSpan.textContent = `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
@@ -1075,6 +1079,27 @@
                 finalScoreSpan.textContent = score;
                 totalQuestionsSpan.textContent = totalQuestions;
             }
+
+            // Navigation button event listeners
+            prevQuestionBtn.addEventListener('click', () => {
+                if (currentQuestionIndex > 0) {
+                    clearInterval(timer); // Stop timer if navigating
+                    currentQuestionIndex--;
+                    loadQuestion();
+                }
+            });
+
+            nextQuestionBtn.addEventListener('click', () => {
+                // If current question is answered, move to next.
+                // Otherwise, this button acts as a skip if time hasn't run out.
+                if (currentQuestionIndex < questions.length - 1) {
+                    clearInterval(timer); // Stop timer if navigating
+                    currentQuestionIndex++;
+                    loadQuestion();
+                } else {
+                    endQuiz();
+                }
+            });
 
             startQuizBtn.addEventListener('click', startQuiz);
             restartQuizBtn.addEventListener('click', startQuiz);
