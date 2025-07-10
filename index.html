@@ -156,7 +156,7 @@
     <div class="quiz-container">
         <div id="quiz-start-screen" class="screen">
             <h1>Medical Conditions Quiz</h1>
-            <button id="start-quiz-btn">Start Quiz</button>
+            <button id="start-quiz-btn" class="btn">Start Quiz</button>
         </div>
 
         <div id="quiz-game-screen" class="screen hidden">
@@ -178,7 +178,7 @@
         <div id="quiz-end-screen" class="screen hidden">
             <h2>Quiz Complete!</h2>
             <p>You scored: <span id="final-score">0</span> out of <span id="total-questions">0</span></p>
-            <button id="restart-quiz-btn">Play Again</button>
+            <button id="restart-quiz-btn" class="btn">Play Again</button>
         </div>
     </div>
 
@@ -195,7 +195,7 @@
             const questionNumberSpan = document.getElementById('question-number');
             const timerDisplay = document.getElementById('timer');
             const questionText = document.getElementById('question-text');
-            const answerButtonsContainer = document.getElementById('answer-buttons'); // Get the container
+            const answerButtonsContainer = document.getElementById('answer-buttons');
             const feedbackMessage = document.getElementById('feedback-message');
             const explanationDiv = document.getElementById('explanation');
             const finalScoreSpan = document.getElementById('final-score');
@@ -970,11 +970,10 @@
                     questionNumberSpan.textContent = `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
                     questionText.textContent = currentQuestion.question;
 
-                    // Corrected: Assign event listener to each button directly
                     const answerButtons = answerButtonsContainer.querySelectorAll('.answer-btn');
                     answerButtons.forEach((button, index) => {
                         button.textContent = currentQuestion.options[index];
-                        button.onclick = () => selectAnswer(index); // This correctly assigns the click handler
+                        button.onclick = () => selectAnswer(index);
                     });
                     startTimer();
                 } else {
@@ -991,9 +990,9 @@
             }
 
             function selectAnswer(selectedIndex) {
-                if (questionAnswered) return; // Prevent multiple answers
+                if (questionAnswered) return;
                 questionAnswered = true;
-                clearInterval(timer); // Stop the timer
+                clearInterval(timer);
 
                 const currentQuestion = questions[currentQuestionIndex];
                 const answerButtons = answerButtonsContainer.querySelectorAll('.answer-btn');
@@ -1001,48 +1000,47 @@
                 const selectedButton = answerButtons[selectedIndex];
 
                 answerButtons.forEach(button => {
-                    button.disabled = true; // Disable all buttons after an answer is selected
+                    button.disabled = true;
                 });
 
                 if (selectedIndex === currentQuestion.correctAnswerIndex) {
                     score++;
                     selectedButton.classList.add('correct');
                     feedbackMessage.textContent = "Correct!";
-                    feedbackMessage.style.color = '#8BC34A'; // Green for correct
+                    feedbackMessage.style.color = '#8BC34A';
                 } else {
                     selectedButton.classList.add('incorrect');
-                    correctButton.classList.add('correct'); // Show the correct answer
+                    correctButton.classList.add('correct');
                     feedbackMessage.textContent = "Incorrect!";
-                    feedbackMessage.style.color = '#EF5350'; // Red for incorrect
+                    feedbackMessage.style.color = '#EF5350';
                 }
 
                 explanationDiv.textContent = `Explanation: ${currentQuestion.explanation}`;
-                explanationDiv.style.display = 'block'; // Show explanation
+                explanationDiv.style.display = 'block';
 
                 setTimeout(() => {
                     currentQuestionIndex++;
                     loadQuestion();
-                }, 5000); // Wait 5 seconds before loading next question
+                }, 5000);
             }
 
             function startTimer() {
                 timeLeft = 30;
                 timerDisplay.textContent = timeLeft;
-                timerDisplay.style.backgroundColor = '#FF9800'; // Orange
+                timerDisplay.style.backgroundColor = '#FF9800';
                 timer = setInterval(() => {
                     timeLeft--;
                     timerDisplay.textContent = timeLeft;
                     if (timeLeft <= 10) {
-                        timerDisplay.style.backgroundColor = '#F44336'; // Red when low
+                        timerDisplay.style.backgroundColor = '#F44336';
                     }
                     if (timeLeft <= 0) {
                         clearInterval(timer);
                         feedbackMessage.textContent = "Time's up!";
                         feedbackMessage.style.color = '#F44336';
                         Array.from(answerButtonsContainer.children).forEach(button => {
-                            button.disabled = true; // Disable all buttons if time runs out
+                            button.disabled = true;
                         });
-                        // Show correct answer if time runs out without an answer
                         if (!questionAnswered) {
                             const currentQuestion = questions[currentQuestionIndex];
                             const correctButton = answerButtonsContainer.querySelectorAll('.answer-btn')[currentQuestion.correctAnswerIndex];
@@ -1065,6 +1063,7 @@
                 totalQuestionsSpan.textContent = totalQuestions;
             }
 
+            // Corrected: Ensure the event listener is attached to the start quiz button
             startQuizBtn.addEventListener('click', startQuiz);
             restartQuizBtn.addEventListener('click', startQuiz);
         });
