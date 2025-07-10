@@ -194,8 +194,8 @@
             let timeLeft = 30; // seconds per question
             let questionAnswered = false; // Flag to prevent multiple answers per question
 
-            // --- YOUR 50 QUESTIONS GO HERE ---
-            // Follow this exact format. I've included 10 examples.
+            // --- YOUR 50+ QUESTIONS GO HERE ---
+            // Follow this exact format.
             // Make sure 'correctAnswerIndex' matches the 0-based index of the correct answer in the 'options' array.
             const questions = [
                 {
@@ -248,14 +248,6 @@
                     options: ["140/90 mmHg or higher", "Below 90/60 mmHg", "90/60 to 120/80 mmHg", "120/80 to 139/89 mmHg"],
                     correctAnswerIndex: 2
                 },
-                // --- ADD YOUR REMAINING 40 QUESTIONS HERE, FOLLOWING THE SAME FORMAT ---
-                // Example:
-                // {
-                //     question: "What is the primary function of insulin?",
-                //     options: ["Raise blood glucose", "Lower blood glucose", "Break down proteins", "Regulate blood pressure"],
-                //     correctAnswerIndex: 1
-                // },
-                // ...and so on for 50 total questions.
                 {
                     question: "Which hormone is primarily responsible for the 'fight or flight' response?",
                     options: ["Insulin", "Glucagon", "Adrenaline (Epinephrine)", "Thyroxine"],
@@ -404,7 +396,7 @@
                 {
                     question: "Which electrolyte imbalance is often associated with cardiac arrhythmias?",
                     options: ["Hypocalcemia", "Hypernatremia", "Hypokalemia", "Hypomagnesemia"],
-                    correctAnswerIndex: 2 // Hypokalemia is a very common cause, though others can too.
+                    correctAnswerIndex: 2
                 },
                 {
                     question: "What is the medical term for a collapsed lung?",
@@ -495,7 +487,119 @@
                     question: "What is the normal range for a healthy adult's pulse (heart rate) at rest?",
                     options: ["20-40 bpm", "60-100 bpm", "110-140 bpm", "150-180 bpm"],
                     correctAnswerIndex: 1
+                },
+                // --- NEW QUESTIONS BASED ON THE PRESENTATION ---
+                {
+                    question: "According to the Resuscitation Council UK 2008 definition, what is anaphylaxis?",
+                    options: ["A mild allergic reaction", "A severe, life-threatening, generalized or systemic hypersensitivity reaction", "A localized skin rash", "An infection of the bloodstream"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "Which of the following is *not* listed as a common risk factor or allergen for anaphylaxis in the presentation?",
+                    options: ["Peanuts", "Shellfish", "Dust mites", "Bee/Wasp stings"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "Upon second exposure to an antigen during anaphylaxis, what process leads to a mass release of histamine?",
+                    options: ["Antibody production", "Degranulation of mast cells", "B cell activation", "Th2 cell proliferation"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "Which cardiovascular symptom is a 'red flag' for anaphylaxis?",
+                    options: ["Hypertension", "Bradycardia", "Normal heart rate", "Hypotension"],
+                    correctAnswerIndex: 3
+                },
+                {
+                    question: "What is the recommended route of administration for Adrenaline (Epinephrine) in the immediate management of anaphylaxis, according to the JRCALC guidelines shown?",
+                    options: ["Intravenous (IV)", "Subcutaneous (SC)", "Oral", "Intramuscular (IM)"],
+                    correctAnswerIndex: 3
+                },
+                {
+                    question: "After administering IM adrenaline for anaphylaxis, if there is no response, when should it be repeated?",
+                    options: ["After 1 minute", "After 2 minutes", "After 5 minutes", "After 10 minutes"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What effect does increased levels of adrenaline have on smooth muscle in the airways during anaphylaxis?",
+                    options: ["Contraction", "No effect", "Relaxation", "Spasm"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "Septicaemia is sometimes known as:",
+                    options: ["Anaphylaxis", "Sepsis shock", "Blood poisoning", "Inflammation"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What is the core definition of sepsis?",
+                    options: ["A bacterial infection", "A viral infection", "A life-threatening reaction to an infection where the immune system damages its own tissues and organs", "A localized inflammatory response"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "According to the presentation, approximately how many hospital admissions with sepsis occur in children each year in the UK?",
+                    options: ["5,000", "10,000", "25,000", "50,000"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "In sepsis, what happens to the body's inflammatory response compared to a typical infection?",
+                    options: ["It is localized to the infection site", "It is suppressed throughout the body", "It occurs everywhere, involving the entire body", "It only affects the immune cells"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "A NEWS2 score of greater than 5, or greater than 3 in any one category, coupled with a history of infection, should prompt consideration for what?",
+                    options: ["Anaphylaxis screening", "Sepsis screening", "Poisoning assessment", "Cardiac arrest protocol"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "Which of the following is *not* one of the 'Sepsis Six' interventions mentioned in the care bundle?",
+                    options: ["Give high-flow oxygen", "Take blood cultures", "Administer oral antibiotics", "Measure lactate"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "For a hypotensive sepsis patient, what is the recommended initial fluid administration strategy?",
+                    options: ["50ml boluses (max 500ml)", "250ml boluses (max 2000ml)", "500ml boluses (no max)", "100ml boluses (max 1000ml)"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "Should paracetamol be routinely administered to reduce pyrexia (fever) in patients with sepsis?",
+                    options: ["Yes, always", "Only if the patient requests it", "No, unless to relieve pain or discomfort as a result of fever", "Only if the patient cannot take oral medication"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "Which type of poisoning involves a substance being introduced into the body via injection?",
+                    options: ["Ingested", "Inhaled", "Absorbed", "Injected"],
+                    correctAnswerIndex: 3
+                },
+                {
+                    question: "What effect do opioids have on the central nervous system?",
+                    options: ["Stimulate it", "Have no effect", "Depress it", "Only affect the peripheral nervous system"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "Which of these is a classic sign of an opioid overdose?",
+                    options: ["Dilated pupils", "Fast breathing", "Tiny pupils", "Warm, dry skin"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What is the immediate antidote that quickly reverses the effects of opioids?",
+                    options: ["Insulin", "Adrenaline", "Naloxone", "Chlorphenamine"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "What does 'Toxidrome' refer to?",
+                    options: ["A type of toxic chemical", "A collection of signs and symptoms associated with a particular class of toxins", "A method of decontamination", "A specific type of poisoning treatment"],
+                    correctAnswerIndex: 1
+                },
+                {
+                    question: "In the management of a poisoned patient, what does the 'D' in the 'DEAD' acronym stand for?",
+                    options: ["Diagnosis", "Dehydration", "Decontamination", "Dialysis"],
+                    correctAnswerIndex: 2
+                },
+                {
+                    question: "When assessing a poisoned patient, what factors should be considered according to the presentation?",
+                    options: ["Only the type of drug", "Drug, dose, time since ingestion, clinical features, and patient factors", "Only vital signs", "Only the patient's age"],
+                    correctAnswerIndex: 1
                 }
+
             ];
             // --- END OF QUESTIONS ARRAY ---
 
@@ -533,14 +637,23 @@
 
                 // Clear previous answer buttons and add new ones
                 answerButtonsContainer.innerHTML = '';
-                currentQuestion.options.forEach((option, index) => {
+                // Randomize button positions
+                const shuffledOptions = [...currentQuestion.options]; // Create a copy
+                for (let i = shuffledOptions.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]]; // Swap
+                }
+
+                shuffledOptions.forEach((option) => {
                     const button = document.createElement('button');
                     button.classList.add('btn', 'answer-btn');
                     button.textContent = option;
-                    button.dataset.answerIndex = index;
+                    // Store the original index (for correctness check) not the shuffled one
+                    button.dataset.answerIndex = currentQuestion.options.indexOf(option);
                     button.addEventListener('click', handleAnswerClick);
                     answerButtonsContainer.appendChild(button);
                 });
+
 
                 startTimer();
             }
@@ -578,18 +691,26 @@
                     feedbackMessage.textContent = "Incorrect!";
                 }
 
+                // Disable all buttons after an answer is selected
+                const buttons = answerButtonsContainer.querySelectorAll('.answer-btn');
+                buttons.forEach(button => {
+                    button.removeEventListener('click', handleAnswerClick);
+                });
+
                 setTimeout(nextQuestion, 2000); // Wait 2 seconds before moving to the next question
             }
 
             function revealCorrectAnswer(correctIndex, selectedIndex) {
                 const buttons = answerButtonsContainer.querySelectorAll('.answer-btn');
-                buttons.forEach((button, index) => {
-                    if (index === correctIndex) {
+                buttons.forEach((button) => {
+                    // Re-parse dataset index because it refers to the original index in the options array
+                    const buttonOriginalIndex = parseInt(button.dataset.answerIndex);
+
+                    if (buttonOriginalIndex === correctIndex) {
                         button.classList.add('correct');
-                    } else if (index === selectedIndex) {
+                    } else if (buttonOriginalIndex === selectedIndex) {
                         button.classList.add('incorrect');
                     }
-                    button.removeEventListener('click', handleAnswerClick); // Disable further clicks
                 });
             }
 
