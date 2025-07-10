@@ -195,7 +195,7 @@
             const questionNumberSpan = document.getElementById('question-number');
             const timerDisplay = document.getElementById('timer');
             const questionText = document.getElementById('question-text');
-            const answerButtonsContainer = document.getElementById('answer-buttons');
+            const answerButtonsContainer = document.getElementById('answer-buttons'); // Get the container
             const feedbackMessage = document.getElementById('feedback-message');
             const explanationDiv = document.getElementById('explanation');
             const finalScoreSpan = document.getElementById('final-score');
@@ -741,3 +741,334 @@
                     explanation: "Skills include: 'Follow a stepwise and holistic approach to patient assessment, undertaking a range of physiological measurements using appropriate equipment in a safe and effective manner.'"
                 },
                 {
+                    question: "What is mentioned as a necessity prior to discharging a patient following an organization’s referral pathways?",
+                    options: ["Ordering a full set of new clothes", "Safety netting and completion of relevant documentation", "Providing a detailed travel itinerary", "Arranging a celebratory dinner"],
+                    correctAnswerIndex: 1,
+                    explanation: "The necessity of safety netting prior to discharging following organisation’s referral pathways including completion of relevant documentation is highlighted."
+                },
+                // Abdominal conditions 2022
+                {
+                    question: "What common condition causing abdominal pain, including its characteristics and associated symptoms, is outlined?",
+                    options: ["Migraine", "Gastroenteritis", "Pneumonia", "Arthritis"],
+                    correctAnswerIndex: 1,
+                    explanation: "The objectives include outlining common conditions that cause abdominal pain, such as Gastroenteritis, and their characteristics of pain and associated symptoms."
+                },
+                {
+                    question: "The presentation outlines the common causes, signs, and symptoms of which type of infection?",
+                    options: ["Skin infections", "Urinary tract infections (UTIs)", "Respiratory infections", "Eye infections"],
+                    correctAnswerIndex: 1,
+                    explanation: "The presentation outlines the common causes, signs and symptoms of urinary tract infections (UTIs)."
+                },
+                {
+                    question: "What specific management role related to patients undergoing a certain renal procedure is outlined?",
+                    options: ["Management of patients undergoing renal dialysis", "Management of kidney transplants", "Management of kidney stone removal", "Management of kidney biopsies"],
+                    correctAnswerIndex: 0,
+                    explanation: "The presentation outlines own management of patients undergoing renal dialysis."
+                },
+                {
+                    question: "The 'Skills' section emphasizes undertaking physiological measurements in what manner?",
+                    options: ["Rapidly and without precision", "Sporadically and inconsistently", "Using appropriate equipment in a safe and effective manner", "Verbally, without equipment"],
+                    correctAnswerIndex: 2,
+                    explanation: "Skills include 'undertaking a range of physiological measurements using appropriate equipment in a safe and effective manner.'"
+                },
+                {
+                    question: "What quality is emphasized for service delivery in the 'Behaviour' section?",
+                    options: ["Being unresponsive to individual needs", "Being responsive to individual needs, recognizing good performance", "Focusing solely on personal gain", "Avoiding engagement with new technologies"],
+                    correctAnswerIndex: 1,
+                    explanation: "Behaviours include 'Deliver a first-class service which is responsive to individual needs, recognising and celebrating good performance, striving to maintain a positive, safe, caring and compassionate working environment for all.'"
+                },
+                {
+                    question: "What is the medical term for inflammation of the stomach lining?",
+                    options: ["Appendicitis", "Cholecystitis", "Gastritis", "Pancreatitis"],
+                    correctAnswerIndex: 2,
+                    explanation: "Gastritis is the inflammation of the lining of the stomach."
+                },
+                {
+                    question: "A rigid, board-like abdomen is a classic sign of what abdominal emergency?",
+                    options: ["Constipation", "Irritable Bowel Syndrome", "Peritonitis", "Heartburn"],
+                    correctAnswerIndex: 2,
+                    explanation: "A rigid, board-like abdomen is a hallmark symptom of peritonitis, which is inflammation of the peritoneum, the lining of the abdominal cavity."
+                },
+                {
+                    question: "Right upper quadrant (RUQ) pain that worsens after fatty meals is a classic symptom of what condition?",
+                    options: ["Appendicitis", "Diverticulitis", "Cholecystitis", "Kidney Stones"],
+                    correctAnswerIndex: 2,
+                    explanation: "Cholecystitis, inflammation of the gallbladder, often presents with RUQ pain that is triggered or worsened by fatty foods."
+                },
+                {
+                    question: "What is the medical term for inflammation of the appendix?",
+                    options: ["Gastritis", "Diverticulitis", "Appendicitis", "Colitis"],
+                    correctAnswerIndex: 2,
+                    explanation: "Appendicitis is the inflammation of the appendix, a small finger-shaped pouch that projects from your colon."
+                },
+                {
+                    question: "Pain described as 'colicky' or 'cramping' in the abdomen, often associated with nausea and vomiting, can be a symptom of what?",
+                    options: ["Pneumonia", "Angina", "Bowel obstruction", "Migraine"],
+                    correctAnswerIndex: 2,
+                    explanation: "Colicky abdominal pain, which comes in waves and is often severe, can indicate an obstruction in the bowel."
+                },
+                {
+                    question: "What is the primary function of the large intestine?",
+                    options: ["Digesting proteins", "Absorbing nutrients", "Absorbing water and forming stool", "Producing insulin"],
+                    correctAnswerIndex: 2,
+                    explanation: "The large intestine's main function is to absorb water from the remaining indigestible food matter and transmit the useless waste material from the body."
+                },
+                {
+                    question: "What is the medical term for inflammation of the liver?",
+                    options: ["Nephritis", "Pancreatitis", "Hepatitis", "Gastritis"],
+                    correctAnswerIndex: 2,
+                    explanation: "Hepatitis is a general term for inflammation of the liver."
+                },
+                {
+                    question: "Which abdominal organ produces insulin and glucagon?",
+                    options: ["Liver", "Stomach", "Pancreas", "Spleen"],
+                    correctAnswerIndex: 2,
+                    explanation: "The pancreas is an organ located behind the stomach that produces hormones, including insulin and glucagon, which regulate blood sugar."
+                },
+                {
+                    question: "Pain that typically starts around the navel and then shifts to the lower right abdomen is a classic sign of what?",
+                    options: ["Gallstones", "Diverticulitis", "Appendicitis", "Kidney stones"],
+                    correctAnswerIndex: 2,
+                    explanation: "The classic presentation of appendicitis is pain that begins near the navel and then migrates to the right lower quadrant."
+                },
+                {
+                    question: "What common cause of urinary tract infections (UTIs) is mentioned in the slides?",
+                    options: ["Viral infections", "Fungal infections", "Bacterial infections (e.g., E. coli)", "Parasitic infections"],
+                    correctAnswerIndex: 2,
+                    explanation: "The presentation states that UTIs are commonly caused by bacterial infections, particularly E. coli."
+                },
+                {
+                    question: "What is a common symptom of a Urinary Tract Infection (UTI)?",
+                    options: ["Sudden chest pain", "Painful urination (dysuria)", "Blurred vision", "Joint stiffness"],
+                    correctAnswerIndex: 1,
+                    explanation: "Painful urination, known as dysuria, is a very common symptom of a UTI."
+                },
+                {
+                    question: "What is a serious complication of untreated Gastroenteritis, especially in vulnerable populations?",
+                    options: ["Hypertension", "Dehydration", "Seizures", "Cardiac arrest"],
+                    correctAnswerIndex: 1,
+                    explanation: "Severe gastroenteritis, especially with persistent vomiting and diarrhea, can lead to dangerous dehydration, particularly in children and the elderly."
+                },
+                {
+                    question: "What is the common term for inflammation of small, bulging pouches (diverticula) in the digestive tract?",
+                    options: ["Gastritis", "Colitis", "Diverticulitis", "Appendicitis"],
+                    correctAnswerIndex: 2,
+                    explanation: "Diverticulitis occurs when small, bulging pouches (diverticula) in your digestive tract become inflamed or infected."
+                },
+                {
+                    question: "What is the primary role of the kidneys in the body?",
+                    options: ["Digesting food", "Filtering blood and producing urine", "Pumping blood", "Producing hormones for growth"],
+                    correctAnswerIndex: 1,
+                    explanation: "The kidneys are vital organs that filter waste products from the blood, regulate fluid balance, and produce urine."
+                },
+                // General Medical Knowledge (remaining after reclassification)
+                {
+                    question: "What is the immediate and life-saving priority in the treatment of severe anaphylaxis?",
+                    options: ["Administering oral antihistamines", "Administering inhaled bronchodilators", "Administering intravenous fluids", "Administering epinephrine"],
+                    correctAnswerIndex: 3,
+                    explanation: "Epinephrine (adrenaline) is the first-line and most critical treatment for severe anaphylaxis, addressing bronchoconstriction and hypotension."
+                },
+                {
+                    question: "What term describes the deep, rapid, and labored breathing pattern often observed in patients with diabetic ketoacidosis?",
+                    options: ["Cheyne-Stokes respiration", "Kussmaul respirations", "Biot's respiration", "Apnea"],
+                    correctAnswerIndex: 1,
+                    explanation: "Kussmaul respirations are a characteristic deep and labored breathing pattern associated with severe metabolic acidosis, particularly diabetic ketoacidosis (DKA)."
+                },
+                {
+                    question: "Which hormone is primarily responsible for the 'fight or flight' response?",
+                    options: ["Insulin", "Glucagon", "Adrenaline (Epinephrine)", "Thyroxine"],
+                    correctAnswerIndex: 2,
+                    explanation: "Adrenaline (Epinephrine) is a key hormone in the 'fight or flight' response, preparing the body for action during stress."
+                },
+                {
+                    question: "What is the medical term for low blood glucose?",
+                    options: ["Hyperglycemia", "Hypoglycemia", "Glycosuria", "Ketoacidosis"],
+                    correctAnswerIndex: 1,
+                    explanation: "Hypoglycemia refers to abnormally low blood glucose (sugar) levels."
+                },
+                {
+                    question: "Which organ produces bile to aid in fat digestion?",
+                    options: ["Pancreas", "Stomach", "Gallbladder", "Liver"],
+                    correctAnswerIndex: 3,
+                    explanation: "The liver produces bile, which is then stored in the gallbladder and released into the small intestine to help digest fats."
+                },
+                {
+                    question: "What is the key physiological response to a significant drop in core body temperature?",
+                    options: ["Vasodilation", "Sweating", "Shivering", "Increased heart rate"],
+                    correctAnswerIndex: 2,
+                    explanation: "Shivering is an involuntary muscle contraction that generates heat to raise body temperature in response to cold."
+                },
+                {
+                    question: "The presence of protein in the urine (proteinuria) is a sign of dysfunction in which organ system?",
+                    options: ["Respiratory", "Cardiovascular", "Renal", "Endocrine"],
+                    correctAnswerIndex: 2,
+                    explanation: "Proteinuria indicates that the kidneys, part of the renal system, are not filtering blood properly, allowing protein to leak into the urine."
+                },
+                {
+                    question: "What is the function of red blood cells?",
+                    options: ["Fighting infection", "Clotting blood", "Transporting oxygen", "Producing antibodies"],
+                    correctAnswerIndex: 2,
+                    explanation: "Red blood cells contain hemoglobin, which is responsible for binding and transporting oxygen from the lungs to the body's tissues."
+                },
+                {
+                    question: "Which type of diabetes is characterized by the body's immune system attacking insulin-producing cells?",
+                    options: ["Type 1 Diabetes", "Type 2 Diabetes", "Gestational Diabetes", "Insulin Resistance"],
+                    correctAnswerIndex: 0,
+                    explanation: "Type 1 diabetes is an autoimmune condition where the body's immune system mistakenly attacks and destroys the insulin-producing beta cells in the pancreas."
+                },
+                {
+                    question: "What assessment technique involves listening to body sounds, often with a stethoscope?",
+                    options: ["Palpation", "Percussion", "Auscultation", "Inspection"],
+                    correctAnswerIndex: 2,
+                    explanation: "Auscultation is the medical term for listening to the internal sounds of the body, usually with a stethoscope."
+                },
+                {
+                    question: "What is the physiological process of maintaining a stable internal environment is called:",
+                    options: ["Metabolism", "Catabolism", "Homeostasis", "Anabolism"],
+                    correctAnswerIndex: 2,
+                    explanation: "Homeostasis is the process by which living organisms maintain a relatively stable internal environment despite changes in external conditions."
+                },
+                {
+                    question: "The 'A' in the ABCs of emergency care stands for:",
+                    options: ["Allergies", "Airway", "Assessment", "Ambulation"],
+                    correctAnswerIndex: 1,
+                    explanation: "The ABCs of emergency care stand for Airway, Breathing, and Circulation, representing the immediate priorities in patient assessment and management."
+                },
+                {
+                    question: "Which white blood cell is primarily involved in allergic reactions and parasitic infections?",
+                    options: ["Neutrophil", "Lymphocyte", "Eosinophil", "Basophil"],
+                    correctAnswerIndex: 2,
+                    explanation: "Eosinophils are a type of white blood cell that play a significant role in allergic reactions and defense against parasites."
+                },
+                {
+                    question: "Which medical device is used to measure blood oxygen saturation?",
+                    options: ["Thermometer", "Sphygmomanometer", "Pulse Oximeter", "Glucometer"],
+                    correctAnswerIndex: 2,
+                    explanation: "A pulse oximeter is a non-invasive device used to indirectly measure the oxygen saturation level of your blood."
+                },
+            ];
+
+            const totalQuestions = questions.length;
+
+            function startQuiz() {
+                startScreen.classList.add('hidden');
+                gameScreen.classList.remove('hidden');
+                currentQuestionIndex = 0;
+                score = 0;
+                totalQuestionsSpan.textContent = totalQuestions;
+                loadQuestion();
+            }
+
+            function loadQuestion() {
+                questionAnswered = false;
+                resetButtons();
+                explanationDiv.style.display = 'none'; // Hide explanation for new question
+                feedbackMessage.textContent = ''; // Clear feedback
+
+                if (currentQuestionIndex < totalQuestions) {
+                    const currentQuestion = questions[currentQuestionIndex];
+                    questionNumberSpan.textContent = `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
+                    questionText.textContent = currentQuestion.question;
+
+                    // Corrected: Assign event listener to each button directly
+                    const answerButtons = answerButtonsContainer.querySelectorAll('.answer-btn');
+                    answerButtons.forEach((button, index) => {
+                        button.textContent = currentQuestion.options[index];
+                        button.onclick = () => selectAnswer(index); // This correctly assigns the click handler
+                    });
+                    startTimer();
+                } else {
+                    endQuiz();
+                }
+            }
+
+            function resetButtons() {
+                const answerButtons = answerButtonsContainer.querySelectorAll('.answer-btn');
+                answerButtons.forEach(button => {
+                    button.classList.remove('correct', 'incorrect');
+                    button.disabled = false;
+                });
+            }
+
+            function selectAnswer(selectedIndex) {
+                if (questionAnswered) return; // Prevent multiple answers
+                questionAnswered = true;
+                clearInterval(timer); // Stop the timer
+
+                const currentQuestion = questions[currentQuestionIndex];
+                const answerButtons = answerButtonsContainer.querySelectorAll('.answer-btn');
+                const correctButton = answerButtons[currentQuestion.correctAnswerIndex];
+                const selectedButton = answerButtons[selectedIndex];
+
+                answerButtons.forEach(button => {
+                    button.disabled = true; // Disable all buttons after an answer is selected
+                });
+
+                if (selectedIndex === currentQuestion.correctAnswerIndex) {
+                    score++;
+                    selectedButton.classList.add('correct');
+                    feedbackMessage.textContent = "Correct!";
+                    feedbackMessage.style.color = '#8BC34A'; // Green for correct
+                } else {
+                    selectedButton.classList.add('incorrect');
+                    correctButton.classList.add('correct'); // Show the correct answer
+                    feedbackMessage.textContent = "Incorrect!";
+                    feedbackMessage.style.color = '#EF5350'; // Red for incorrect
+                }
+
+                explanationDiv.textContent = `Explanation: ${currentQuestion.explanation}`;
+                explanationDiv.style.display = 'block'; // Show explanation
+
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    loadQuestion();
+                }, 5000); // Wait 5 seconds before loading next question
+            }
+
+            function startTimer() {
+                timeLeft = 30;
+                timerDisplay.textContent = timeLeft;
+                timerDisplay.style.backgroundColor = '#FF9800'; // Orange
+                timer = setInterval(() => {
+                    timeLeft--;
+                    timerDisplay.textContent = timeLeft;
+                    if (timeLeft <= 10) {
+                        timerDisplay.style.backgroundColor = '#F44336'; // Red when low
+                    }
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        feedbackMessage.textContent = "Time's up!";
+                        feedbackMessage.style.color = '#F44336';
+                        Array.from(answerButtonsContainer.children).forEach(button => {
+                            button.disabled = true; // Disable all buttons if time runs out
+                        });
+                        // Show correct answer if time runs out without an answer
+                        if (!questionAnswered) {
+                            const currentQuestion = questions[currentQuestionIndex];
+                            const correctButton = answerButtonsContainer.querySelectorAll('.answer-btn')[currentQuestion.correctAnswerIndex];
+                            correctButton.classList.add('correct');
+                            explanationDiv.textContent = `Explanation: ${currentQuestion.explanation}`;
+                            explanationDiv.style.display = 'block';
+                            setTimeout(() => {
+                                currentQuestionIndex++;
+                                loadQuestion();
+                            }, 5000);
+                        }
+                    }
+                }, 1000);
+            }
+
+            function endQuiz() {
+                gameScreen.classList.add('hidden');
+                endScreen.classList.remove('hidden');
+                finalScoreSpan.textContent = score;
+                totalQuestionsSpan.textContent = totalQuestions;
+            }
+
+            startQuizBtn.addEventListener('click', startQuiz);
+            restartQuizBtn.addEventListener('click', startQuiz);
+        });
+        /* --- End JavaScript --- */
+    </script>
+</body>
+</html>
